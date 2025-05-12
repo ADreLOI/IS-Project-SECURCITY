@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const dbURI = "mongodb+srv://admin:SecurCityApp2025@cluster0.uiixzn6.mongodb.net/SecurCity?retryWrites=true&w=majority&appName=Cluster0"
+const dbURI = MONGODB_URI;
 
 // Connect to MongoDB using Mongoose
 async function connectMongoDB() 
