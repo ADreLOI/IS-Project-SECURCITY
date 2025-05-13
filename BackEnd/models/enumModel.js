@@ -23,3 +23,10 @@ const status =
     PENDENTE: 'Pendente',
     CONFERMATA: 'Confermata',
 };
+
+module.exports =
+{
+    gradoSicurezza,
+    reati,
+    status
+};

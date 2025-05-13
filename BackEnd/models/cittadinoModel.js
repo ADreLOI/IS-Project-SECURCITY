@@ -15,7 +15,8 @@ const contattoEmergenzaSchema = new mongoose.Schema(
         {
             type: String,
             required: true,
-            validate: {
+            validate: 
+            {
                 validator: function (value) {
                     // Basic phone number regex
                     return /^\+?[0-9]{7,15}$/.test(value);
@@ -109,7 +110,7 @@ cittadinoSchema.pre('save', async function (next)
 });
 
 // Instance method to compare password
-UserSchema.methods.comparePassword = async function (candidatePassword) 
+cittadinoSchema.methods.comparePassword = async function (candidatePassword) 
 {
   return await bcrypt.compare(candidatePassword, this.password);
 };

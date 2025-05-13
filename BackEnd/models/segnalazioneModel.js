@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const {reati, status } = require("./enumModel");
-const { tappaSchema } = require("./itinerarioModel");
+const { tappaSchema } = require("./tappaModel");
 
 
 // Define Segnalazioni schema
@@ -38,7 +38,8 @@ const segnalazioniSchema = new mongoose.Schema(
         {
             type: Date,
             default: Date.now,
-            validate: {
+            validate: 
+            {
                 validator: function (v) 
                 {
                     return v <= Date.now();

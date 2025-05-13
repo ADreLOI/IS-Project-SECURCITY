@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+const { tappaSchema } = require('./tappaModel');
+const { gradoSicurezza } = require('./enumModel');
 
 const infoComunaliSchema = new mongoose.Schema
 ({

@@ -24,7 +24,7 @@ const casermeForzeOrdineSchema = new mongoose.Schema
                 arr.every((num) => typeof num === 'number') &&
                 arr[0] >= -180 && arr[0] <= 180 && // Longitude
                 arr[1] >= -90 && arr[1] <= 90     // Latitude
-              );
+              ); 
             },
             message: props => `${props.value} is not a valid [longitude, latitude] pair!`
           }
