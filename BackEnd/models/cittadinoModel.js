@@ -57,16 +57,10 @@ const cittadinoSchema = new mongoose.Schema({
             message: props => `${props.value} is not a valid email!`
         }
     },
-    password: {
+    password: 
+    {
         type: String,
         required: true,
-        validate: {
-            validator: function (value) {
-              // Basic password regex
-              return /^.{8,32}$/.test(value);
-            },
-            message: props => `${props.value} is not a valid password (must be between 8 and 32)!`
-          }
     },
     isVerificato: 
     {

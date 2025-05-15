@@ -24,8 +24,11 @@ export default function SignUp() {
         });
   
         if (response.status === 200) {
-          Alert.alert("SignUp successful!", response.data._id); //Works parsing automatically the JSON elements
-          
+          Alert.alert("SignUp successful!", response.data.message); //Works parsing automatically the JSON elements
+            // Clear the input fields
+            setUsername("");
+            setEmail("");
+            setPassword("");
           // Navigate or store token here
         } else {
           Alert.alert("SignUp failed", response.data.error);
