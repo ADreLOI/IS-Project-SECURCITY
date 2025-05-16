@@ -35,6 +35,10 @@ export default function SignUp() {
           // Navigate or store token here
         } else {
           Alert.alert("SignUp failed", response.data.error);
+           // Clear the input fields
+           setUsername("");
+           setEmail("");
+           setPassword("");
         }
       } catch (error) {
         Alert.alert("Error", "Something went wrong. Please try again.");
