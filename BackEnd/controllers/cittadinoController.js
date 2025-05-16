@@ -58,7 +58,7 @@ const confirmEmail = async (req, res) =>
         const user = await Cittadino.findById(tokenRecord.userID);
         user.isVerificato = true;
         await user.save();
-
+ 
         // Delete the token from the database
         await Token.deleteOne({ _id: tokenRecord._id });
 
