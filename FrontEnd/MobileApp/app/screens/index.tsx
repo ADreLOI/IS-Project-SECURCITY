@@ -1,6 +1,9 @@
 import { useState } from "react";
-import { View, Text, TextInput, TouchableOpacity, Alert } from "react-native";
+import { View, Text, TextInput, TouchableOpacity, Alert, Button } from "react-native";
+import { useRouter } from "expo-router";
 import axios from "axios";
+
+const router = useRouter();
 
 export default function SignUp() {
   const [username, setUsername] = useState("");
@@ -40,44 +43,59 @@ export default function SignUp() {
   };
 
   return (
-    <View className="flex-1 justify-center items-center bg-white px-6">
-      <Text className="text-3xl font-bold text-blue-600 mb-8">Sign Up</Text>
-
-      <View className="w-full max-w-md">
-        <Text className="text-gray-700 mb-1">Username</Text>
+    <View className="flex-1 justify-center items-center bg-[#011126] px-6">
+    <View className="mb-8">
+          <Text className="text-5xl font-GothamUltra flex-row">  
+            <Text className="text-white">SECUR</Text>
+            <Text className="text-[#0AA696]">C</Text>
+            <Text className="text-white">ITY</Text>
+          </Text>
+        </View>     
+     <View className="w-full max-w-md">
+        <Text className="text-white font-GothamBold mb-1">Username</Text>
         <TextInput
-          className="border border-gray-300 rounded-xl px-4 py-3 mb-4 bg-gray-100 text-gray-800"
-          placeholder="yourusername"
+          className="border border-[#0AA696] border-[1.5px] rounded-3xl font-GothamBold px-4 py-4 mb-4 bg-gray-100 text-gray-800"
+          placeholder="Your Username"
           autoCapitalize="none"
+          selectionColor="#0AA696"
           value={username}
           onChangeText={setUsername}
         />
 
-        <Text className="text-gray-700 mb-1">Email</Text>
+        <Text className="text-white mb-1">Email</Text>
         <TextInput
-          className="border border-gray-300 rounded-xl px-4 py-3 mb-4 bg-gray-100 text-gray-800"
+          className="border border-[#0AA696] border-[1.5px] rounded-3xl font-GothamBold px-4 py-4 mb-4 bg-gray-100 text-gray-800"
           placeholder="you@example.com"
           keyboardType="email-address"
+          selectionColor="#0AA696"
           autoCapitalize="none"
           value={email}
           onChangeText={setEmail}
         />
 
-        <Text className="text-gray-700 mb-1">Password</Text>
+        <Text className="text-white font-GothamBold mb-1">Password</Text>
         <TextInput
-          className="border border-gray-300 rounded-xl px-4 py-3 mb-6 bg-gray-100 text-gray-800"
-          placeholder="••••••••"
+          className="border border-[#0AA696] border-[1.5px] font-GothamBold rounded-3xl px-4 py-4 mb-6 bg-gray-100 text-gray-800"
+          placeholder="Password"
+          selectionColor="#0AA696"
           secureTextEntry
           value={password}
           onChangeText={setPassword}
         />
 
         <TouchableOpacity
-          className="bg-blue-600 rounded-xl py-3"
+          className="bg-[#0AA696] rounded-3xl py-4"
           onPress={handleSignUp}
         >
-          <Text className="text-center text-white font-semibold">Create Account</Text>
+          <Text className="text-center text-white font-GothamBold">Create Account</Text>
         </TouchableOpacity>
+        
+        
+        <Button
+      title="Go to About"
+      onPress={() => router.push('/screens/home')}
+    />
+    
       </View>
     </View>
   );
