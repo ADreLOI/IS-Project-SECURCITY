@@ -8,25 +8,24 @@ const signUp = async (req, res) =>
 {  
     try 
     {
-        const cittadino = await Cittadino.create(req.body);
         // Check if the user already exists
         const existingUser = await Cittadino.find   
         ({
             $or: [
-                { username: cittadino.username },
-                { email: cittadino.email }
+                { username: req.body.username },
+                { email: req.body.email }
             ]
         });
-        if (existingUser)
+        if (existingUser.length > 0)
         {
             return res.status(400).json({ message: 'Username or email already exists' });
         }
-            
+        const cittadino = await Cittadino.create(req.body);
         // Generate a confirmation token
         const confirmationToken = crypto.randomBytes(32).toString('hex');
         // Save the token in the database (you might want to create a separate model for this)  
         const token = new Token({
-            userID: cittadino._id,
+            userID: cittadino._id, 
             token: confirmationToken,
             scadenza: Date.now() + 3600000, // Token valid for 1 hour
         });
