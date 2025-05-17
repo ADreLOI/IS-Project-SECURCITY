@@ -72,6 +72,16 @@ const cittadinoSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
+    isGoogleAutenticato:
+    {
+        type: Boolean,
+        default: false
+    },
+    googleId:  
+    {
+        type: String,
+        default: null
+    },
     storico:
     {
         type: [segnalazioniSchema],

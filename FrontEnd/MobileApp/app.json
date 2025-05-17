@@ -1,11 +1,11 @@
 {
   "expo": {
     "name": "SecurCity",
-    "slug": "MobileApp",
+    "slug": "SecurCity",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "mobileapp",
+    "scheme": "securcity",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
@@ -37,6 +37,9 @@
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "googleClientId": "615949668776-cqsq6am4797he6oqarsaqjn2076url55.apps.googleusercontent.com"
     }
   }
 }

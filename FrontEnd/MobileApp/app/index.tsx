@@ -48,12 +48,12 @@ export default function SignUp() {
 
   return (
     <View className="flex-1 justify-center items-center bg-[#011126] px-6">
-    <View className="mb-8">
-          <Text className="text-5xl font-GothamUltra flex-row">  
-            <Text className="text-white">SECUR</Text>
-            <Text className="text-[#0AA696]">C</Text>
-            <Text className="text-white">ITY</Text>
-          </Text>
+      <View className="mb-8">
+            <Text className="text-5xl font-GothamUltra flex-row">  
+              <Text className="text-white">SECUR</Text>
+              <Text className="text-[#0AA696]">C</Text>
+              <Text className="text-white">ITY</Text>
+            </Text>
         </View>     
      <View className="w-full max-w-md">
         <Text className="text-white font-GothamBold mb-1">Username</Text>
