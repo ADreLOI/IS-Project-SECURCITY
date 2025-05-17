@@ -3,9 +3,10 @@ import { View, Text, TextInput, TouchableOpacity, Alert, Button } from "react-na
 import { useRouter } from "expo-router";
 import axios from "axios";
 
-const router = useRouter();
 
 export default function SignUp() {
+  const router = useRouter();
+
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -20,7 +21,7 @@ export default function SignUp() {
 
     // You can replace this with your API call
     try {
-        const response = await axios.post("http://localhost:3000/api/v1/cittadino/signup", {
+        const response = await axios.post("http://localhost/api/v1/cittadino/signup", {
           username,
           email,
           password,
@@ -93,6 +94,16 @@ export default function SignUp() {
         >
           <Text className="text-center text-white font-GothamBold">Create Account</Text>
         </TouchableOpacity>
+
+        <TouchableOpacity
+          className="bg-[#0AA696] rounded-3xl py-4 mt-4"
+          onPress={() => router.push('/CreaSegnalazione')}
+        >
+          <Text className="text-center text-white font-GothamBold">
+            Vai a Crea Segnalazione
+          </Text>
+        </TouchableOpacity>
+
         
         
         <Button
