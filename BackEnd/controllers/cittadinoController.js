@@ -2,6 +2,7 @@
 const Cittadino = require('../models/cittadinoModel');
 const { sendConfirmationEmail } = require('../utils/emailService');
 const Token = require('../models/tokenModel');
+const Segnalazione = require('../models/segnalazioneModel');
 const crypto = require('crypto');
 
 const signUp = async (req, res) => 
@@ -69,8 +70,19 @@ const confirmEmail = async (req, res) =>
     }
 }
 
+const creaSegnalazione = async (req, res) => {
+  try {
+    const nuovaSegnalazione = new Segnalazione(req.body);
+    await nuovaSegnalazione.save();
+    res.status(201).json(nuovaSegnalazione);
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+};
+
 module.exports =
 {
     signUp,
-    confirmEmail
+    confirmEmail,
+    creaSegnalazione
 }
