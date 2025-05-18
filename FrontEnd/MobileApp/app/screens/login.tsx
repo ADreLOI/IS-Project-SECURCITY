@@ -5,26 +5,18 @@ import React from 'react'
 import { useState } from "react";
 import axios  from "axios";
 import Constants from 'expo-constants';
-import * as Google from 'expo-auth-session/providers/google';
-import * as AuthSession from 'expo-auth-session';
+import { GoogleSignin, GoogleSigninButton, isSuccessResponse, isErrorWithCode, statusCodes} from '@react-native-google-signin/google-signin';
 
-const googleClientId = Constants.expoConfig?.extra?.googleClientId;
-if (!googleClientId) {
-  throw new Error("Google Client ID not defined in app.json");
-}
+
 
 import { useRouter } from "expo-router";
+import * as webBrowser from 'expo-web-browser';
+webBrowser.maybeCompleteAuthSession();
 
 export default function Login()
 {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-
-
-  const [request, response, promptAsync] = Google.useAuthRequest({
-    clientId: googleClientId,
-    redirectUri: 'https://auth.expo.io/mattdema17/SecurCity',
-  });
 
   const handleLogin = async () =>
   {
@@ -59,31 +51,64 @@ export default function Login()
         }
   }
 
-  React.useEffect(() => {
-    const handleGoogleLogin = async () => {
-      if (response?.type === 'success' && response.authentication?.accessToken) {
-        const accessToken = response.authentication.accessToken;
+  React.useEffect(() => 
+    {
+    GoogleSignin.configure(
+      {
+      iosClientId: "615949668776-cl5b7ni96kftafc8j6qc8m7ernf3nusu.apps.googleusercontent.com",
+      webClientId: "615949668776-cqsq6am4797he6oqarsaqjn2076url55.apps.googleusercontent.com",
+    });
+  }, []);
 
-        try {
-          const res = await axios.post('http://localhost:3000/api/v1/cittadino/google-login', {
-            accessToken,
-          });
-
-          if (res.status === 200) {
-            Alert.alert('Login successful!', res.data.message);
-            setUsername('');
-            setPassword('');
-            // Navigate or store token here
-          }
-        } catch (error) {
-          Alert.alert('Error', 'Something went wrong. Please try again.');
-          console.error(error);
+  const handleGoogleLogin = async () => 
+    {
+    try 
+    {
+      await GoogleSignin.hasPlayServices();
+      const response = await GoogleSignin.signIn();
+      if(isSuccessResponse(response))
+      {
+        const idToken = response.data.idToken;
+        console.log("ID Token: ", idToken);
+        
+        const responseAPI = await axios.post("http://localhost:3000/api/v1/cittadino/google-login", {
+          idToken,
+        });
+        if (responseAPI.status === 200) {
+          Alert.alert("Login successful!", responseAPI.data.message);
+          // Navigate or store token here
+        } else 
+        {
+          Alert.alert("Login failed", responseAPI.data.error);
         }
       }
-    };
-
-    handleGoogleLogin();
-  }, [response]);
+      else
+      {
+        Alert.alert("Login failed", "The Google sign-in was cancelled.");
+      }
+       
+      }  
+    catch (error)
+     {
+        if(isErrorWithCode(error))
+        {
+          switch (error.code) {
+            case statusCodes.SIGN_IN_CANCELLED:
+              Alert.alert("Login failed", "The Google sign-in was cancelled.");
+              break;
+            case statusCodes.IN_PROGRESS:
+              Alert.alert("Login failed", "Sign in is in progress.");
+              break;
+            case statusCodes.PLAY_SERVICES_NOT_AVAILABLE:
+              Alert.alert("Login failed", "Play services are not available.");
+              break;
+            default:
+              Alert.alert(error.message);
+              console.error(error.message);
+            }
+        }
+    }
+  };
   
   
   return (
@@ -125,11 +150,15 @@ export default function Login()
         <Text className="text-center text-white font-GothamBold">Log in</Text>
       </TouchableOpacity>
 
-     <Button
-      disabled={!request}
-      title="Sign in with Google"
-      onPress={() => promptAsync()}
-    />
+      <GoogleSigninButton
+      size={GoogleSigninButton.Size.Wide}
+      color={GoogleSigninButton.Color.Dark}
+      onPress={() => 
+      {
+        // initiate sign in
+        handleGoogleLogin();
+      }}
+    />;
       </View>
       </View>
   )

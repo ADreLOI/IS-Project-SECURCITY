@@ -111,7 +111,6 @@ const googleLogin = async (req, res) =>
         const { idToken } = req.body;
         const payload = await verifyGoogleToken(idToken);
         const { email, name, picture, sub: googleId } = payload;
-
         //Check if the user is already registered
         let cittadino = await Cittadino.findOne({ email });
 
@@ -142,6 +141,7 @@ const googleLogin = async (req, res) =>
     }   
     catch (error) 
     {
+        console.error('Error during Google login:', error);
         res.status(500).json({ error: error.message });
     }
 }

@@ -34,13 +34,14 @@ const cittadinoSchema = new mongoose.Schema({
         type: String,
         required: true,
         unique: true,
+        trim: true, // Trim whitespace
         validate: {
             validator: function (value) {
               // Basic username regex
-              return /^[a-zA-Z0-9_]{3,20}$/.test(value);
+              return /^[a-zA-Z0-9_]{3,50}$/.test(value);
             },
             message: props => `${props.value} is not a valid username!`
-          }
+          },
     },
     email: 
     {
@@ -99,6 +100,12 @@ const cittadinoSchema = new mongoose.Schema({
     }
 });
 
+cittadinoSchema.pre('save', function (next) {
+    if (this.username) {
+      this.username = this.username.replace(/\s+/g, '');
+    }
+    next();
+  });
 // Pre-save hook to hash password before saving
 cittadinoSchema.pre('save', async function (next) 
 {
