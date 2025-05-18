@@ -100,12 +100,7 @@ const cittadinoSchema = new mongoose.Schema({
     }
 });
 
-cittadinoSchema.pre('save', function (next) {
-    if (this.username) {
-      this.username = this.username.replace(/\s+/g, '');
-    }
-    next();
-  });
+
 // Pre-save hook to hash password before saving
 cittadinoSchema.pre('save', async function (next) 
 {

@@ -90,7 +90,15 @@ const login = async (req, res) =>
         if(cittadino.comparePassword(password))
         {
             console.log("Password is correct");
-            return res.status(200).json({message: 'Login successful', user: Cittadino});
+              // Create JWT
+              const token = jwt.sign
+              (
+                  { id: cittadino._id, email: cittadino.email },
+                  process.env.JWT_SECRET,
+                  { expiresIn: '7d' }
+              );
+            // Set the token in the response
+            return res.status(200).json({message: 'Login successful',token, user: Cittadino});
         }   
         else
         {
@@ -117,8 +125,12 @@ const googleLogin = async (req, res) =>
         if(!cittadino)
         {
             // If not, create a new user
+
+            //
+            const cleaned = name.replace(/\s+/g, '');
+            console.log(cleaned);
             cittadino = await Cittadino.create({
-                username: name,
+                username: cleaned,
                 email,
                 password: "none",
                 isVerificato: true,

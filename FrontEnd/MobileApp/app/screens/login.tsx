@@ -1,22 +1,22 @@
 import { TextInput, TouchableOpacity, Alert, Text, View, Button} from 'react-native'
-import { SafeAreaView } from 'react-native-safe-area-context'
 import Animated, { FadeIn, SlideInLeft } from 'react-native-reanimated';
 import React from 'react'
 import { useState } from "react";
 import axios  from "axios";
-import Constants from 'expo-constants';
 import { GoogleSignin, GoogleSigninButton, isSuccessResponse, isErrorWithCode, statusCodes} from '@react-native-google-signin/google-signin';
-
-
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useRouter } from "expo-router";
-import * as webBrowser from 'expo-web-browser';
-webBrowser.maybeCompleteAuthSession();
+//Define the webClientId and iosClientId in a separate file named costants.ts in root folder
+import { webClientId, iosClientId } from '../costants';
+import CustomButton from '../components/googleButton';
+
+const router = useRouter();
 
 export default function Login()
 {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  
 
   const handleLogin = async () =>
   {
@@ -34,10 +34,15 @@ export default function Login()
     
           if (response.status === 200) {
             Alert.alert("Login successful!", response.data.message); //Works parsing automatically the JSON elements
+            // Store the token securely
+            const jwtToken = response.data.token;
+            console.log("JWT token", jwtToken);
+            await AsyncStorage.setItem('jwtToken', jwtToken);
               // Clear the input fields
               setUsername("");
               setPassword("");
             // Navigate or store token here
+            router.push("/screens/home");
           } else {
             Alert.alert("Login failed", response.data.error);
              // Clear the input fields
@@ -55,8 +60,8 @@ export default function Login()
     {
     GoogleSignin.configure(
       {
-      iosClientId: "615949668776-cl5b7ni96kftafc8j6qc8m7ernf3nusu.apps.googleusercontent.com",
-      webClientId: "615949668776-cqsq6am4797he6oqarsaqjn2076url55.apps.googleusercontent.com",
+      iosClientId: iosClientId,
+      webClientId: webClientId,
     });
   }, []);
 
@@ -75,8 +80,13 @@ export default function Login()
           idToken,
         });
         if (responseAPI.status === 200) {
-          Alert.alert("Login successful!", responseAPI.data.message);
           // Navigate or store token here
+          console.log("JWT token", responseAPI.data.token);
+          //Store thre token in the local storage
+          await AsyncStorage.setItem('jwtToken', responseAPI.data.token);
+
+          Alert.alert("Login successful!", responseAPI.data.message);
+          router.push("/screens/home");
         } else 
         {
           Alert.alert("Login failed", responseAPI.data.error);
@@ -144,21 +154,19 @@ export default function Login()
       />
 
       <TouchableOpacity
-        className="bg-[#0AA696] rounded-3xl py-4"
+        className="bg-[#0AA696] rounded-3xl py-5"
         onPress={handleLogin}
       >
         <Text className="text-center text-white font-GothamBold">Log in</Text>
       </TouchableOpacity>
 
-      <GoogleSigninButton
-      size={GoogleSigninButton.Size.Wide}
-      color={GoogleSigninButton.Color.Dark}
-      onPress={() => 
-      {
-        // initiate sign in
-        handleGoogleLogin();
-      }}
-    />;
+      <Text className="text-white font-GothamBold text-center mt-4">or</Text>
+    
+      <CustomButton
+        title="Login with Google"
+        imageSource={require('../../assets/images/google-icon.png')}
+        onPress={handleGoogleLogin}
+      />
       </View>
       </View>
   )
