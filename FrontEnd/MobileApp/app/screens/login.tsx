@@ -7,7 +7,7 @@ import { GoogleSignin, GoogleSigninButton, isSuccessResponse, isErrorWithCode, s
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useRouter } from "expo-router";
 //Define the webClientId and iosClientId in a separate file named costants.ts in root folder
-import { webClientId, iosClientId } from '../costants';
+import { webClientId, androidClientId } from '../costants';
 import CustomButton from '../components/googleButton';
 
 const router = useRouter();
@@ -60,8 +60,7 @@ export default function Login()
     {
     GoogleSignin.configure(
       {
-      iosClientId: iosClientId,
-      webClientId: webClientId,
+        webClientId: webClientId,
     });
   }, []);
 

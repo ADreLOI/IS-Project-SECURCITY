@@ -3,9 +3,10 @@
     "name": "SecurCity",
     "slug": "SecurCity",
     "version": "1.0.0",
+    "owner": "adreloi",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "com.mattdema17.securcity",
+    "scheme": "com.adreloi.securcity",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
@@ -21,7 +22,7 @@
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true,
-      "package": "com.mattdema.securcity"
+      "package": "com.adreloi.securcity"
     },
     "web": {
       "bundler": "metro",
@@ -53,7 +54,7 @@
       "googleClientId": "615949668776-cqsq6am4797he6oqarsaqjn2076url55.apps.googleusercontent.com",
       "router": {},
       "eas": {
-        "projectId": "0f8eff7a-84b0-4265-9967-653f44445113"
+        "projectId": "370ce26b-ae2a-49fd-ba7f-c6a59016817d"
       }
     }
   }
