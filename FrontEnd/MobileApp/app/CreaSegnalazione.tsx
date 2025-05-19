@@ -18,7 +18,7 @@ export default function CreaSegnalazione() {
     }
 
     try {
-      const response = await axios.post("http://192.168.0.66:3000/api/v1/segnalazioni/creaSegnalazione", {
+      const response = await axios.post("http://localhost:3000/api/v1/segnalazioni", {
         userID: "ID_DUMMY", // ⚠️ Sostituisci con l'ID reale dell'utente autenticato
         tipoDiReato,
         descrizione,
@@ -39,6 +39,8 @@ export default function CreaSegnalazione() {
       }
     } catch (err: any) {
       Alert.alert("Errore", err.message || "Errore durante l'invio.");
+      console.log(JSON.stringify(err, null, 2));
+
     }
   };
 
