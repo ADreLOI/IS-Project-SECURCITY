@@ -2,6 +2,7 @@
 const Cittadino = require('../models/cittadinoModel');
 const { sendConfirmationEmail } = require('../utils/emailService');
 const Token = require('../models/tokenModel');
+const Segnalazione = require('../models/segnalazioneModel');
 const crypto = require('crypto');
 const { OAuth2Client } = require('google-auth-library');
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
@@ -71,6 +72,16 @@ const confirmEmail = async (req, res) =>
         res.status(500).json({ error: error.message });
     }
 }
+
+const creaSegnalazione = async (req, res) => {
+  try {
+    const nuovaSegnalazione = new Segnalazione(req.body);
+    await nuovaSegnalazione.save();
+    res.status(201).json(nuovaSegnalazione);
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+};
 
 const login = async (req, res) =>   
 {
@@ -174,5 +185,6 @@ module.exports =
     signUp,
     confirmEmail,
     login,
-    googleLogin
+    googleLogin,
+    creaSegnalazione
 }
