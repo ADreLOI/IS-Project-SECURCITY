@@ -4,6 +4,9 @@ const { sendConfirmationEmail } = require('../utils/emailService');
 const Token = require('../models/tokenModel');
 const Segnalazione = require('../models/segnalazioneModel');
 const crypto = require('crypto');
+const { OAuth2Client } = require('google-auth-library');
+const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+const jwt = require('jsonwebtoken');
 
 const signUp = async (req, res) => 
 {  
@@ -80,9 +83,108 @@ const creaSegnalazione = async (req, res) => {
   }
 };
 
+const login = async (req, res) =>   
+{
+    try 
+    {
+        const { username, password } = req.body;
+        
+        const cittadino = await Cittadino.findOne(
+        {
+            $or: [
+              { username: username },
+              { email: username }
+            ]
+          });
+          console.log(cittadino);
+
+        if(cittadino.comparePassword(password))
+        {
+            console.log("Password is correct");
+              // Create JWT
+              const token = jwt.sign
+              (
+                  { id: cittadino._id, email: cittadino.email },
+                  process.env.JWT_SECRET,
+                  { expiresIn: '7d' }
+              );
+            // Set the token in the response
+            return res.status(200).json({message: 'Login successful',token, user: Cittadino});
+        }   
+        else
+        {
+            return res.status(401).json({ message: 'Invalid credentials' });
+        }
+
+    }
+    catch (error) 
+    {
+        res.status(500).json({ error: error.message });
+    }
+}
+
+const googleLogin = async (req, res) => 
+{
+    try
+    {
+        const { idToken } = req.body;
+        const payload = await verifyGoogleToken(idToken);
+        const { email, name, picture, sub: googleId } = payload;
+        //Check if the user is already registered
+        let cittadino = await Cittadino.findOne({ email });
+
+        if(!cittadino)
+        {
+            // If not, create a new user
+
+            //
+            const cleaned = name.replace(/\s+/g, '');
+            console.log(cleaned);
+            cittadino = await Cittadino.create({
+                username: cleaned,
+                email,
+                password: "none",
+                isVerificato: true,
+                isGoogleAutenticato: true,
+                googleId
+            });
+        }
+
+         // Create JWT
+            const token = jwt.sign
+            (
+                { id: cittadino._id, email: cittadino.email },
+                process.env.JWT_SECRET,
+                { expiresIn: '7d' }
+            );
+
+        // Set the token in the response
+        res.status(200).json({ message: 'Login successful', token, user: cittadino });
+  
+    }   
+    catch (error) 
+    {
+        console.error('Error during Google login:', error);
+        res.status(500).json({ error: error.message });
+    }
+}
+
+async function verifyGoogleToken(idToken) 
+{
+    const ticket = await client.verifyIdToken(
+    {
+      idToken,
+      audience: process.env.GOOGLE_CLIENT_ID,
+    });
+    return ticket.getPayload(); // contains email, name, sub, picture, etc.
+}
+
+// Export the functions to be used in the routes
 module.exports =
 {
     signUp,
     confirmEmail,
+    login,
+    googleLogin,
     creaSegnalazione
 }

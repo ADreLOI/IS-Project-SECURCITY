@@ -1,8 +1,12 @@
 import { useState } from "react";
-import { View, Text, TextInput, TouchableOpacity, Alert, Button } from "react-native";
+import { View, Text, TextInput, TouchableOpacity, Alert, Button, ActivityIndicator } from "react-native";
 import { useRouter } from "expo-router";
 import axios from "axios";
 
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { jwtDecode } from "jwt-decode";
+import React from "react";
+const router = useRouter();
 
 export default function SignUp() {
   const router = useRouter();
@@ -10,6 +14,64 @@ export default function SignUp() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  interface JWTPayload 
+  {
+    exp: number; // seconds since epoch
+    [key: string]: any;
+  }
+
+  React.useEffect(() => {
+    const checkLogin = async () =>
+    {
+      //Function to check if the user is already logged in with JWT token
+      try 
+      {
+        const token = await AsyncStorage.getItem('jwtToken');
+        if (token) 
+        {
+          // Token exists, checks if expired
+          try {
+            const decoded = jwtDecode<JWTPayload>(token);
+            const now = Math.floor(Date.now() / 1000); // current time in seconds
+        
+            if(decoded.exp > now) 
+            {
+              console.log("User is logged in");
+              // Navigate to the home screen or perform any other action
+              setIsAuthenticated(true);
+              setIsLoading(false);
+              return true;
+            }
+            else
+            {
+              console.log("Token expired");
+              router.push("/screens/login");
+              // Token is expired, you can log out the user or refresh the token
+              await AsyncStorage.removeItem('jwtToken');
+              return false;
+            }
+            
+          } catch (e) {
+            console.error('Invalid JWT:', e);
+            return false;
+          }
+
+        } else {
+          console.log("User is not logged in");
+        }
+        setIsLoading(false);
+
+      }
+      catch (error) {
+        console.error("Error checking login status:", error);
+      }
+    }
+
+    checkLogin();
+  }, []);
 
   const handleSignUp = async () => 
     {
@@ -47,14 +109,27 @@ export default function SignUp() {
       }
   };
 
+  if(isLoading)
+  {
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <ActivityIndicator size="large" color="#0AA696" />
+      </View>
+    );
+  }
+  
+  if(isAuthenticated)
+  {
+    router.push("/screens/home");
+  }
   return (
     <View className="flex-1 justify-center items-center bg-[#011126] px-6">
-    <View className="mb-8">
-          <Text className="text-5xl font-GothamUltra flex-row">  
-            <Text className="text-white">SECUR</Text>
-            <Text className="text-[#0AA696]">C</Text>
-            <Text className="text-white">ITY</Text>
-          </Text>
+      <View className="mb-8">
+            <Text className="text-5xl font-GothamUltra flex-row">  
+              <Text className="text-white">SECUR</Text>
+              <Text className="text-[#0AA696]">C</Text>
+              <Text className="text-white">ITY</Text>
+            </Text>
         </View>     
      <View className="w-full max-w-md">
         <Text className="text-white font-GothamBold mb-1">Username</Text>
@@ -108,7 +183,7 @@ export default function SignUp() {
         
         <Button
       title="Go to About"
-      onPress={() => router.push('/screens/home')}
+      onPress={() => router.push('/screens/login')}
     />
     
       </View>
