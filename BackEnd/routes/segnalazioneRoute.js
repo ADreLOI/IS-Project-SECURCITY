@@ -3,6 +3,6 @@ const router = express.Router();
 
 const { creaSegnalazione } = require('../controllers/cittadinoController');
 
-router.post('/', creaSegnalazione);
+router.post('/', creaSegnalazione); //Sposta in cittadino Route
 
 module.exports = router;

@@ -6,21 +6,30 @@ import axios from "axios";
 export default function CreaSegnalazione() {
   const router = useRouter();
 
-  const [tipoDiReato, setTipoDiReato] = useState<string>("");
+  const [selectedReato, setSelectedReato] = useState<string>("");
   const [descrizione, setDescrizione] = useState<string>("");
   const [lat, setLat] = useState<string>("");
   const [lng, setLng] = useState<string>("");
 
+  const reatiDisponibili = [
+    "Molestia",
+    "Furto",
+    "Aggressione",
+    "Minacce",
+    "Pedinamento",
+    "Altro",
+    ];
+
   const handleSubmit = async (): Promise<void> => {
-    if (!tipoDiReato || !descrizione || !lat || !lng) {
+    if (!selectedReato || !descrizione || !lat || !lng) {
       Alert.alert("Tutti i campi sono obbligatori!");
       return;
     }
 
     try {
       const response = await axios.post("http://localhost:3000/api/v1/segnalazioni", {
-        userID: "ID_DUMMY", // ⚠️ Sostituisci con l'ID reale dell'utente autenticato
-        tipoDiReato,
+         // ⚠️ Sostituisci con l'ID reale dell'utente autenticato
+        tipoDiReato: selectedReato,
         descrizione,
         tappa: {
           nome: "Luogo segnalato",
@@ -30,7 +39,7 @@ export default function CreaSegnalazione() {
 
       if (response.status === 201) {
         Alert.alert("Segnalazione inviata con successo!");
-        setTipoDiReato("");
+        setSelectedReato("");
         setDescrizione("");
         setLat("");
         setLng("");
@@ -40,7 +49,6 @@ export default function CreaSegnalazione() {
     } catch (err: any) {
       Alert.alert("Errore", err.message || "Errore durante l'invio.");
       console.log(JSON.stringify(err, null, 2));
-
     }
   };
 
@@ -52,13 +60,26 @@ export default function CreaSegnalazione() {
         </Text>
       </View>
 
-      <Text className="text-white font-GothamBold mb-1">Tipo di Reato</Text>
-      <TextInput
-        className="border border-[#0AA696] rounded-3xl px-4 py-3 mb-4 bg-gray-100 text-gray-800"
-        placeholder="Es. FURTO"
-        value={tipoDiReato}
-        onChangeText={setTipoDiReato}
-      />
+      <View className="flex-row flex-wrap justify-center mb-4 ">
+        {reatiDisponibili.map((reato) => (
+        <TouchableOpacity
+          key={reato}
+          onPress={() => setSelectedReato(reato)}
+          className={`px-4 py-2 m-1 rounded-full ${
+          selectedReato === reato ? 'bg-[#0AA696]' : 'bg-gray-300'
+        }`}
+      >
+        <Text
+          className={`font-GothamBold ${
+            selectedReato === reato ? 'text-white' : 'text-gray-800'
+          }`}
+        >
+          {reato}
+        </Text>
+        </TouchableOpacity>
+        ))}
+      </View>
+
 
       <Text className="text-white font-GothamBold mb-1">Descrizione</Text>
       <TextInput
