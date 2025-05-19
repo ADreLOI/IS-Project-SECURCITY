@@ -7,7 +7,6 @@
     "owner": "adreloi",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "com.mattdema17.securcity",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
