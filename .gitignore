@@ -143,3 +143,5 @@ BackEnd/index.js
 
 # vscode settings
 .vscode
+
+.DS_Store

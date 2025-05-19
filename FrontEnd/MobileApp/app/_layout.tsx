@@ -1,6 +1,14 @@
 import { Stack } from "expo-router";
 import './global.css';
 import { useFonts } from 'expo-font';
+import React from 'react';
+import { TouchableOpacity, Image, Text } from 'react-native';
+
+interface CustomButtonProps {
+  title: string;
+  imageSource: any;
+  onPress: () => void;
+}
 
 export default function RootLayout() 
 {
@@ -13,5 +21,6 @@ export default function RootLayout()
   return <Stack> 
           <Stack.Screen name="index" options={{ headerShown: false }} />
           <Stack.Screen name="screens/home" options={{ headerShown: false }} />
+          <Stack.Screen name="screens/login" options={{ headerShown: false }} />
   </Stack>;
 }
