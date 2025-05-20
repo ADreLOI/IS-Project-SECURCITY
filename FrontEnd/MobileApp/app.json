@@ -2,7 +2,7 @@
   "expo": {
     "name": "SecurCity",
     "slug": "SecurCity",
-    "scheme": "com.AndreaPezzo.securcity",
+    "scheme": "com.adreloi.securcity",
     "version": "1.0.0",
     "owner": "adreloi",
     "orientation": "portrait",
@@ -11,7 +11,7 @@
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.mattdema.securcity",
+      "bundleIdentifier": "com.adreloi.securcity",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false
       }

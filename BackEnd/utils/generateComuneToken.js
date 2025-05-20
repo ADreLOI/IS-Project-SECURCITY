@@ -1,7 +1,7 @@
 // File: scripts/generateComuneToken.js
 
+require("dotenv").config();
 const mongoose = require('mongoose');
-require('dotenv').config();
 const ComuneToken = require('../models/comuneTokenModel'); // usa il path corretto se diverso
 
 async function generateToken() {
