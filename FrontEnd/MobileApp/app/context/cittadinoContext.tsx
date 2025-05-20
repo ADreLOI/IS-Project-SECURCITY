@@ -1,16 +1,10 @@
 // src/context/CittadinoContext.tsx
 import React, { createContext, useContext, useState, ReactNode } from 'react';
+import { Cittadino } from '../types/index'; // Adjust the import path as necessary
 
-type Cittadino = 
+
+type CittadinoContextType = 
 {
-  username: string;
-  id: string;
-  email: string;
-  
-  // Add other properties if needed
-};
-
-type CittadinoContextType = {
   cittadino: Cittadino | null;
   setCittadino: (cittadino: Cittadino) => void;
 };

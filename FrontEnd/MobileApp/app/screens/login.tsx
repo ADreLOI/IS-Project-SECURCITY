@@ -65,7 +65,7 @@ export default function Login()
   }, []);
 
   const handleGoogleLogin = async () => 
-    {
+  {
     try 
     {
       await GoogleSignin.hasPlayServices();

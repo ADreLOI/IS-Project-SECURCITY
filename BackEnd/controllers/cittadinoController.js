@@ -192,6 +192,34 @@ const getCittadinoByID = async (req, res) =>
     }
 }
 
+const addContattoEmergenza = async (req, res) => 
+{
+    try
+    {
+        //FindById and update
+        //Check beare token for authorization!!
+        authenticateJWT(req, res, () => {});
+
+        const { id } = req.params;
+        console.log(req.body);
+        const cittadino = await Cittadino.findByIdAndUpdate(id, req.body);
+        if(!cittadino)
+        {
+            res.status(404).json({error:"The user doesn't exist"});
+        }
+        else
+        {
+            const updatedCittadino = await Cittadino.findById(id);
+            res.status(200).json(updatedCittadino);
+            console.log("User updated with new contatti di emergenza");
+        }
+    }
+    catch(error)
+    {
+        res.status(500).json({message: error.message});
+    }
+}
+
 async function verifyGoogleToken(idToken) 
 {
     const ticket = await client.verifyIdToken(
@@ -211,4 +239,5 @@ module.exports =
     googleLogin,
     creaSegnalazione,
     getCittadinoByID,
+    addContattoEmergenza
 }
