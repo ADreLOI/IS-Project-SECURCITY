@@ -5,6 +5,7 @@ const Token = require('../models/tokenModel');
 const Segnalazione = require('../models/segnalazioneModel');
 const crypto = require('crypto');
 const { OAuth2Client } = require('google-auth-library');
+const authenticateJWT  = require('../middleware/jwtCheck');
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 const jwt = require('jsonwebtoken');
 
@@ -169,6 +170,28 @@ const googleLogin = async (req, res) =>
     }
 }
 
+const getCittadinoByID = async (req, res) =>
+{
+    try 
+    {
+        //Check beare token for authorization!!
+        authenticateJWT(req, res, () => {});
+
+        // Get the user ID from the request parameters
+        const { id } = req.params;
+        const cittadino = await Cittadino.findById(id);
+        if (!cittadino) 
+        {
+            return res.status(404).json({ message: 'User not found' });
+        }
+        res.status(200).json(cittadino);
+    } catch (error) 
+    {
+        console.error('Error fetching user:', error);
+        res.status(500).json({ error: error.message });
+    }
+}
+
 async function verifyGoogleToken(idToken) 
 {
     const ticket = await client.verifyIdToken(
@@ -186,5 +209,6 @@ module.exports =
     confirmEmail,
     login,
     googleLogin,
-    creaSegnalazione
+    creaSegnalazione,
+    getCittadinoByID,
 }

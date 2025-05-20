@@ -1,6 +1,6 @@
-import jwt from 'jsonwebtoken';
+const jwt = require('jsonwebtoken');
 
-export const authenticateJWT = (req, res, next) => {
+const authenticateJWT = (req, res, next) => {
   const authHeader = req.headers.authorization;
   if (!authHeader?.startsWith('Bearer ')) {
     return res.status(401).json({ message: 'Missing or invalid token' });
@@ -12,9 +12,12 @@ export const authenticateJWT = (req, res, next) => {
   {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     req.user = decoded; // attach user data
+    console.log("Decoded JWT:", decoded);
     next();
   } catch (err) 
   {
     return res.status(403).json({ message: 'Token is invalid or expired' });
   }
 };
+
+module.exports = authenticateJWT;

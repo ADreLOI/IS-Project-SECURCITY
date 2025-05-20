@@ -3,8 +3,9 @@ import './global.css';
 import { useFonts } from 'expo-font';
 import React from 'react';
 import { TouchableOpacity, Image, Text } from 'react-native';
+import { CittadinoProvider } from './context/cittadinoContext'; 
 
-interface CustomButtonProps {
+interface CustomButtonProps { 
   title: string;
   imageSource: any;
   onPress: () => void;
@@ -18,9 +19,13 @@ export default function RootLayout()
   });
 
   if (!fontsLoaded) return null;
-  return <Stack> 
+  return (
+  <CittadinoProvider>
+  <Stack> 
           <Stack.Screen name="index" options={{ headerShown: false }} />
           <Stack.Screen name="screens/home" options={{ headerShown: false }} />
           <Stack.Screen name="screens/login" options={{ headerShown: false }} />
   </Stack>;
+  </CittadinoProvider>
+  );
 }
