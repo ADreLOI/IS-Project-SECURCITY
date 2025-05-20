@@ -1,4 +1,3 @@
-// ✅ app/signup.tsx
 import { useState } from "react";
 import { View, Text, TextInput, TouchableOpacity } from "react-native";
 import { useRouter } from "expo-router";
@@ -6,24 +5,29 @@ import axios from "axios";
 import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
 
 export default function SignupOperatore() {
-  // State variables for form inputs
+  // State variables for the input fields
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [tokenComune, setTokenComune] = useState("");
+
+  // State for feedback messages
   const [signupSuccess, setSignupSuccess] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+
   const router = useRouter();
 
-  // Handles the signup request
+  // Handles form submission and signup request
   const handleSignup = async () => {
+    // Basic validation
     if (!username || !email || !password || !tokenComune) {
       setErrorMessage("All fields are required.");
       return;
     }
 
     try {
+      // Send signup request to the backend
       const response = await axios.post(
         "http://localhost:3000/api/v1/operatoreComunale/signup-operatore",
         {
@@ -34,20 +38,24 @@ export default function SignupOperatore() {
         }
       );
 
+      // Handle successful response
       if (response.status === 201) {
         setSignupSuccess(true);
         setSuccessMessage(
           response.data.message || "Account successfully created."
         );
+        // Clear input fields
         setUsername("");
         setEmail("");
         setPassword("");
         setTokenComune("");
         setErrorMessage("");
       } else {
+        // Handle expected errors (e.g., invalid token, email exists)
         setErrorMessage(response.data.error || "Signup failed.");
       }
     } catch (error) {
+      // Handle network/server errors
       console.error(error);
       setErrorMessage("Something went wrong.");
     }
@@ -55,6 +63,7 @@ export default function SignupOperatore() {
 
   return (
     <View className="flex-1 justify-center items-center bg-[#011126] px-6">
+      {/* Logo */}
       <View className="mb-8">
         <Text className="text-5xl font-GothamUltra flex-row">
           <Text className="text-white">SECUR</Text>
@@ -63,7 +72,7 @@ export default function SignupOperatore() {
         </Text>
       </View>
 
-      {/* Success message animation */}
+      {/* If signup is successful, show animated confirmation message */}
       {signupSuccess ? (
         <Animated.View
           entering={FadeIn.duration(400)}
@@ -83,8 +92,9 @@ export default function SignupOperatore() {
           </TouchableOpacity>
         </Animated.View>
       ) : (
+        // Show signup form
         <View className="w-full max-w-md">
-          {/* Error message */}
+          {/* Display error if present */}
           {errorMessage !== "" && (
             <Text className="text-red-500 text-center font-GothamBold mb-4">
               {errorMessage}

@@ -1,18 +1,20 @@
 // app/operatore/dashboard.tsx
+
 import { useEffect, useState } from "react";
 import { View } from "react-native";
 import { jwtDecode } from "jwt-decode";
 import Sidebar from "@/components/Sidebar";
 import DashboardContent from "@/components/DashboardContent";
 
-// Tipo specifico per le sezioni supportate
+// Define the valid dashboard sections
 export type Section = "overview" | "segnalazioni" | "statistiche" | "sensori";
 
+// Define the expected structure of the JWT payload
 interface JWTPayload {
-  exp: number;
-  id: string;
-  email: string;
-  [key: string]: any;
+  exp: number; // Expiration timestamp
+  id: string; // User ID
+  email: string; // User email
+  [key: string]: any; // Allow additional fields
 }
 
 export default function DashboardPage() {
@@ -20,6 +22,7 @@ export default function DashboardPage() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState<{ id: string; email: string } | null>(null);
 
+  // On mount: verify token validity and extract user info
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
@@ -30,21 +33,25 @@ export default function DashboardPage() {
           setUser({ id: decoded.id, email: decoded.email });
           setIsAuthenticated(true);
         } else {
+          // Token expired
           localStorage.removeItem("token");
           localStorage.removeItem("user");
           window.location.href = "/";
         }
       } catch {
+        // Token decoding failed
         window.location.href = "/";
       }
     } else {
+      // No token found
       window.location.href = "/";
     }
   }, []);
 
+  // Prevent rendering until authentication is verified
   if (!isAuthenticated || !user) return null;
 
-  // Wrapper con validazione del tipo di sezione
+  // Wrapper to handle valid section changes
   const handleSelectSection = (section: string) => {
     const validSections: Section[] = [
       "overview",
@@ -57,6 +64,7 @@ export default function DashboardPage() {
     }
   };
 
+  // Main dashboard layout: sidebar on the left, dynamic content on the right
   return (
     <View className="flex flex-row h-screen w-screen bg-[#011126]">
       <Sidebar onSelectSection={handleSelectSection} />

@@ -1,4 +1,3 @@
-// app/index.tsx — Login page with working animated rotating C
 import { useState, useEffect } from "react";
 import {
   View,
@@ -17,6 +16,7 @@ import Animated, {
   Easing,
 } from "react-native-reanimated";
 
+// Type for JWT payload
 interface JWTPayload {
   exp: number;
   [key: string]: any;
@@ -25,20 +25,22 @@ interface JWTPayload {
 export default function LoginPage() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true); // Page loading state
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-  const [isLoggingIn, setIsLoggingIn] = useState(false);
+  const [isLoggingIn, setIsLoggingIn] = useState(false); // Login-in-progress state
   const router = useRouter();
 
-  // Rotazione C animata
+  // Animated rotation value for the 'C' letter
   const rotation = useSharedValue(0);
+
+  // Animation style: rotate continuously
   const rotateStyle = useAnimatedStyle(() => ({
     transform: [{ rotate: `${rotation.value}deg` }],
   }));
 
   useEffect(() => {
-    // Avvia rotazione infinita
+    // Start infinite rotation when component mounts
     rotation.value = withRepeat(
       withTiming(360, { duration: 1200, easing: Easing.linear }),
       -1
@@ -46,6 +48,7 @@ export default function LoginPage() {
   }, []);
 
   useEffect(() => {
+    // Check for a valid token to auto-redirect authenticated user
     const checkAuth = () => {
       const token = localStorage.getItem("token");
       if (token) {
@@ -70,6 +73,7 @@ export default function LoginPage() {
     checkAuth();
   }, []);
 
+  // Handle login request
   const handleLogin = async () => {
     if (!username || !password) {
       setErrorMessage("All fields are required.");
@@ -91,9 +95,11 @@ export default function LoginPage() {
       const data = await response.json();
 
       if (response.ok) {
+        // Save token and user info in localStorage
         localStorage.setItem("token", data.token);
         localStorage.setItem("user", JSON.stringify(data.user));
 
+        // Add delay to show animated loader before redirect
         setTimeout(() => router.push("/operatore/dashboard"), 1500);
       } else {
         setErrorMessage(data.message || "Login failed.");
@@ -106,6 +112,7 @@ export default function LoginPage() {
     }
   };
 
+  // Display loading spinner or animated logo while loading or logging in
   if (isLoading || isLoggingIn) {
     return (
       <View className="flex-1 justify-center items-center bg-[#011126]">
@@ -120,12 +127,13 @@ export default function LoginPage() {
     );
   }
 
-  if (isAuthenticated) {
-    return null;
-  }
+  // Avoid rendering login form if already authenticated
+  if (isAuthenticated) return null;
 
+  // Render login form
   return (
     <View className="flex-1 justify-center items-center bg-[#011126] px-6">
+      {/* Logo */}
       <View className="mb-8">
         <Text className="text-5xl font-GothamUltra flex-row">
           <Text className="text-white">SECUR</Text>
@@ -135,12 +143,14 @@ export default function LoginPage() {
       </View>
 
       <View className="w-full max-w-md">
+        {/* Display error message if present */}
         {errorMessage !== "" && (
           <Text className="text-red-500 text-center font-GothamBold mb-4">
             {errorMessage}
           </Text>
         )}
 
+        {/* Username field */}
         <Text className="text-white font-GothamBold mb-1">
           Username or Email
         </Text>
@@ -152,6 +162,7 @@ export default function LoginPage() {
           onChangeText={setUsername}
         />
 
+        {/* Password field */}
         <Text className="text-white font-GothamBold mb-1">Password</Text>
         <TextInput
           className="border border-[#0AA696] border-[1.5px] rounded-3xl px-4 py-4 mb-6 bg-gray-100 text-gray-800 font-GothamBold"
@@ -161,6 +172,7 @@ export default function LoginPage() {
           onChangeText={setPassword}
         />
 
+        {/* Login button */}
         <TouchableOpacity
           className="bg-[#0AA696] rounded-3xl py-4 mb-4"
           onPress={handleLogin}
@@ -168,9 +180,17 @@ export default function LoginPage() {
           <Text className="text-center text-white font-GothamBold">Login</Text>
         </TouchableOpacity>
 
+        {/* Link to signup page */}
         <TouchableOpacity onPress={() => router.push("/signup")}>
           <Text className="text-center text-[#0AA696] font-GothamBold">
             Don’t have an account? Create one
+          </Text>
+        </TouchableOpacity>
+
+        {/* Link to Comune token generator (admin only) */}
+        <TouchableOpacity onPress={() => router.push("/operatore/token")}>
+          <Text className="text-center text-gray-400 text-sm mt-2">
+            Accesso amministratore
           </Text>
         </TouchableOpacity>
       </View>

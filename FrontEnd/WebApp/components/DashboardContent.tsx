@@ -1,21 +1,19 @@
-// components/DashboardContent.tsx
-
-// Importiamo i componenti che rappresentano le sezioni della dashboard
+// Import the section components that make up each part of the dashboard
 import { View, Text } from "react-native";
 import Segnalazioni from "./sections/Segnalazioni";
 import Statistiche from "./sections/Statistiche";
 import Sensori from "./sections/Sensori";
 import Overview from "./sections/Overview";
 
-// Definiamo un'interfaccia per descrivere i "props" che questo componente riceve
+// Define a type-safe interface for the props this component will receive
 interface Props {
-  // Questo prop indica quale sezione è attualmente attiva e visibile
+  // The currently active dashboard section
   activeSection: "overview" | "segnalazioni" | "statistiche" | "sensori";
 }
 
-// Il componente principale che decide quale contenuto mostrare in base alla sezione attiva
+// Main component that decides which section to render based on the active selection
 export default function DashboardContent({ activeSection }: Props) {
-  // In base al valore di activeSection, viene restituito il componente corrispondente
+  // Render the appropriate section component based on the active section name
   switch (activeSection) {
     case "segnalazioni":
       return <Segnalazioni />;
@@ -25,7 +23,7 @@ export default function DashboardContent({ activeSection }: Props) {
       return <Sensori />;
     case "overview":
     default:
-      // Se per qualche motivo arriva una sezione non valida
+      // Fallback case: if the section name is unrecognized, default to overview
       return <Overview />;
   }
 }
