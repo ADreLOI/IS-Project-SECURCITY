@@ -1,6 +1,6 @@
 //Controller per la gestione dei cittadini
 const Cittadino = require('../models/cittadinoModel');
-const { sendConfirmationEmail } = require('../utils/emailService');
+const { sendConfirmationEmail, sendEmailChange } = require('../utils/emailService');
 const Token = require('../models/tokenModel');
 const Segnalazione = require('../models/segnalazioneModel');
 const crypto = require('crypto');
@@ -253,6 +253,56 @@ const editContattoEmergenza = async (req, res) =>
     }
 }
 
+const editProfile = async = async (req, res) =>
+{
+    try
+    {
+        const { id } = req.params; // id of the cittadino
+        const cittadino = await Cittadino.findByIdAndUpdate(id, req.body);
+        
+        if(!cittadino)
+        {
+            res.status(404).json({message:"The user doesn't exist"});
+        }
+        else
+        {
+            //If email changed send a new verification link
+            if(req.body.email != cittadino.email)
+            {
+                console.log("HA cambiato email")
+                 // Generate a confirmation token
+                const confirmationToken = crypto.randomBytes(32).toString('hex');
+                // Save the token in the database (you might want to create a separate model for this)  
+                const token = new Token({
+                    userID: cittadino._id, 
+                    token: confirmationToken,
+                    scadenza: Date.now() + 3600000, // Token valid for 1 hour
+                });
+                await token.save();
+                // Send confirmation email
+                await sendEmailChange(req.body.email, req.body.username, confirmationToken);   
+                
+                const updatedCittadino = await Cittadino.findById(id);
+                 //Set isVerificatoFlag to false until confirmation
+                updatedCittadino.isVerificato = false;
+                await updatedCittadino.save();
+                res.status(200).json(updatedCittadino);
+                console.log("User update with a new email");
+            }
+            else
+            {
+                const updatedCittadino = await Cittadino.findById(id);
+                res.status(200).json(updatedCittadino);
+                console.log("User update with a new email");
+             }
+        }
+    }
+    catch(error)
+    {
+        res.status(500).json({message: error.message});
+    }
+}
+
 const deleteContattoEmergenza= async (req, res) => 
 {
     try
@@ -304,5 +354,6 @@ module.exports =
     getCittadinoByID,
     addContattoEmergenza,
     editContattoEmergenza,
-    deleteContattoEmergenza
+    deleteContattoEmergenza,
+    editProfile
 }

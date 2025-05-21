@@ -1,5 +1,5 @@
 import { StyleSheet, Text, TouchableOpacity, View, Modal, TextInput, Alert, ScrollView } from 'react-native'
-import React from 'react'
+import React, { use } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useState } from 'react'
 import Animated, { FadeIn, SlideInLeft } from 'react-native-reanimated';
@@ -9,13 +9,16 @@ import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { jwtDecode } from 'jwt-decode';
 import { JWTPayload, ContattoEmergenza } from '../types/index';
-import { v4 as uuidv4 } from 'uuid';
 
-const home = () => {
+const profile = () => {
 
   const { cittadino } = useCittadino();
   const [formVisible, setFormVisible] = useState(false);
+  const [tfUsername, setTfUsername] = useState(false);
+  const [tfEmail, setTfEmail] = useState(false);
 
+  const [username, setUsername] = useState(cittadino?.username);
+  const [email, setEmail] = useState(cittadino?.email);
  const [nominativo, setNominativo] = useState("");
   const [numeroTelefonico, setNumero] = useState("");
   let [contattiEmergenza, setContattiEmergenza] = useState<ContattoEmergenza[]>([]);
@@ -53,7 +56,7 @@ const home = () => {
         try
         {
           const response = await axios.put(
-            `http://192.168.1.80:3000/api/v1/cittadino/addContattiEmergenza/${decoded.id}`,
+            `http://localhost:3000/api/v1/cittadino/addContattiEmergenza/${decoded.id}`,
             { contattiEmergenza },
             {
               headers: {
@@ -102,13 +105,13 @@ const home = () => {
         if (contattoToEdit)
         {
           //Contatto exists and has to be updated
-          console.log("Sto per inviare..")
+          //console.log("Sto per inviare..")
           contattoToEdit.nominativo = nominativo;
           contattoToEdit.numeroTelefonico = numeroTelefonico;
           try
           {
             const response = await axios.put(
-              `http://192.168.1.80:3000/api/v1/cittadino/editContattiEmergenza/${decoded.id}`,
+              `http://localhost:3000/api/v1/cittadino/editContattiEmergenza/${decoded.id}`,
               {  contattoId: contattoToEdit._id,
                 nominativo: contattoToEdit.nominativo,
                 numeroTelefonico: contattoToEdit.numeroTelefonico,
@@ -158,7 +161,7 @@ const home = () => {
           try
           {
             const response = await axios.put(
-              `http://192.168.1.80:3000/api/v1/cittadino/deleteContattiEmergenza/${decoded.id}`,
+              `http://localhost:3000/api/v1/cittadino/deleteContattiEmergenza/${decoded.id}`,
               { idContatto },
               {
                 headers: {
@@ -192,7 +195,46 @@ const home = () => {
       }
       return objectId;
     };
-    
+   
+
+  const editProfile = async (usernameToSend: string, emailToSend: string) =>
+  {
+      //console.log(usernameToSend)
+      //console.log(emailToSend)
+  
+    const token = await AsyncStorage.getItem('jwtToken');
+    if(token)
+    {
+      const decoded = jwtDecode<JWTPayload>(token);
+      try
+      {
+        
+        const response = await axios.put(
+          `http://localhost:3000/api/v1/cittadino/editProfile/${decoded.id}`,
+          { username,
+            email
+          },
+          {
+            headers: 
+            {
+              Authorization: `Bearer ${token}`
+            }
+          }
+        );
+
+          //console.log("Cittadino:", response.data);
+          setCittadino(response.data);    
+                  
+      }
+      catch(error: any)
+      {
+        Alert.alert("Error", error.response.data.message);
+        console.error(error);
+      }
+        
+    }
+  }  
+
   return (
   <SafeAreaView className="flex-1 bg-[#111126] px-6">
   <ScrollView>
@@ -265,25 +307,110 @@ const home = () => {
 
       {/* Centered content */}
       <View className="justify-left items-left">
+
+      {/* Sezione Username*/}
+      
         <Animated.View entering={FadeIn.duration(500)}>
+        <View className="flex-row items-center justify-between mb-3">
           <Text className="text-2xl font-GothamBold text-white">
           Username
           </Text>
+
+          {/* Right side: Edit button */}
+          <TouchableOpacity
+            onPress={() => 
+            { //Set textinput on
+              if (cittadino?.username) 
+              {
+                setUsername(cittadino.username);
+                setTfUsername(true)
+              }
+
+            }}
+            className="ml-auto"
+            >
+            <Ionicons name="create-outline" size={24} color="#0AA696" />
+            </TouchableOpacity>
+
+          </View>
         </Animated.View>
 
-        <TouchableOpacity className="border border-[#0AA696] border-[1.5px] rounded-3xl py-5">
-          <Text className="text-1xl font-GothamBold text-white px-3">{cittadino?.username}</Text>
+        <TouchableOpacity className="border border-[#0AA696] border-[1.5px] rounded-3xl py-5 " disabled style={{ display: tfUsername ? 'none' : 'flex' }} >
+          <View className="flex-row items-center justify-between mb-3">
+          <Text className="text-1xl font-GothamBold text-white px-3">{cittadino?.username} </Text>
+            </View>
         </TouchableOpacity>
 
+
+        <TextInput
+          className="border border-[#0AA696] border-[1.5px] rounded-3xl font-GothamBold px-4 py-4 mb-4 bg-gray-100 text-gray-800"
+          placeholder="Nominativo"
+          autoCapitalize="none"
+          selectionColor="#0AA696"
+          value={username}
+          onChangeText={setUsername} 
+          onSubmitEditing={() => 
+            {
+              setTfUsername(false)
+
+              let finalUsername = username;
+              let finalEmail = email
+  
+              //Send change to API
+              if(finalUsername && finalEmail)
+              editProfile(finalUsername, finalEmail);
+            }}
+          style={{ display: tfUsername ? 'flex' : 'none' }}
+          />
+
+        {/* Sezione Email*/}
+
         <Animated.View entering={FadeIn.duration(500)}>
+        <View className="flex-row items-center justify-between mb-3">
           <Text className="text-2xl font-GothamBold text-white">
           Email
           </Text>
+
+            {/* Right side: Edit button */}
+            <TouchableOpacity
+            onPress={() => 
+            { //Set textinput on
+              if (cittadino?.email) {
+                setEmail(cittadino.email);
+                setTfEmail(true)
+              }
+            }}
+            className="ml-auto"
+            >
+            <Ionicons name="create-outline" size={24} color="#0AA696" />
+            </TouchableOpacity>
+          </View>
         </Animated.View>
 
-        <TouchableOpacity className="border border-[#0AA696] border-[1.5px] rounded-3xl py-5">
+        <TouchableOpacity className="border border-[#0AA696] border-[1.5px] rounded-3xl py-5" disabled style={{ display: tfEmail ? 'none' : 'flex' }}>
           <Text className="text-1xl font-GothamBold text-white px-3">{cittadino?.email}</Text>
         </TouchableOpacity>
+
+        <TextInput
+          className="border border-[#0AA696] border-[1.5px] rounded-3xl font-GothamBold px-4 py-4 mb-4 bg-gray-100 text-gray-800"
+          placeholder="Nominativo"
+          autoCapitalize="none"
+          selectionColor="#0AA696"
+          value={email}
+          onChangeText={setEmail} 
+          onSubmitEditing={() => 
+            {
+              setTfEmail(false)
+
+              let finalUsername = username;
+              let finalEmail = email
+  
+              //Send change to API
+              if(finalUsername && finalEmail)
+              editProfile(finalUsername, finalEmail);
+            }}
+          style={{ display: tfEmail ? 'flex' : 'none' }}
+          />
 
         <View className="flex-row">
           <Animated.View entering={FadeIn.duration(500)}>
@@ -294,13 +421,12 @@ const home = () => {
 
           <TouchableOpacity
             onPress={() => setFormVisible(true)}
-            className="ml-auto"
-            >
+            className="ml-auto">
             <Ionicons name="add" size={24} color="#0AA696" />
         </TouchableOpacity>
         </View>
 
-        <TouchableOpacity className="border border-[#0AA696] border-[1.5px] rounded-3xl py-5 px-4">
+        <TouchableOpacity className="border border-[#0AA696] border-[1.5px] rounded-3xl py-5 px-4" disabled>
           {cittadino?.contattiEmergenza?.map((contatto, index) => (
           <View
           key={index}
@@ -327,6 +453,20 @@ const home = () => {
           </View>
           ))}
         </TouchableOpacity>
+
+        <TouchableOpacity
+              className="border border-[#0AA696] border-[1.5px] rounded-3xl py-3 mt-10"
+              onPress={() => console.log("logut")}
+            >
+              <Text className="text-center text-white font-GothamBold">Log Out</Text>
+        </TouchableOpacity>
+
+          <TouchableOpacity
+            className="border border-[#0AA696] border-[1.5px] rounded-3xl py-3 mt-4"
+            onPress={() => console.log("Resend token")}
+          >
+            <Text className="text-center text-white font-GothamBold">Re-send Token</Text>
+          </TouchableOpacity>
       </View>
     </View>
     </ScrollView>
@@ -334,4 +474,4 @@ const home = () => {
   )
 }
 
-export default home
+export default profile

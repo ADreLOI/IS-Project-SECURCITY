@@ -61,7 +61,7 @@ export default function SignUp() {
                 setCittadino(response.data);
                 setIsAuthenticated(true);
                 setIsLoading(false);  
-                router.push("/screens/home");
+                router.push("/screens/profile");
               }
               else
               {
@@ -167,7 +167,7 @@ export default function SignUp() {
   
   if(isAuthenticated)
   {
-    router.push("/screens/home");
+    router.push("/screens/profile");
   }
   return (
     <View className="flex-1 justify-center items-center bg-[#011126] px-6">
