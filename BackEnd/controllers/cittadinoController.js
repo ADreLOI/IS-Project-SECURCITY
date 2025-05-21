@@ -175,7 +175,6 @@ const getCittadinoByID = async (req, res) =>
     try 
     {
         //Check beare token for authorization!!
-        authenticateJWT(req, res, () => {});
 
         // Get the user ID from the request parameters
         const { id } = req.params;
@@ -198,20 +197,84 @@ const addContattoEmergenza = async (req, res) =>
     {
         //FindById and update
         //Check beare token for authorization!!
-        authenticateJWT(req, res, () => {});
 
         const { id } = req.params;
         console.log(req.body);
         const cittadino = await Cittadino.findByIdAndUpdate(id, req.body);
         if(!cittadino)
         {
-            res.status(404).json({error:"The user doesn't exist"});
+            res.status(404).json({message:"The user doesn't exist"});
         }
         else
         {
             const updatedCittadino = await Cittadino.findById(id);
             res.status(200).json(updatedCittadino);
             console.log("User updated with new contatti di emergenza");
+        }
+    }
+    catch(error)
+    {
+        res.status(500).json({message: error.message});
+    }
+}
+
+const editContattoEmergenza = async (req, res) =>
+{
+    try
+    {
+        const { id } = req.params; // id of the cittadino
+        const { contattoId, nominativo, numeroTelefonico } = req.body;
+        console.log(req.body)
+
+        const cittadino = await Cittadino.findOneAndUpdate(
+            { _id: id, 'contattiEmergenza._id': contattoId },
+            {
+            $set: {
+                    'contattiEmergenza.$.nominativo': nominativo,
+                    'contattiEmergenza.$.numeroTelefonico': numeroTelefonico,
+                    },
+            },
+            { new: true }
+        );
+
+        if(!cittadino)
+        {
+            res.status(404).json({message:"Il contatto non esiste!"});
+        }
+        else
+        {
+            const updatedCittadino = await Cittadino.findById(id);
+            res.status(200).json(updatedCittadino);
+        }
+    }
+    catch(error)
+    {
+        res.status(500).json({message: error.message});
+    }
+}
+
+const deleteContattoEmergenza= async (req, res) => 
+{
+    try
+    {
+        //FindById and delete
+        //Check beare token for authorization!!
+        const { id } = req.params;
+        console.log(req.body);
+        
+        const cittadino= await Cittadino.findByIdAndUpdate(
+            id,
+            { $pull: { contattiEmergenza: { _id: req.body.idContatto } } },
+            { new: true }
+          );
+        if(!cittadino)
+        {
+            res.status(404).json({message:"The user doesn't exist"});
+        }
+        else
+        {
+            const updatedCittadino = await Cittadino.findById(id);
+            res.status(200).json(updatedCittadino);
         }
     }
     catch(error)
@@ -239,5 +302,7 @@ module.exports =
     googleLogin,
     creaSegnalazione,
     getCittadinoByID,
-    addContattoEmergenza
+    addContattoEmergenza,
+    editContattoEmergenza,
+    deleteContattoEmergenza
 }

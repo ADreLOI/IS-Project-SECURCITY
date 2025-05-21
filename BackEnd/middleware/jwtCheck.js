@@ -1,8 +1,11 @@
 const jwt = require('jsonwebtoken');
 
-const authenticateJWT = (req, res, next) => {
+const authenticateJWT = (req, res, next) => 
+{
   const authHeader = req.headers.authorization;
-  if (!authHeader?.startsWith('Bearer ')) {
+  if (!authHeader?.startsWith('Bearer ')) 
+  {
+    //console.log(req.headers.authorization)
     return res.status(401).json({ message: 'Missing or invalid token' });
   }
 

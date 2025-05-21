@@ -98,7 +98,7 @@ export type Itinerario =
 
 export type ContattoEmergenza =
 {
-    id: string;
+    _id: string;
     nominativo: string;
     numeroTelefonico: string;
 }
