@@ -4,7 +4,7 @@
     "slug": "SecurCity",
     "scheme": "com.mattdema.securcity",
     "version": "1.0.0",
-    "owner": "adreloi",
+    "owner": "mattdema",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "userInterfaceStyle": "automatic",
