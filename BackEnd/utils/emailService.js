@@ -10,7 +10,7 @@ async function sendConfirmationEmail(userEmail, userName, confirmationToken)
     const msg = 
     {
       to: userEmail,
-      from: 'matthew.demarco@studenti.unitn.it', // must be a verified sender in SendGrid
+      from: 'andrea.pezzo-1@studenti.unitn.it', // must be a verified sender in SendGrid
       subject: 'Confirm your account on SecurCity',
       html: `
         <h2>Hello ${userName},</h2>

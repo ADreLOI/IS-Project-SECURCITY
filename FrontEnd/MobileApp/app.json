@@ -11,6 +11,9 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.mattdema.securcity",
+      "config": {
+        "googleMapsApiKey": "AIzaSyA_HYPztvPp_5YmMFUzc1DiV7RsmE0qYB0"
+      },
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false
       }
@@ -21,7 +24,12 @@
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true,
-      "package": "com.AndreaPezzo.securcity"
+      "package": "com.AndreaPezzo.securcity",
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyA_HYPztvPp_5YmMFUzc1DiV7RsmE0qYB0"
+        }
+      }
     },
     "web": {
       "bundler": "metro",
@@ -43,6 +51,13 @@
         "@react-native-google-signin/google-signin",
         {
           "iosUrlScheme": "com.googleusercontent.apps.615949668776-cl5b7ni96kftafc8j6qc8m7ernf3nusu"
+        }
+      ],
+      [
+        "expo-maps",
+        {
+          "requestLocationPermission": "true",
+          "locationPermission": "Allow $(SecurCity) to use your location" 
         }
       ]
     ],

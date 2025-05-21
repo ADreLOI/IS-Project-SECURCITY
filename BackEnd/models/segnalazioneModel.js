@@ -10,7 +10,7 @@ const segnalazioniSchema = new mongoose.Schema(
         {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Cittadino',
-            required: false //Va cambiato a true
+            required: true
         },
         tipoDiReato: 
         {

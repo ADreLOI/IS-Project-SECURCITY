@@ -83,7 +83,7 @@ export default function SignUp() {
 
     // You can replace this with your API call
     try {
-        const response = await axios.post("http://localhost/api/v1/cittadino/signup", {
+        const response = await axios.post("http://10.0.2.2:3000/api/v1/cittadino/signup", {
           username, //Manca campo ID
           email,
           password,
@@ -105,7 +105,7 @@ export default function SignUp() {
         }
       } catch (error) {
         Alert.alert("Error", "Something went wrong. Please try again.");
-        console.error(error);
+        console.log(error);
       }
   };
 

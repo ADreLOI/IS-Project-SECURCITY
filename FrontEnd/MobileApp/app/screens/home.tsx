@@ -1,17 +1,27 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { Platform, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import Animated, { FadeIn } from 'react-native-reanimated';
+import MapView from 'react-native-maps';
+import { AppleMaps, GoogleMaps } from "expo-maps"
 
 
-const home = () => {
-  return (
-    <SafeAreaView className="flex-1 justify-center items-center bg-[#111126] px-6">
-        <Animated.View entering={FadeIn.duration(500)}>
-      <Text className="text-3xl text-blue-500">La mia Home</Text>
-      </Animated.View>    
-    </SafeAreaView>
-  )
+
+export default function App() {
+  if (Platform.OS === 'ios') {
+    return <AppleMaps.View style={{ flex: 1 }} />;
+  } else if (Platform.OS === 'android') {
+    return <GoogleMaps.View 
+    style={{ flex: 1 }} 
+    cameraPosition={{
+      coordinates: {
+        latitude: 46.074779,
+        longitude: 11.121749
+      },
+      zoom:12
+    }}
+    />;
+  } else {
+    return <Text>Maps are only available on Android and iOS</Text>;
+  }
 }
-
-export default home

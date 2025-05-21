@@ -13,6 +13,7 @@ const signUp = async (req, res) =>
     try 
     {
         // Check if the user already exists
+        console.log("Qualcosa")
         const existingUser = await Cittadino.find   
         ({
             $or: [
