@@ -41,7 +41,7 @@ export default function Login()
               setUsername("");
               setPassword("");
             // Navigate or store token here
-            router.push("/screens/home");
+            router.push("/screens/profile");
           } else {
             Alert.alert("Login failed", response.data.error);
              // Clear the input fields
@@ -65,7 +65,7 @@ export default function Login()
   }, []);
 
   const handleGoogleLogin = async () => 
-    {
+  {
     try 
     {
       await GoogleSignin.hasPlayServices();
@@ -85,7 +85,7 @@ export default function Login()
           await AsyncStorage.setItem('jwtToken', responseAPI.data.token);
 
           Alert.alert("Login successful!", responseAPI.data.message);
-          router.push("/screens/home");
+          router.push("/screens/profile");
         } else 
         {
           Alert.alert("Login failed", responseAPI.data.error);

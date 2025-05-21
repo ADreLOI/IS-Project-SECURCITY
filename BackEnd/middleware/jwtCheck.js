@@ -1,5 +1,6 @@
 import jwt from "jsonwebtoken";
 import OperatoreComunale from "../models/operatoreComunaleModel.js";
+import Cittadino from "../models/cittadinoModel.js";
 
 // Middleware to verify JWT and protect routes
 export const authenticateJWT = async (req, res, next) => {

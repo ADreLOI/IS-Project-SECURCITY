@@ -1,10 +1,14 @@
 //Controller per la gestione dei cittadini
 const Cittadino = require("../models/cittadinoModel");
-const { sendConfirmationEmail } = require("../utils/emailService");
+const {
+  sendConfirmationEmail,
+  sendEmailChange,
+} = require("../utils/emailService");
 const Token = require("../models/tokenModel");
 const Segnalazione = require("../models/segnalazioneModel");
 const crypto = require("crypto");
 const { OAuth2Client } = require("google-auth-library");
+const authenticateJWT = require("../middleware/jwtCheck");
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 const jwt = require("jsonwebtoken");
 
@@ -25,7 +29,7 @@ const signUp = async (req, res) => {
     // Save the token in the database (you might want to create a separate model for this)
     const token = new Token({
       userID: cittadino._id,
-      userModel: "Cittadino", // 👈 chiaro riferimento dinamico
+      userModel: "Cittadino", // chiaro riferimento dinamico
       token: confirmationToken,
       scadenza: Date.now() + 3600000,
     });
@@ -38,13 +42,11 @@ const signUp = async (req, res) => {
       confirmationToken
     );
 
-    res
-      .status(200)
-      .json({
-        cittadino: cittadino,
-        message:
-          "Registration successful! Please check your email to confirm your account.",
-      });
+    res.status(200).json({
+      cittadino: cittadino,
+      message:
+        "Registration successful! Please check your email to confirm your account.",
+    });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -161,6 +163,138 @@ const googleLogin = async (req, res) => {
   }
 };
 
+const getCittadinoByID = async (req, res) => {
+  try {
+    //Check beare token for authorization!!
+
+    // Get the user ID from the request parameters
+    const { id } = req.params;
+    const cittadino = await Cittadino.findById(id);
+    if (!cittadino) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    res.status(200).json(cittadino);
+  } catch (error) {
+    console.error("Error fetching user:", error);
+    res.status(500).json({ error: error.message });
+  }
+};
+
+const addContattoEmergenza = async (req, res) => {
+  try {
+    //FindById and update
+    //Check beare token for authorization!!
+
+    const { id } = req.params;
+    console.log(req.body);
+    const cittadino = await Cittadino.findByIdAndUpdate(id, req.body);
+    if (!cittadino) {
+      res.status(404).json({ message: "The user doesn't exist" });
+    } else {
+      const updatedCittadino = await Cittadino.findById(id);
+      res.status(200).json(updatedCittadino);
+      console.log("User updated with new contatti di emergenza");
+    }
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+const editContattoEmergenza = async (req, res) => {
+  try {
+    const { id } = req.params; // id of the cittadino
+    const { contattoId, nominativo, numeroTelefonico } = req.body;
+    console.log(req.body);
+
+    const cittadino = await Cittadino.findOneAndUpdate(
+      { _id: id, "contattiEmergenza._id": contattoId },
+      {
+        $set: {
+          "contattiEmergenza.$.nominativo": nominativo,
+          "contattiEmergenza.$.numeroTelefonico": numeroTelefonico,
+        },
+      },
+      { new: true }
+    );
+
+    if (!cittadino) {
+      res.status(404).json({ message: "Il contatto non esiste!" });
+    } else {
+      const updatedCittadino = await Cittadino.findById(id);
+      res.status(200).json(updatedCittadino);
+    }
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+const editProfile = (async = async (req, res) => {
+  try {
+    const { id } = req.params; // id of the cittadino
+    const cittadino = await Cittadino.findByIdAndUpdate(id, req.body);
+
+    if (!cittadino) {
+      res.status(404).json({ message: "The user doesn't exist" });
+    } else {
+      //If email changed send a new verification link
+      if (req.body.email != cittadino.email) {
+        console.log("HA cambiato email");
+        // Generate a confirmation token
+        const confirmationToken = crypto.randomBytes(32).toString("hex");
+        // Save the token in the database (you might want to create a separate model for this)
+        const token = new Token({
+          userID: cittadino._id,
+          token: confirmationToken,
+          scadenza: Date.now() + 3600000, // Token valid for 1 hour
+        });
+        await token.save();
+        // Send confirmation email
+        await sendEmailChange(
+          req.body.email,
+          req.body.username,
+          confirmationToken
+        );
+
+        const updatedCittadino = await Cittadino.findById(id);
+        //Set isVerificatoFlag to false until confirmation
+        updatedCittadino.isVerificato = false;
+        await updatedCittadino.save();
+        res.status(200).json(updatedCittadino);
+        console.log("User update with a new email");
+      } else {
+        const updatedCittadino = await Cittadino.findById(id);
+        res.status(200).json(updatedCittadino);
+        console.log("User update with a new email");
+      }
+    }
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+const deleteContattoEmergenza = async (req, res) => {
+  try {
+    //FindById and delete
+    //Check beare token for authorization!!
+    const { id } = req.params;
+    console.log(req.body);
+
+    const cittadino = await Cittadino.findByIdAndUpdate(
+      id,
+      { $pull: { contattiEmergenza: { _id: req.body.idContatto } } },
+      { new: true }
+    );
+    if (!cittadino) {
+      res.status(404).json({ message: "The user doesn't exist" });
+    } else {
+      const updatedCittadino = await Cittadino.findById(id);
+      res.status(200).json(updatedCittadino);
+    }
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 async function verifyGoogleToken(idToken) {
   const ticket = await client.verifyIdToken({
     idToken,
@@ -176,4 +310,9 @@ module.exports = {
   login,
   googleLogin,
   creaSegnalazione,
+  getCittadinoByID,
+  addContattoEmergenza,
+  editContattoEmergenza,
+  deleteContattoEmergenza,
+  editProfile,
 };
