@@ -2,10 +2,10 @@ import { useState } from "react";
 import { View, Text, TextInput, TouchableOpacity, Alert, Button, ActivityIndicator } from "react-native";
 import { useRouter } from "expo-router";
 import axios from "axios";
-
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { jwtDecode } from "jwt-decode";
 import React from "react";
+import { useCittadino } from "./context/cittadinoContext"; // Import the context
 const router = useRouter();
 
 export default function SignUp() {
@@ -16,9 +16,12 @@ export default function SignUp() {
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const { setCittadino } = useCittadino();
 
   interface JWTPayload 
   {
+    id: string;
+    email: string;  
     exp: number; // seconds since epoch
     [key: string]: any;
   }
@@ -33,7 +36,8 @@ export default function SignUp() {
         if (token) 
         {
           // Token exists, checks if expired
-          try {
+          try 
+          {
             const decoded = jwtDecode<JWTPayload>(token);
             const now = Math.floor(Date.now() / 1000); // current time in seconds
         
@@ -41,8 +45,32 @@ export default function SignUp() {
             {
               console.log("User is logged in");
               // Navigate to the home screen or perform any other action
-              setIsAuthenticated(true);
-              setIsLoading(false);
+              decodeToken(token);
+              //Get Cittadino by ID
+              const response = await axios.get(`http://localhost:3000/api/v1/cittadino/${decoded.id}`,
+              {
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                }
+              });
+
+              if (response.status === 200) 
+              {
+                console.log("Cittadino data:", response.data);
+                // Store the Cittadino data in your state or context  
+                setCittadino(response.data);
+                setIsAuthenticated(true);
+                setIsLoading(false);  
+                router.push("/screens/home");
+              }
+              else
+              {
+                console.log("Error fetching Cittadino data:", response.data.error);
+                Alert.alert("Error", "Failed to fetch Cittadino data.");
+                setIsLoading(false);  
+                setIsAuthenticated(false);
+              }
+
               return true;
             }
             else
@@ -54,12 +82,16 @@ export default function SignUp() {
               return false;
             }
             
-          } catch (e) {
+          } 
+          catch (e) 
+          {
             console.error('Invalid JWT:', e);
             return false;
           }
 
-        } else {
+        }
+       else 
+        {
           console.log("User is not logged in");
         }
         setIsLoading(false);
@@ -73,6 +105,21 @@ export default function SignUp() {
     checkLogin();
   }, []);
 
+  const decodeToken = (token: string) => {
+    try 
+    {
+      const decoded: JWTPayload = jwtDecode<JWTPayload>(token);
+      console.log('Decoded token:', decoded);
+      //Cittadino ID
+      return decoded.id; 
+    } 
+    catch (error) 
+    {
+      console.error('Token decoding failed:', error);
+      return false;
+    }
+  };
+
   const handleSignUp = async () => 
     {
     if (!username || !email || !password) 
@@ -83,8 +130,8 @@ export default function SignUp() {
 
     // You can replace this with your API call
     try {
-        const response = await axios.post("http://10.0.2.2:3000/api/v1/cittadino/signup", {
-          username, //Manca campo ID
+        const response = await axios.post("http://localhost:3000/api/v1/cittadino/signup", {
+          username, 
           email,
           password,
         });
@@ -169,18 +216,7 @@ export default function SignUp() {
         >
           <Text className="text-center text-white font-GothamBold">Create Account</Text>
         </TouchableOpacity>
-
-        <TouchableOpacity
-          className="bg-[#0AA696] rounded-3xl py-4 mt-4"
-          onPress={() => router.push('/CreaSegnalazione')}
-        >
-          <Text className="text-center text-white font-GothamBold">
-            Vai a Crea Segnalazione
-          </Text>
-        </TouchableOpacity>
-
-        
-        
+ 
         <Button
       title="Go to About"
       onPress={() => router.push('/screens/login')}

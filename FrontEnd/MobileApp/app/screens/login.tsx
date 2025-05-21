@@ -59,13 +59,13 @@ export default function Login()
     {
     GoogleSignin.configure(
       {
+      iosClientId: iosClientId,
       webClientId: webClientId,
-      iosClientId: iosClientId
     });
   }, []);
 
   const handleGoogleLogin = async () => 
-    {
+  {
     try 
     {
       await GoogleSignin.hasPlayServices();

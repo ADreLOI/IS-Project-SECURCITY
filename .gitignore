@@ -141,4 +141,7 @@ BackEnd/package-lock.json
 # Index file for local development
 BackEnd/index.js
 
+# vscode settings
+.vscode
+
 .DS_Store

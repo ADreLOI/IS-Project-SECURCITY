@@ -2,8 +2,9 @@
   "expo": {
     "name": "SecurCity",
     "slug": "SecurCity",
-    "scheme": "com.AndreaPezzo.securcity",
+    "scheme": "com.mattdema.securcity",
     "version": "1.0.0",
+    "owner": "adreloi",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "userInterfaceStyle": "automatic",
@@ -68,7 +69,7 @@
       "googleClientId": "615949668776-cqsq6am4797he6oqarsaqjn2076url55.apps.googleusercontent.com",
       "router": {},
       "eas": {
-        "projectId": "5c2baf7f-c692-4136-8a65-c3c9939a86d7"
+        "projectId": "0f8eff7a-84b0-4265-9967-653f44445113"
       }
     }
   }
