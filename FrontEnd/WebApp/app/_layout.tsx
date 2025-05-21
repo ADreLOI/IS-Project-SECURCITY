@@ -22,7 +22,10 @@ export default function RootLayout() {
       <Stack.Screen name="signup" options={{ headerShown: false }} />
 
       {/* Dashboard view for authenticated operators */}
-      <Stack.Screen name="operatore/dashboard" options={{ headerShown: false }}/>
+      <Stack.Screen name="operatore/dashboard" options={{ headerShown: false }} />
+      
+      {/* Token generation page for Operatori Comunali */}
+      <Stack.Screen name="operatore/token" options={{ headerShown: false }} />
       
       {/* Fallback page for undefined routes */}
       <Stack.Screen name="+not-found" />
