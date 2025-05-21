@@ -2,6 +2,8 @@ import { Tabs } from "expo-router";
 import React from "react";
 import { useFonts } from "expo-font";
 import { Text, Image, TouchableOpacity } from "react-native";
+import { Ionicons } from '@expo/vector-icons';
+import AntDesign from '@expo/vector-icons/AntDesign';
 
 export default function TabsLayout() {
   const [fontsLoaded] = useFonts({
@@ -31,12 +33,27 @@ export default function TabsLayout() {
         name="home"
         options={{
           title: "Home",
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="home-outline" size={size} color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="CreaSegnalazione"
+        options={{
+          title: "segnalazione",
+          tabBarIcon: ({ color, size }) => (
+            <AntDesign name="pluscircle" size={size} color={color} />
+          ),
         }}
       />
       <Tabs.Screen
         name="profile"
         options={{
           title: "Profilo",
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="person-circle-outline" size={size} color={color} />
+          ),
         }}
       />
     </Tabs>

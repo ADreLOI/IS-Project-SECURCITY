@@ -154,7 +154,7 @@ export default function Login()
 
       <TouchableOpacity
         className="bg-[#0AA696] rounded-3xl py-5"
-        onPress={() => router.push('/screens/home')}
+        onPress={handleLogin}
       >
         <Text className="text-center text-white font-GothamBold">Log in</Text>
       </TouchableOpacity>
