@@ -7,6 +7,9 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
 const { sendConfirmationEmail } = require("../utils/emailService");
+const Segnalazione = require("../models/segnalazioneModel");
+const { status } = require("../models/enumModel");
+const { IdentityPoolClient } = require("google-auth-library");
 
 // Operator signup handler
 const signupOperatore = async (req, res) => {
@@ -172,9 +175,122 @@ const logoutOperatore = async (req, res) => {
   }
 };
 
+// GET a single report by ID
+const getSegnalazione = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    // Ensure ID is provided
+    if (!id) {
+      return res.status(400).json({ message: "Missing segnalazione ID." });
+    }
+
+    // Find the report
+    const segnalazione = await Segnalazione.findById(id);
+
+    if (!segnalazione) {
+      return res.status(404).json({ message: "Segnalazione not found." });
+    }
+
+    // Return the report
+    return res.status(200).json(segnalazione);
+  } catch (error) {
+    console.error("Error fetching segnalazione:", error);
+    return res.status(500).json({ message: "Server error fetching segnalazione." });
+  }
+};
+
+// GET all user-reported reports (for Operatore Comunale)
+const getAllSegnalazioni = async (req, res) => {
+  try {
+    // Fetch all reports sorted by most recent first
+    const segnalazioni = await Segnalazione.find().sort({ data: -1 });
+
+    return res.status(200).json(segnalazioni);
+  } catch (error) {
+    console.error("Error fetching segnalazioni:", error);
+    return res.status(500).json({ message: "Unable to retrieve segnalazioni." });
+  }
+};
+
+// Update the status of a specific user report
+const aggiornaStatoSegnalazione = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { nuovoStato } = req.body;
+    // Validate the request body
+    if (!id || !nuovoStato) {
+      return res.status(400).json({ message: "Missing ID or new status." });
+    }
+
+    // Validate the new status
+    if (!Object.values(status).includes(nuovoStato)) {
+      return res.status(400).json({ message: "Invalid status value" });
+    }
+
+    // Find the report by ID and update its status
+    const updated = await Segnalazione.findByIdAndUpdate(
+      id,
+      { status: nuovoStato },
+      { new: true }
+    );
+
+    // Check if the report was found and updated
+    if (!updated) {
+      return res.status(404).json({ message: "Segnalazione not found." });
+    }
+
+    return res.status(200).json({
+      message: "Segnalazione updated successfully.",
+      segnalazione: updated,
+    });
+  } catch (error) {
+    console.error("Errore aggiornamento stato:", error);
+    return res
+      .status(500)
+      .json({ message: "Server error while updating segnalazione status." });
+  }
+};
+
+// DELETE controller for removing a specific report by ID
+const eliminaSegnalazione = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    // Check if ID is provided
+    if (!id) {
+      return res.status(400).json({ message: "Missing report ID." });
+    }
+
+    // Try to delete the report by its ID
+    const deleted = await Segnalazione.findByIdAndDelete(id);
+
+    // If not found, return error
+    if (!deleted) {
+      return res.status(404).json({ message: "Segnalazione not found." });
+    }
+
+    // Return success response
+    return res.status(200).json({
+      message: "Segnalazione successfully deleted.",
+      segnalazione: deleted,
+    });
+  } catch (error) {
+    console.error("Error deleting segnalazione:", error);
+    return res.status(500).json({
+      message: "Server error while deleting the segnalazione.",
+    });
+  }
+};
+
+
 module.exports = {
   loginOperatore,
   signupOperatore,
   confirmEmailOperatore,
   logoutOperatore,
+  getSegnalazione,
+  getAllSegnalazioni,
+  aggiornaStatoSegnalazione,
+  eliminaSegnalazione,
 };
