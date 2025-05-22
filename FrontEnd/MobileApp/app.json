@@ -65,8 +65,8 @@
     "experiments": {
       "typedRoutes": true
     },
-    "extra": {
-      "googleClientId": "615949668776-cqsq6am4797he6oqarsaqjn2076url55.apps.googleusercontent.com",
+    "extra": 
+    {
       "router": {},
       "eas": {
         "projectId": "0f8eff7a-84b0-4265-9967-653f44445113"
