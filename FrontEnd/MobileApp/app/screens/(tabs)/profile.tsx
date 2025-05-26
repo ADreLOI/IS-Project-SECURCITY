@@ -9,6 +9,8 @@ import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { jwtDecode } from 'jwt-decode';
 import { JWTPayload, ContattoEmergenza } from '../../types/index';
+import { useRouter } from 'expo-router';
+import { FontAwesome, MaterialIcons } from '@expo/vector-icons';
 
 const profile = () => {
 
@@ -19,10 +21,11 @@ const profile = () => {
 
   const [username, setUsername] = useState(cittadino?.username);
   const [email, setEmail] = useState(cittadino?.email);
- const [nominativo, setNominativo] = useState("");
+  const [nominativo, setNominativo] = useState("");
   const [numeroTelefonico, setNumero] = useState("");
   let [contattiEmergenza, setContattiEmergenza] = useState<ContattoEmergenza[]>([]);
   const { setCittadino } = useCittadino();
+  const router = useRouter();
 
   const addContattoEmergenza = async () =>
     {
@@ -201,6 +204,13 @@ const profile = () => {
   {
       //console.log(usernameToSend)
       //console.log(emailToSend)
+    
+    //Check if the username and email are the same as the current ones to avoid unnecessary API calls
+    if(usernameToSend==cittadino?.username && emailToSend==cittadino?.email)
+    {
+      Alert.alert("No changes made");
+      return;
+    }
   
     const token = await AsyncStorage.getItem('jwtToken');
     if(token)
@@ -235,6 +245,49 @@ const profile = () => {
     }
   }  
 
+  const logout = async () => {
+    try 
+    {
+      await AsyncStorage.removeItem('jwtToken');
+      // Optionally, navigate to the login screen or reset the app state
+      Alert.alert("Logged out successfully");
+      router.push('../login'); // Adjust this to your navigation method
+    } catch (error) 
+    {
+      console.error("Error during logout:", error);
+      Alert.alert("Error", "Failed to log out. Please try again.");
+    }
+  };
+
+const sendConfirmationToken = async () => 
+  {
+
+  const token = await AsyncStorage.getItem('jwtToken');
+  if (token) 
+  {
+    const decoded = jwtDecode<JWTPayload>(token);
+    try {
+      const response = await axios.post(
+        `http://localhost:3000/api/v1/cittadino/resendToken/${decoded.id}`,
+        {},
+        {
+          headers: 
+          {
+            Authorization: `Bearer ${token}`
+          }
+        }
+      );
+      Alert.alert("Token re-sent successfully", response.data.message);
+    } catch (error: any) {  
+      Alert.alert("Error", error.response.data.message);
+      console.error(error);
+    }
+  } else 
+  {
+    Alert.alert("Error", "No token found. Please log in again.");
+    router.push('../login'); // Adjust this to your navigation method
+  }
+};
   return (
   <SafeAreaView className="flex-1 bg-[#111126] px-6">
   <ScrollView>
@@ -296,7 +349,26 @@ const profile = () => {
       <Animated.View
       entering={SlideInLeft.duration(500)}
       className="top-4" >
-        <View className="pb-9">
+        <View className="pb-9 relative">
+            {/* Icon Positioned Absolutely */}
+            <TouchableOpacity
+             onPress={() => console.log("Edit Profile Pressed")}    className="absolute right-0 top-0 p-2 z-10">
+            <Ionicons
+              name="create-outline"
+              size={24}
+              color="#0AA696"
+            />
+          </TouchableOpacity>
+
+            {/* Icon Positioned Absolutely */}
+            <TouchableOpacity
+             onPress={() => console.log("Logout Profile Pressed")}    className="absolute right-10 top-0 p-2 z-5">
+            <Ionicons
+              name="log-out-outline"
+              size={24}
+              color="#0AA696"
+            />
+          </TouchableOpacity>
           <Text className="text-5xl font-GothamUltra flex-row">
             <Text className="text-white">SECUR</Text>
             <Text className="text-[#0AA696]">C</Text>
@@ -306,172 +378,53 @@ const profile = () => {
       </Animated.View>
 
       {/* Centered content */}
-      <View className="justify-left items-left">
+        {/* Username */}
+      <InfoRow
+        icon={<FontAwesome name="user" size={20} color="#0AA696" />}
+        label="Username"
+        value={cittadino?.username || "N/A"}
+      />
 
-      {/* Sezione Username*/}
-      
-        <Animated.View entering={FadeIn.duration(500)}>
-        <View className="flex-row items-center justify-between mb-3">
-          <Text className="text-2xl font-GothamBold text-white">
-          Username
-          </Text>
+  {/* Email */}
+      <InfoRow
+        icon={<MaterialIcons name="email" size={20} color="#0AA696" />}
+        label="Email"
+        value={cittadino?.email || "N/A"}
+      />
 
-          {/* Right side: Edit button */}
-          <TouchableOpacity
-            onPress={() => 
-            { //Set textinput on
-              if (cittadino?.username) 
-              {
-                setUsername(cittadino.username);
-                setTfUsername(true)
-              }
-
-            }}
-            className="ml-auto"
-            >
-            <Ionicons name="create-outline" size={24} color="#0AA696" />
-            </TouchableOpacity>
-
-          </View>
-        </Animated.View>
-
-        <TouchableOpacity className="border border-[#0AA696] border-[1.5px] rounded-3xl py-5 " disabled style={{ display: tfUsername ? 'none' : 'flex' }} >
-          <View className="flex-row items-center justify-between mb-3">
-          <Text className="text-1xl font-GothamBold text-white px-3">{cittadino?.username} </Text>
-            </View>
-        </TouchableOpacity>
-
-
-        <TextInput
-          className="border border-[#0AA696] border-[1.5px] rounded-3xl font-GothamBold px-4 py-4 mb-4 bg-gray-100 text-gray-800"
-          placeholder="Nominativo"
-          autoCapitalize="none"
-          selectionColor="#0AA696"
-          value={username}
-          onChangeText={setUsername} 
-          onSubmitEditing={() => 
-            {
-              setTfUsername(false)
-
-              let finalUsername = username;
-              let finalEmail = email
-  
-              //Send change to API
-              if(finalUsername && finalEmail)
-              editProfile(finalUsername, finalEmail);
-            }}
-          style={{ display: tfUsername ? 'flex' : 'none' }}
-          />
-
-        {/* Sezione Email*/}
-
-        <Animated.View entering={FadeIn.duration(500)}>
-        <View className="flex-row items-center justify-between mb-3">
-          <Text className="text-2xl font-GothamBold text-white">
-          Email
-          </Text>
-
-            {/* Right side: Edit button */}
-            <TouchableOpacity
-            onPress={() => 
-            { //Set textinput on
-              if (cittadino?.email) {
-                setEmail(cittadino.email);
-                setTfEmail(true)
-              }
-            }}
-            className="ml-auto"
-            >
-            <Ionicons name="create-outline" size={24} color="#0AA696" />
-            </TouchableOpacity>
-          </View>
-        </Animated.View>
-
-        <TouchableOpacity className="border border-[#0AA696] border-[1.5px] rounded-3xl py-5" disabled style={{ display: tfEmail ? 'none' : 'flex' }}>
-          <Text className="text-1xl font-GothamBold text-white px-3">{cittadino?.email}</Text>
-        </TouchableOpacity>
-
-        <TextInput
-          className="border border-[#0AA696] border-[1.5px] rounded-3xl font-GothamBold px-4 py-4 mb-4 bg-gray-100 text-gray-800"
-          placeholder="Nominativo"
-          autoCapitalize="none"
-          selectionColor="#0AA696"
-          value={email}
-          onChangeText={setEmail} 
-          onSubmitEditing={() => 
-            {
-              setTfEmail(false)
-
-              let finalUsername = username;
-              let finalEmail = email
-  
-              //Send change to API
-              if(finalUsername && finalEmail)
-              editProfile(finalUsername, finalEmail);
-            }}
-          style={{ display: tfEmail ? 'flex' : 'none' }}
-          />
-
-        <View className="flex-row">
-          <Animated.View entering={FadeIn.duration(500)}>
-            <Text className="text-2xl font-GothamBold text-white">
-            Contatti di emergenza
-            </Text>
-          </Animated.View>
-
-          <TouchableOpacity
-            onPress={() => setFormVisible(true)}
-            className="ml-auto">
-            <Ionicons name="add" size={24} color="#0AA696" />
-        </TouchableOpacity>
-        </View>
-
-        <TouchableOpacity className="border border-[#0AA696] border-[1.5px] rounded-3xl py-5 px-4" disabled>
-          {cittadino?.contattiEmergenza?.map((contatto, index) => (
-          <View
+        
+ {/* Contatti di Emergenza */}
+ {cittadino?.contattiEmergenza?.map((contatto, index) => (
+        <InfoRow
           key={index}
-          className="flex-row items-center justify-between mb-3">
-            {/* Left side: contact info */}
-            <View>
-            <Text className="text-white font-GothamBold">👤 {contatto.nominativo}</Text>
-            <Text className="text-white font-GothamBold">📞 {contatto.numeroTelefonico}</Text>
-            </View>
+          icon={<Ionicons name="call" size={20} color="#0AA696" />}
+          label={`Contatto ${index + 1}`}
+          value={`${contatto.nominativo} - ${contatto.numeroTelefonico}`}
+        />
+      ))}
 
-            {/* Right side: Edit button */}
-            <TouchableOpacity
-            onPress={() => 
-            { setFormVisible(true);
-              setNumero(contatto.numeroTelefonico);
-              setNominativo(contatto.nominativo);
-            }}
-            className="ml-auto"
-            >
-            <Ionicons name="create-outline" size={24} color="#0AA696" />
-            </TouchableOpacity>
 
-          
-          </View>
-          ))}
-        </TouchableOpacity>
-
-        <TouchableOpacity
-              className="border border-[#0AA696] border-[1.5px] rounded-3xl py-3 mt-10"
-              onPress={() => console.log("logut")}
-            >
-              <Text className="text-center text-white font-GothamBold">Log Out</Text>
-        </TouchableOpacity>
-
-          <TouchableOpacity
-            className="border border-[#0AA696] border-[1.5px] rounded-3xl py-3 mt-4"
-            onPress={() => console.log("Resend token")}
-          >
-            <Text className="text-center text-white font-GothamBold">Re-send Token</Text>
-          </TouchableOpacity>
-      </View>
     </View>
     </ScrollView>
   </SafeAreaView>
   )
+
+type InfoRowProps = {
+  icon: React.ReactNode;
+  label: string;
+  value: string;
+};
+  function InfoRow({ icon, label, value }: InfoRowProps) {
+  return (
+    <View className="flex-row items-start mb-6">
+      <View className="w-6 mt-1 mr-4 items-center">{icon}</View>
+      <View className="flex-1 border-b border-[#0AA696] pb-3">
+        <Text className="text-xs text-white mb-1">{label}</Text>
+        <Text className="text-base text-white">{value}</Text>
+      </View>
+    </View>
+  );
+}
 }
 
 export default profile

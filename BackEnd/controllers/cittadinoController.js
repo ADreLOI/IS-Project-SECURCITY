@@ -59,8 +59,14 @@ const confirmEmail = async (req, res) => {
     // Trova il record del token e popola l'oggetto userID dinamicamente
     const tokenRecord = await Token.findOne({ token }).populate("userID");
 
-    if (!tokenRecord) {
-      return res.status(400).json({ message: "Invalid or expired token" });
+    if (!tokenRecord) 
+    {
+      return res.status(400).json({ message: "Invalid token" });
+    }
+
+    if(tokenRecord.scadenza < Date.now()) 
+    {
+      return res.status(400).json({ message: "Token has expired" });
     }
 
     const user = tokenRecord.userID;
@@ -94,7 +100,8 @@ const creaSegnalazione = async (req, res) => {
 };
 
 const login = async (req, res) => {
-  try {
+  try 
+  {
     const { username, password } = req.body;
 
     const cittadino = await Cittadino.findOne({
@@ -154,9 +161,7 @@ const googleLogin = async (req, res) => {
     );
 
     // Set the token in the response
-    res
-      .status(200)
-      .json({ message: "Login successful", token, user: cittadino });
+    res.status(200).json({ message: "Login successful", token, user: cittadino });
   } catch (error) {
     console.error("Error during Google login:", error);
     res.status(500).json({ error: error.message });
@@ -229,7 +234,8 @@ const editContattoEmergenza = async (req, res) => {
 };
 
 const editProfile = (async = async (req, res) => {
-  try {
+  try 
+  {
     const { id } = req.params; // id of the cittadino
     const cittadino = await Cittadino.findByIdAndUpdate(id, req.body);
 
@@ -264,7 +270,7 @@ const editProfile = (async = async (req, res) => {
       } else {
         const updatedCittadino = await Cittadino.findById(id);
         res.status(200).json(updatedCittadino);
-        console.log("User update with a new email");
+        console.log("User update with new username");
       }
     }
   } catch (error) {
@@ -303,6 +309,47 @@ async function verifyGoogleToken(idToken) {
   return ticket.getPayload(); // contains email, name, sub, picture, etc.
 }
 
+const reSendConfirmationEmail = async (req, res) => 
+  {
+    try 
+    {
+      const { id } = req.params; // id of the cittadino
+      // Find the user by ID
+      const cittadino = await Cittadino.findById(id);
+      if (!cittadino) 
+      {
+        return res.status(404).json({ message: "User not found" });
+      }
+      // Generate a confirmation token
+      const confirmationToken = crypto.randomBytes(32).toString("hex");
+      // Save the token in the database (you might want to create a separate model for this)
+      const token = new Token({
+        userID: cittadino._id,
+        userModel: "Cittadino", // chiaro riferimento dinamico
+        token: confirmationToken,
+        scadenza: Date.now() + 3600000,
+      });
+
+      await token.save();
+      // Send confirmation email
+      await sendConfirmationEmail(
+        cittadino.email,
+        cittadino.username,
+        confirmationToken
+      );
+
+      res.status(200).json({
+        cittadino: cittadino,
+        message:
+          "Registration successful! Please check your email to confirm your account.",
+      });
+
+    } catch (error) { 
+      console.error("Error resending confirmation email:", error);
+      res.status(500).json({ error: error.message });
+    } 
+}
+
 // Export the functions to be used in the routes
 module.exports = {
   signUp,
@@ -315,4 +362,5 @@ module.exports = {
   editContattoEmergenza,
   deleteContattoEmergenza,
   editProfile,
+  reSendConfirmationEmail
 };

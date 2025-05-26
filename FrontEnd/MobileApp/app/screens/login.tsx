@@ -9,13 +9,16 @@ import { useRouter } from "expo-router";
 //Define the webClientId and iosClientId in a separate file named costants.ts in root folder
 import CustomButton from '../components/googleButton';
 import { webClientId, iosClientId } from '../costants';
+import { useCittadino } from "../context/cittadinoContext"; // Import the context
+
 const router = useRouter();
 
 export default function Login()
 {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  
+    const { setCittadino } = useCittadino();
+
 
   const handleLogin = async () =>
   {
@@ -31,7 +34,8 @@ export default function Login()
             password,
           });
     
-          if (response.status === 200) {
+          if (response.status === 200) 
+          {
             Alert.alert("Login successful!", response.data.message); //Works parsing automatically the JSON elements
             // Store the token securely
             const jwtToken = response.data.token;
@@ -41,8 +45,14 @@ export default function Login()
               setUsername("");
               setPassword("");
             // Navigate or store token here
+            //Get cittadino ID and informations
+            setCittadino(response.data.user)
+            console.log("Cittadino:", response.data.user);
+            console.log(response.data)
             router.push("/screens/home");
-          } else {
+          } 
+          else 
+          {
             Alert.alert("Login failed", response.data.error);
              // Clear the input fields
              setUsername("");
@@ -78,15 +88,20 @@ export default function Login()
         const responseAPI = await axios.post("http://localhost:3000/api/v1/cittadino/google-login", {
           idToken,
         });
-        if (responseAPI.status === 200) {
+        if (responseAPI.status === 200) 
+        {
           // Navigate or store token here
           console.log("JWT token", responseAPI.data.token);
           //Store thre token in the local storage
           await AsyncStorage.setItem('jwtToken', responseAPI.data.token);
 
           Alert.alert("Login successful!", responseAPI.data.message);
+          setCittadino(responseAPI.data.user)
+          console.log("Cittadino:", responseAPI.data.user);
+          console.log(responseAPI.data)
           router.push("/screens/home");
-        } else 
+        } 
+        else 
         {
           Alert.alert("Login failed", responseAPI.data.error);
         }
