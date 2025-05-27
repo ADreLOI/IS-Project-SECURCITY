@@ -3,6 +3,7 @@ import { View, Text, TextInput, TouchableOpacity } from "react-native";
 import { useRouter } from "expo-router";
 import axios from "axios";
 import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
+import API_BASE_URL from "@config";
 
 export default function SignupOperatore() {
   // State variables for the input fields
@@ -29,7 +30,7 @@ export default function SignupOperatore() {
     try {
       // Send signup request to the backend
       const response = await axios.post(
-        "http://localhost:3000/api/v1/operatoreComunale/signup-operatore",
+        `${API_BASE_URL}/api/v1/operatoreComunale/signup-operatore`,
         {
           username,
           email,

@@ -22,6 +22,8 @@ interface JWTPayload {
   [key: string]: any;
 }
 
+import API_BASE_URL from "../config"; // o '../config' se sei in una subfolder
+
 export default function LoginPage() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -84,7 +86,7 @@ export default function LoginPage() {
 
     try {
       const response = await fetch(
-        "http://localhost:3000/api/v1/operatoreComunale/login-operatore",
+        `${API_BASE_URL}/api/v1/operatoreComunale/login-operatore`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

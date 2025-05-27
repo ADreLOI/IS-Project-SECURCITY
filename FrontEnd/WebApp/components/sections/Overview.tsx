@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { View, Text, TouchableOpacity, ScrollView } from "react-native";
 import { useRouter } from "expo-router";
 import axios from "axios";
+import API_BASE_URL from "@config";
 
 interface Segnalazione {
   _id: string;
@@ -16,13 +17,13 @@ export default function Overview() {
   const [recentSegnalazioni, setRecentSegnalazioni] = useState<Segnalazione[]>(
     []
   );
-  
+
   useEffect(() => {
     const fetchSegnalazioni = async () => {
       try {
         const token = localStorage.getItem("token");
         const res = await axios.get(
-          "http://localhost:3000/api/v1/operatoreComunale/segnalazioni",
+          `${API_BASE_URL}/api/v1/operatoreComunale/segnalazioni`,
           {
             headers: { Authorization: `Bearer ${token}` },
           }
@@ -107,9 +108,7 @@ export default function Overview() {
                 <View
                   className={`px-3 py-1 rounded-full border ${borderColor} ${bgColor}`}
                 >
-                  <Text
-                    className={`text-xs font-GothamBold ${textColor}`}
-                  >
+                  <Text className={`text-xs font-GothamBold ${textColor}`}>
                     {" "}
                     {s.status}
                   </Text>

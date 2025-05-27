@@ -55,6 +55,7 @@
     "@tailwindcss/postcss": "^4.1.7",
     "@types/react": "~19.0.10",
     "autoprefixer": "^10.4.21",
+    "babel-plugin-module-resolver": "^5.0.2",
     "eslint": "^9.25.0",
     "eslint-config-expo": "~9.2.0",
     "postcss": "^8.5.3",

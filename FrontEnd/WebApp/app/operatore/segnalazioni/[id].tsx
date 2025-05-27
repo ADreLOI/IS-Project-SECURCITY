@@ -3,6 +3,7 @@ import { useLocalSearchParams, useRouter } from "expo-router";
 import { View, Text, TouchableOpacity, Modal, ScrollView } from "react-native";
 import axios from "axios";
 import Animated, { FadeIn, SlideInLeft } from "react-native-reanimated";
+import API_BASE_URL from "@config";
 
 // Component for displaying the details of a single report
 export default function DettaglioSegnalazione() {
@@ -25,7 +26,7 @@ export default function DettaglioSegnalazione() {
   const fetchSegnalazione = async (id: string | string[]) => {
     try {
       const response = await axios.get(
-        `http://localhost:3000/api/v1/operatoreComunale/segnalazione/${id}`
+        `${API_BASE_URL}/api/v1/operatoreComunale/segnalazione/${id}`
       );
       setSegnalazione(response.data);
     } catch (error) {
@@ -39,7 +40,7 @@ export default function DettaglioSegnalazione() {
   const aggiornaStatus = async (nuovoStato: string) => {
     try {
       await axios.put(
-        `http://localhost:3000/api/v1/operatoreComunale/segnalazione/stato/${id}`,
+        `${API_BASE_URL}/api/v1/operatoreComunale/segnalazione/stato/${id}`,
         { nuovoStato }
       );
       fetchSegnalazione(id); // Refresh data after update
@@ -52,7 +53,7 @@ export default function DettaglioSegnalazione() {
   const eliminaSegnalazione = async () => {
     try {
       await axios.delete(
-        `http://localhost:3000/api/v1/operatoreComunale/segnalazione/delete/${id}`
+        `${API_BASE_URL}/api/v1/operatoreComunale/segnalazione/delete/${id}`
       );
       setShowModal(false);
       setTimeout(() => {
