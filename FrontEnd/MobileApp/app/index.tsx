@@ -221,7 +221,10 @@ export default function SignUp() {
       title="Go to About"
       onPress={() => router.push('/screens/login')}
     />
-    
+      <Button
+      title="Home"
+      onPress={() => router.push('/screens/home')}
+    />
       </View>
     </View>
   );

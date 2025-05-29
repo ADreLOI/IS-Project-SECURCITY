@@ -4,7 +4,7 @@
     "slug": "SecurCity",
     "scheme": "com.mattdema.securcity",
     "version": "1.0.0",
-    "owner": "adreloi",
+    "owner": "andreapezzo",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "userInterfaceStyle": "automatic",
@@ -30,7 +30,11 @@
         "googleMaps": {
           "apiKey": "AIzaSyA_HYPztvPp_5YmMFUzc1DiV7RsmE0qYB0"
         }
-      }
+      },
+      "permissions": [
+        "android.permission.ACCESS_COARSE_LOCATION",
+        "android.permission.ACCESS_FINE_LOCATION"
+      ]
     },
     "web": {
       "bundler": "metro",
@@ -58,7 +62,7 @@
         "expo-maps",
         {
           "requestLocationPermission": "true",
-          "locationPermission": "Allow $(SecurCity) to use your location" 
+          "locationPermission": "Allow $(SecurCity) to use your location"
         }
       ]
     ],
@@ -69,7 +73,7 @@
       "googleClientId": "615949668776-cqsq6am4797he6oqarsaqjn2076url55.apps.googleusercontent.com",
       "router": {},
       "eas": {
-        "projectId": "0f8eff7a-84b0-4265-9967-653f44445113"
+        "projectId": "5c2baf7f-c692-4136-8a65-c3c9939a86d7"
       }
     }
   }

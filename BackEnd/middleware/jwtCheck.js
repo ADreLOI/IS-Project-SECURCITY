@@ -1,9 +1,9 @@
-import jwt from "jsonwebtoken";
-import OperatoreComunale from "../models/operatoreComunaleModel.js";
-import Cittadino from "../models/cittadinoModel.js";
+const jwt = require('jsonwebtoken');
+const OperatoreComunale = require('../models/operatoreComunaleModel.js');
+const Cittadino = require("../models/cittadinoModel.js");
 
 // Middleware to verify JWT and protect routes
-export const authenticateJWT = async (req, res, next) => {
+const authenticateJWT = async (req, res, next) => {
   // Debug: Log the authorization header
   console.log("Authorization header:", req.headers.authorization);
 
@@ -40,3 +40,5 @@ export const authenticateJWT = async (req, res, next) => {
     return res.status(403).json({ message: "Token is invalid or expired" });
   }
 };
+
+module.exports = authenticateJWT
