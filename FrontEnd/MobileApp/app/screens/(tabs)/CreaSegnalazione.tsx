@@ -3,6 +3,7 @@ import { View, Text, TextInput, TouchableOpacity, Alert, ScrollView, Pressable, 
 import { useRouter } from "expo-router";
 import axios from "axios";
 import DateTimePicker from  "@react-native-community/datetimepicker";
+import LocationSearch from "@/app/components/LocationSearch";
 
 export default function CreaSegnalazione() {
   const router = useRouter();
@@ -15,6 +16,8 @@ export default function CreaSegnalazione() {
   const [dateEvent, setDateEvent] = useState("");
   const [date, setDate] = useState(new Date());
   const [showPicker, setShowPicker] = useState(false);
+
+  const [nomeLuogo, setNomeLuogo] = useState<string>("");
 
   const toggleDatepicker = () => {
     setShowPicker(!showPicker);
@@ -61,7 +64,7 @@ export default function CreaSegnalazione() {
         descrizione,
         data: date,
         tappa: {
-          nome: "Luogo segnalato",
+          nome: nomeLuogo || "Luogo segnalato",
           coordinate: [parseFloat(lng), parseFloat(lat)],
         },
       });
@@ -173,23 +176,15 @@ export default function CreaSegnalazione() {
         onChangeText={setDescrizione}
       />
 
-      <Text className="text-white font-GothamBold mb-1">Latitudine</Text>
-      <TextInput
-        className="border border-[#0AA696] rounded-3xl px-4 py-3 mb-4 bg-gray-100 text-gray-800"
-        placeholder="Es. 45.4642"
-        keyboardType="numeric"
-        value={lat}
-        onChangeText={setLat}
+      <Text className="text-white font-GothamBold mb-1">Indirizzo del luogo</Text>
+      <LocationSearch
+        onSelectLocation={({ nome, lat, lng }) => {
+          setNomeLuogo(nome);
+          setLat(lat);
+          setLng(lng);
+        }}
       />
 
-      <Text className="text-white font-GothamBold mb-1">Longitudine</Text>
-      <TextInput
-        className="border border-[#0AA696] rounded-3xl px-4 py-3 mb-6 bg-gray-100 text-gray-800"
-        placeholder="Es. 9.19"
-        keyboardType="numeric"
-        value={lng}
-        onChangeText={setLng}
-      />
 
       <TouchableOpacity
         className="bg-[#0AA696] rounded-3xl py-4"
