@@ -350,6 +350,32 @@ const reSendConfirmationEmail = async (req, res) =>
     } 
 }
 
+const getAllSegnalazioni = async (req, res) =>
+{
+  //get all segnalazionis of a cittadino
+  try
+  {
+    const { id } = req.params;
+    
+    const segnalazioni = await Segnalazione.find({ userID: id})
+
+    if (segnalazioni.length == 0)
+    {
+      res.status(404).json({message: "Questo utente non ha effettuato segnalazioni!"})
+    }
+    else
+    {
+      console.log("Segnalazioni trovate")
+      res.status(200).json({segnalazioniUtente: segnalazioni})
+    }
+  }
+  catch(error)
+  {
+    console.error("Error in segnalazioni:", error);
+    res.status(500).json({ error: error.message });
+  }
+}
+
 // Export the functions to be used in the routes
 module.exports = {
   signUp,
@@ -362,5 +388,6 @@ module.exports = {
   editContattoEmergenza,
   deleteContattoEmergenza,
   editProfile,
-  reSendConfirmationEmail
+  reSendConfirmationEmail,
+  getAllSegnalazioni
 };

@@ -40,9 +40,9 @@ export default function TabsLayout() {
         }}
       />
       <Tabs.Screen
-        name="CreaSegnalazione"
+        name="segnalazioni"
         options={{
-          title: "Segnalazione",
+          title: "Segnalazioni",
           headerShown: false,
           tabBarIcon: ({ color, size }) => (
             <AntDesign name="pluscircle" size={size} color={color} />
