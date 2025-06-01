@@ -59,8 +59,8 @@ export default function Login()
              setPassword("");
           }
         }
-        catch (error) { 
-          Alert.alert("Error", "Something went wrong. Please try again.");
+        catch (error: any) { 
+          Alert.alert("Error", error.response.data.message);
           console.error(error);
         }
   }
@@ -134,6 +134,36 @@ export default function Login()
     }
   };
   
+    const recoverPassword = async () =>
+    {
+      if(username == "")
+      {
+        Alert.alert("Error","Fil the 'Username' field with your username or your email!")
+        return
+      }
+        try
+        {
+          console.log(username)
+          const response = await axios.post( `http://localhost:3000/api/v1/cittadino/recuperaPassword`,
+            {
+              username
+            })
+
+            if(response.status == 200)
+            {
+              Alert.alert("Email sent", response.data.message)
+            }
+            else
+            {
+              Alert.alert("Some error occurred")
+            }
+        }
+        catch(error: any)
+        {
+            Alert.alert("Error", error.response.data.message)
+          console.error(error);
+        }
+    } 
   
   return (
     <View className="flex-1 justify-center items-center bg-[#011126] px-6">
@@ -181,6 +211,12 @@ export default function Login()
         imageSource={require('../../assets/images/google-icon.png')}
         onPress={handleGoogleLogin}
       />
+
+  <TouchableOpacity
+        onPress={recoverPassword}
+      >
+        <Text className="text-center text-white font-GothamBold mt-4">Hai dimenticato la password? Clicca qui</Text>
+      </TouchableOpacity>
       </View>
       </View>
   )

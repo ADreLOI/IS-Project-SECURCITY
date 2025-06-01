@@ -3,6 +3,7 @@ const Cittadino = require("../models/cittadinoModel");
 const {
   sendConfirmationEmail,
   sendEmailChange,
+  sendEmailPassword,
 } = require("../utils/emailService");
 const Token = require("../models/tokenModel");
 const Segnalazione = require("../models/segnalazioneModel");
@@ -11,6 +12,7 @@ const { OAuth2Client } = require("google-auth-library");
 const authenticateJWT = require("../middleware/jwtCheck");
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 const jwt = require("jsonwebtoken");
+const bcrypt = require('bcryptjs');
 
 const signUp = async (req, res) => {
   try {
@@ -110,7 +112,10 @@ const login = async (req, res) => {
     });
     console.log(cittadino);
 
-    if (cittadino.comparePassword(password)) {
+    const isMatch = await cittadino.comparePassword(password);
+
+    if (isMatch) 
+    {
       console.log("Password is correct");
       // Create JWT
       const token = jwt.sign(
@@ -119,13 +124,17 @@ const login = async (req, res) => {
         { expiresIn: "7d" }
       );
       // Set the token in the response
-      return res
-        .status(200)
-        .json({ message: "Login successful", token, user: Cittadino });
-    } else {
+      return res.status(200).json({ message: "Login successful", token, user: cittadino });
+
+    }
+     else 
+    {
+        console.log("Password is not correct");
       return res.status(401).json({ message: "Invalid credentials" });
     }
-  } catch (error) {
+  } catch (error) 
+  {
+    console.log("Some error");
     res.status(500).json({ error: error.message });
   }
 };
@@ -172,7 +181,6 @@ const googleLogin = async (req, res) => {
 const getCittadinoByID = async (req, res) => {
   try {
     //Check beare token for authorization!!
-    console.log("PERCHéQUA")
     // Get the user ID from the request parameters
     const { id } = req.params;
     const cittadino = await Cittadino.findById(id);
@@ -377,8 +385,79 @@ const getAllSegnalazioni = async (req, res) =>
   }
 }
 
+const recuperaPassword = async (req, res) =>
+{
+  //Define the process to start the recover of password, for google authentication is not required!
+  try
+  {
+    //Username or email
+      const { username } = req.body;
+      console.log("Username", username)
+    const cittadino = await Cittadino.findOne({
+      $or: [{ username: username }, { email: username }],
+    });
+
+      if(!cittadino)
+      {
+        res.status(404).json({message: "User not found"})
+      }
+      else
+      {
+        if(cittadino.isGoogleAutenticato)
+        {
+          res.status(401).json({message: "Google authenticated users must manage their passwords in their Google accounts!"})
+        }
+        //Can send mail
+        await sendEmailPassword(cittadino.email, cittadino.username, cittadino._id)
+        res.status(200).json({message: "Email sent successfully! Please check your email to change or recover you password."})
+      }
+  }
+  catch (error)
+  {
+    console.error("Error:", error);
+    res.status(500).json({message: error.message})
+  }
+}
+const setPassword = async (req, res) =>
+{
+  try
+  {
+    const { id } = req.params
+    const {password} = req.body
+
+    //Hash before updating
+    const salt = await bcrypt.genSalt(10); // Adjust cost factor as needed
+    const newPassword = await bcrypt.hash(password, salt);
+
+
+    const cittadino = await Cittadino.findByIdAndUpdate(
+      id,                          // The ID of the document to update
+      { password: newPassword }, // Fields to update
+      { new: true }                // Return the updated document
+    );
+
+    if(!cittadino)
+    {
+      //console.log("Not found")
+      res.status(404).json({message: "User don't found"})
+    }
+    else
+    {
+      //Return to the app!
+      //console.log("All good", cittadino.password)
+      res.status(200).json({message: "You can now go back to the mobile app!"})
+    }
+  }
+  catch(error)
+  {
+    console.error(error)
+    res.status(500).json({message: error.message})
+  }
+}
+
 // Export the functions to be used in the routes
-module.exports = {
+module.exports = 
+{
   signUp,
   confirmEmail,
   login,
@@ -390,5 +469,7 @@ module.exports = {
   deleteContattoEmergenza,
   editProfile,
   reSendConfirmationEmail,
-  getAllSegnalazioni
+  getAllSegnalazioni,
+  recuperaPassword,
+  setPassword
 };
