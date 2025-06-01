@@ -8,7 +8,7 @@ router.post('/signup', signUp);
 router.get('/confirm/:token', confirmEmail);
 router.post('/login', login);
 router.post('/google-login', googleLogin);
-router.post("/segnalazione", creaSegnalazione);
+router.post("/segnalazione", authenticateJWT, creaSegnalazione);
 router.get('/:id', authenticateJWT, getCittadinoByID);
 router.put('/addContattiEmergenza/:id', authenticateJWT, addContattoEmergenza);
 router.put('/editContattiEmergenza/:id', authenticateJWT, editContattoEmergenza);

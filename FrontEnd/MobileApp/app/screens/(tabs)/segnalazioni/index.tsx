@@ -4,7 +4,7 @@ import { useRouter } from 'expo-router';
 import { FontAwesome, MaterialIcons } from '@expo/vector-icons';
 import Animated, { FadeIn, SlideInLeft } from 'react-native-reanimated';
 import React, { useState } from 'react';
-import { JWTPayload, ContattoEmergenza } from '../../../types/index';
+import { JWTPayload, ContattoEmergenza, Segnalazione } from '../../../types/index';
 import { useCittadino } from '../../../context/cittadinoContext';
 import CreaSegnalazione from './CreaSegnalazione';
 import axios from 'axios';
@@ -53,7 +53,11 @@ const HomeSegnalazioni = () =>
           );
 
         //console.log("Cittadino:", response.data);
-        setCittadino(response.data); 
+            if (cittadino)
+            {
+                cittadino.storico = response.data.segnalazioniUtente
+                setCittadino(cittadino)
+            }
         }
         catch(error: any)
         {
@@ -150,12 +154,33 @@ const HomeSegnalazioni = () =>
                             <ActivityIndicator size="large" color="#0AA696" />
                         ) : (
                         <View>
-                            {cittadino?.contattiEmergenza?.map((contatto, index) => (
+                          {cittadino?.storico && cittadino.storico.length > 0 ? (
+                            cittadino.storico.map((segnalazione, index) => (
                             <SegnalazioneRow
-                            label="10/07/2025"
-                            value="Molestia sessuale"
-                            statusIcon={<MaterialIcons name="check" size={20} color="#0AA696" />} />
-                            ))}
+                                key={index}
+                                label= {segnalazione?.data
+                                        ? new Date(segnalazione.data).toLocaleDateString()
+                                        : 'Data non disponibile'}
+                                value={`${segnalazione.tipoDiReato} (${segnalazione.tappa.nome})`}
+                                statusIcon={
+                                <MaterialIcons
+                                    name={
+                                    segnalazione.status === "Rigettata"
+                                        ? "cancel"
+                                        : segnalazione.status === "Confermata"
+                                        ? "check-circle"
+                                        : "hourglass-empty"
+                                    }
+                                    size={20}
+                                    color="#0AA696"
+                                />
+                                }
+                                segnalazione={segnalazione}
+                            />
+                            ))
+                        ) : (
+                            <Text className="text-center text-gray-400 mt-4">Nessuna segnalazione disponibile</Text>
+                        )}
                           </View>
                         )}
                     </View>       
@@ -172,13 +197,21 @@ const HomeSegnalazioni = () =>
     label: string;
     value: string;
     statusIcon: React.ReactNode;
+    segnalazione: Segnalazione
   };
-    function SegnalazioneRow({label, value, statusIcon}: SegnalazioneRowProps) {
+    function SegnalazioneRow({label, value, statusIcon, segnalazione}: SegnalazioneRowProps) {
     return (
-        <TouchableOpacity className="flex-row items-start mb-6">
+        <TouchableOpacity className="flex-row items-start mb-6" 
+        onPress={() =>
+            {
+                console.log(JSON.stringify(segnalazione))
+                AsyncStorage.setItem("segnalazione", JSON.stringify(segnalazione));
+                router.push({pathname: '/screens/(tabs)/segnalazioni/details',})    
+            }
+                 }
+                >
         <View className="w-6 mt-1 mr-4 items-center"> <Ionicons
                       name="megaphone-outline"
-                      onPress={() => console.log("Ciao")}
                       size={20}
                       color="#0AA696"
                     /></View>

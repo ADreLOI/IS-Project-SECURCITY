@@ -27,7 +27,7 @@ export default function CreaSegnalazione() {
     }
 
     try {
-      const response = await axios.post("http://localhost:3000/api/v1/segnalazioni", {
+      const response = await axios.post("http://localhost:3000/api/v1/cittadino/segnalazione", {
          // Manca parametro id utente
         tipoDiReato: selectedReato,
         descrizione,

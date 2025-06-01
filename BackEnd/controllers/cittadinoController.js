@@ -89,10 +89,11 @@ const confirmEmail = async (req, res) => {
   }
 };
 
-const creaSegnalazione = async (req, res) => {
-  try {
-    const nuovaSegnalazione = new Segnalazione(req.body);
-    await nuovaSegnalazione.save();
+const creaSegnalazione = async (req, res) => 
+  {
+  try 
+  {
+    const nuovaSegnalazione = await Segnalazione.create(req.body)
     res.status(201).json(nuovaSegnalazione);
   } catch (err) {
     res.status(400).json({ error: err.message });
@@ -171,7 +172,7 @@ const googleLogin = async (req, res) => {
 const getCittadinoByID = async (req, res) => {
   try {
     //Check beare token for authorization!!
-
+    console.log("PERCHéQUA")
     // Get the user ID from the request parameters
     const { id } = req.params;
     const cittadino = await Cittadino.findById(id);
