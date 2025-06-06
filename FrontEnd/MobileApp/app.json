@@ -1,6 +1,3 @@
-import 'dotenv/config';
-
-export default 
 {
   "expo": {
     "name": "SecurCity",
@@ -16,7 +13,7 @@ export default
       "supportsTablet": true,
       "bundleIdentifier": "com.mattdema.securcity",
       "config": {
-        "googleMapsApiKey": process.env.GOOGLE_MAPS_API_KEY || ""
+        "googleMapsApiKey": "AIzaSyA_HYPztvPp_5YmMFUzc1DiV7RsmE0qYB0"
       },
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false
@@ -28,10 +25,10 @@ export default
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true,
-      "package": "com.AndreaPezzo.securcity",
+      "package": "com.mattdema.securcity",
       "config": {
         "googleMaps": {
-          "apiKey": process.env.GOOGLE_MAPS_API_KEY || ""
+          "apiKey":  "AIzaSyA_HYPztvPp_5YmMFUzc1DiV7RsmE0qYB0"
         }
       },
       "permissions": [
@@ -58,7 +55,7 @@ export default
       [
         "@react-native-google-signin/google-signin",
         {
-          "iosUrlScheme": process.env.IOS_URL_SCHEME || "",
+          "iosUrlScheme":  "com.googleusercontent.apps.615949668776-cl5b7ni96kftafc8j6qc8m7ernf3nusu"
         }
       ],
       [
@@ -77,9 +74,9 @@ export default
       "eas": {
         "projectId":"0f8eff7a-84b0-4265-9967-653f44445113"
       },
-      "apiUrl": process.env.API_BASE_URL || "http://localhost:3000",
-      "iosClientId": process.env.IOS_CLIENT_ID || "",
-      "webClientId": process.env.WEB_CLIENT_ID || ""
+      "apiUrl": "http://10.0.2.2:3000",
+      "iosClientId": "615949668776-cl5b7ni96kftafc8j6qc8m7ernf3nusu.apps.googleusercontent.com",
+      "webClientId": "615949668776-cqsq6am4797he6oqarsaqjn2076url55.apps.googleusercontent.com"
     }
   }
 }

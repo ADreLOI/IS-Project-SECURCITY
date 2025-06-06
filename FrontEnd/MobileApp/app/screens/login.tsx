@@ -24,6 +24,7 @@ export default function Login()
 
   const handleLogin = async () =>
   {
+    console.log(apiUrl)
       if(!username || !password)
       {
         Alert.alert("All fields are required!");
@@ -31,7 +32,7 @@ export default function Login()
       }
       // You can replace this with your API call
       try {
-          const response = await axios.post(`${apiUrl}/api/v1/cittadino/login`, {
+          const response = await axios.post(`http://10.0.2.2:3000/api/v1/cittadino/login`, {
             username,
             password,
           });
@@ -87,7 +88,7 @@ export default function Login()
         const idToken = response.data.idToken;
         console.log("ID Token: ", idToken);
         
-        const responseAPI = await axios.post(`${apiUrl}/api/v1/cittadino/google-login`, {
+        const responseAPI = await axios.post(`http://10.0.2.2:3000/api/v1/cittadino/google-login`, {
           idToken,
         });
         if (responseAPI.status === 200) 
