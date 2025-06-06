@@ -4,7 +4,7 @@ const { signupOperatore, loginOperatore, confirmEmailOperatore, logoutOperatore,
 
 router.post('/signup-operatore', signupOperatore);
 router.get("/confirm-operatore/:token", confirmEmailOperatore);
-router.post("/login-operatore", loginOperatore);
+router.post("/login-operatore", loginOperatore); 
 router.post("/logout-operatore", logoutOperatore);
 router.get("/segnalazione/:id", getSegnalazione);
 router.get("/segnalazioni", getAllSegnalazioni);
