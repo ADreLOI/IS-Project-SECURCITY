@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useRouter } from "expo-router";
 import { View, Text, TouchableOpacity } from "react-native";
 import axios from "axios";
+import API_BASE_URL from "@config";
 import {
   LayoutDashboard,
   ShieldAlert,
@@ -68,7 +69,7 @@ export default function Sidebar({
       // Backend call to logout endpoint with token in Authorization header
       const response = await axios({
         method: "post",
-        url: "http://localhost:3000/api/v1/operatoreComunale/logout-operatore",
+        url: `${API_BASE_URL}/api/v1/operatoreComunale/logout`,
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
