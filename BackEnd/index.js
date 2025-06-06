@@ -15,11 +15,23 @@ const PORT = process.env.PORT || 3000;
 app.use(express.json());
 app.use(
   cors({
-    origin: PORT,
+    origin: (origin, callback) => {
+      const allowedOrigins = [
+        "http://localhost:8081",
+        "https://is-project-securcity.onrender.com",
+      ];
+
+      // Se non c'è origin (es. in Postman o curl), o se è tra gli allowed:
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true); // Consentito
+      } else {
+        callback(new Error("Not allowed by CORS")); // Bloccato
+      }
+    },
     credentials: true,
-    allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
+
 
 // Import routes
 app.use("/api/v1/cittadino", cittadinoRoutes);

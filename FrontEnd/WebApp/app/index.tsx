@@ -15,14 +15,13 @@ import Animated, {
   withTiming,
   Easing,
 } from "react-native-reanimated";
+import API_BASE_URL from "@config";
 
 // Type for JWT payload
 interface JWTPayload {
   exp: number;
   [key: string]: any;
 }
-
-import API_BASE_URL from "../config"; // o '../config' se sei in una subfolder
 
 export default function LoginPage() {
   const [username, setUsername] = useState("");
