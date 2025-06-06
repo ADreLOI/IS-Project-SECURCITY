@@ -1,7 +1,9 @@
 import { useState } from "react";
-import { View, Text, TextInput, TouchableOpacity, Alert, ScrollView } from "react-native";
+import { View, Text, TextInput, TouchableOpacity, Alert, ScrollView, Pressable, Platform } from "react-native";
 import { useRouter } from "expo-router";
 import axios from "axios";
+import DateTimePicker from  "@react-native-community/datetimepicker";
+import LocationSearch from "@/app/components/LocationSearch";
 
 export default function CreaSegnalazione() {
   const router = useRouter();
@@ -10,6 +12,35 @@ export default function CreaSegnalazione() {
   const [descrizione, setDescrizione] = useState<string>("");
   const [lat, setLat] = useState<string>("");
   const [lng, setLng] = useState<string>("");
+  
+  const [dateEvent, setDateEvent] = useState("");
+  const [date, setDate] = useState(new Date());
+  const [showPicker, setShowPicker] = useState(false);
+
+  const [nomeLuogo, setNomeLuogo] = useState<string>("");
+
+  const toggleDatepicker = () => {
+    setShowPicker(!showPicker);
+  };
+
+  const onChange = (event: any, selectedDate?: Date) => {
+    if (event.type == "set" && selectedDate) {
+      const currentDate = selectedDate;
+
+      if(Platform.OS === "android") {
+        toggleDatepicker();
+        setDateEvent(currentDate.toDateString());
+      }
+      
+    } else {
+      toggleDatepicker();
+    }
+  };
+
+  const confirmIOSDate = () => {
+    setDateEvent(date.toDateString());
+    toggleDatepicker();
+  };
 
   const reatiDisponibili = [
     "Molestia",
@@ -27,12 +58,13 @@ export default function CreaSegnalazione() {
     }
 
     try {
-      const response = await axios.post("http://localhost:3000/api/v1/segnalazioni", {
+      const response = await axios.post("http://localhost:3000/api/v1/cittadino/segnalazione", {
          // Manca parametro id utente
         tipoDiReato: selectedReato,
         descrizione,
+        data: date,
         tappa: {
-          nome: "Luogo segnalato",
+          nome: nomeLuogo || "Luogo segnalato",
           coordinate: [parseFloat(lng), parseFloat(lat)],
         },
       });
@@ -55,7 +87,7 @@ export default function CreaSegnalazione() {
   return (
     <ScrollView className="flex-1 bg-[#011126] px-6 pt-12">
       <View className="mb-6">
-        <Text className="text-4xl font-GothamUltra text-white text-center">
+        <Text className="text-2xl font-GothamUltra text-white text-center">
           Nuova <Text className="text-[#0AA696]">Segnalazione</Text>
         </Text>
       </View>
@@ -80,6 +112,58 @@ export default function CreaSegnalazione() {
         ))}
       </View>
 
+      <View>
+        <Text>Data</Text>
+        {showPicker && (
+          <DateTimePicker 
+          mode="date"
+          display="spinner"
+          value={date}
+          onChange={onChange}
+          minimumDate={new Date()}
+        />
+        )}
+
+        {showPicker && Platform.OS === "ios" && (
+          <View
+          style={{ flexDirection: "row", justifyContent: "space-around"}}
+          >
+
+          <TouchableOpacity
+            style={{paddingHorizontal: 20}}
+            onPress={toggleDatepicker}
+          >
+            <Text>Cancel</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={{paddingHorizontal: 20}}
+            onPress={confirmIOSDate}
+          >
+            <Text>Confirm</Text>
+          </TouchableOpacity>
+
+          </View>
+        ) }
+        
+
+        {!showPicker && (
+          <Pressable onPress={toggleDatepicker}>
+            <TextInput
+              placeholder="Seleziona data"
+              value={dateEvent}
+              editable={false}
+              pointerEvents="none"
+              className="border border-[#0AA696] rounded-3xl px-4 py-3 mb-4 bg-gray-100 text-gray-800"
+              onPressIn={toggleDatepicker}
+            />
+          </Pressable>
+
+        )}
+        
+      </View>
+      
+
 
       <Text className="text-white font-GothamBold mb-1">Descrizione</Text>
       <TextInput
@@ -91,23 +175,15 @@ export default function CreaSegnalazione() {
         onChangeText={setDescrizione}
       />
 
-      <Text className="text-white font-GothamBold mb-1">Latitudine</Text>
-      <TextInput
-        className="border border-[#0AA696] rounded-3xl px-4 py-3 mb-4 bg-gray-100 text-gray-800"
-        placeholder="Es. 45.4642"
-        keyboardType="numeric"
-        value={lat}
-        onChangeText={setLat}
+      <Text className="text-white font-GothamBold mb-1">Indirizzo del luogo</Text>
+      <LocationSearch
+        onSelectLocation={({ nome, lat, lng }) => {
+          setNomeLuogo(nome);
+          setLat(lat);
+          setLng(lng);
+        }}
       />
 
-      <Text className="text-white font-GothamBold mb-1">Longitudine</Text>
-      <TextInput
-        className="border border-[#0AA696] rounded-3xl px-4 py-3 mb-6 bg-gray-100 text-gray-800"
-        placeholder="Es. 9.19"
-        keyboardType="numeric"
-        value={lng}
-        onChangeText={setLng}
-      />
 
       <TouchableOpacity
         className="bg-[#0AA696] rounded-3xl py-4"

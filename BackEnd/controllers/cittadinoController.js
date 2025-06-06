@@ -3,6 +3,7 @@ const Cittadino = require("../models/cittadinoModel");
 const {
   sendConfirmationEmail,
   sendEmailChange,
+  sendEmailPassword,
 } = require("../utils/emailService");
 const Token = require("../models/tokenModel");
 const Segnalazione = require("../models/segnalazioneModel");
@@ -11,6 +12,7 @@ const { OAuth2Client } = require("google-auth-library");
 const authenticateJWT = require("../middleware/jwtCheck");
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 const jwt = require("jsonwebtoken");
+const bcrypt = require('bcryptjs');
 
 const signUp = async (req, res) => {
   try {
@@ -59,8 +61,14 @@ const confirmEmail = async (req, res) => {
     // Trova il record del token e popola l'oggetto userID dinamicamente
     const tokenRecord = await Token.findOne({ token }).populate("userID");
 
-    if (!tokenRecord) {
-      return res.status(400).json({ message: "Invalid or expired token" });
+    if (!tokenRecord) 
+    {
+      return res.status(400).json({ message: "Invalid token" });
+    }
+
+    if(tokenRecord.scadenza < Date.now()) 
+    {
+      return res.status(400).json({ message: "Token has expired" });
     }
 
     const user = tokenRecord.userID;
@@ -83,10 +91,11 @@ const confirmEmail = async (req, res) => {
   }
 };
 
-const creaSegnalazione = async (req, res) => {
-  try {
-    const nuovaSegnalazione = new Segnalazione(req.body);
-    await nuovaSegnalazione.save();
+const creaSegnalazione = async (req, res) => 
+  {
+  try 
+  {
+    const nuovaSegnalazione = await Segnalazione.create(req.body)
     res.status(201).json(nuovaSegnalazione);
   } catch (err) {
     res.status(400).json({ error: err.message });
@@ -94,7 +103,8 @@ const creaSegnalazione = async (req, res) => {
 };
 
 const login = async (req, res) => {
-  try {
+  try 
+  {
     const { username, password } = req.body;
 
     const cittadino = await Cittadino.findOne({
@@ -102,7 +112,10 @@ const login = async (req, res) => {
     });
     console.log(cittadino);
 
-    if (cittadino.comparePassword(password)) {
+    const isMatch = await cittadino.comparePassword(password);
+
+    if (isMatch) 
+    {
       console.log("Password is correct");
       // Create JWT
       const token = jwt.sign(
@@ -111,13 +124,17 @@ const login = async (req, res) => {
         { expiresIn: "7d" }
       );
       // Set the token in the response
-      return res
-        .status(200)
-        .json({ message: "Login successful", token, user: Cittadino });
-    } else {
+      return res.status(200).json({ message: "Login successful", token, user: cittadino });
+
+    }
+     else 
+    {
+        console.log("Password is not correct");
       return res.status(401).json({ message: "Invalid credentials" });
     }
-  } catch (error) {
+  } catch (error) 
+  {
+    console.log("Some error");
     res.status(500).json({ error: error.message });
   }
 };
@@ -154,9 +171,7 @@ const googleLogin = async (req, res) => {
     );
 
     // Set the token in the response
-    res
-      .status(200)
-      .json({ message: "Login successful", token, user: cittadino });
+    res.status(200).json({ message: "Login successful", token, user: cittadino });
   } catch (error) {
     console.error("Error during Google login:", error);
     res.status(500).json({ error: error.message });
@@ -166,7 +181,6 @@ const googleLogin = async (req, res) => {
 const getCittadinoByID = async (req, res) => {
   try {
     //Check beare token for authorization!!
-
     // Get the user ID from the request parameters
     const { id } = req.params;
     const cittadino = await Cittadino.findById(id);
@@ -229,7 +243,8 @@ const editContattoEmergenza = async (req, res) => {
 };
 
 const editProfile = (async = async (req, res) => {
-  try {
+  try 
+  {
     const { id } = req.params; // id of the cittadino
     const cittadino = await Cittadino.findByIdAndUpdate(id, req.body);
 
@@ -264,7 +279,7 @@ const editProfile = (async = async (req, res) => {
       } else {
         const updatedCittadino = await Cittadino.findById(id);
         res.status(200).json(updatedCittadino);
-        console.log("User update with a new email");
+        console.log("User update with new username");
       }
     }
   } catch (error) {
@@ -303,8 +318,146 @@ async function verifyGoogleToken(idToken) {
   return ticket.getPayload(); // contains email, name, sub, picture, etc.
 }
 
+const reSendConfirmationEmail = async (req, res) => 
+  {
+    try 
+    {
+      const { id } = req.params; // id of the cittadino
+      // Find the user by ID
+      const cittadino = await Cittadino.findById(id);
+      if (!cittadino) 
+      {
+        return res.status(404).json({ message: "User not found" });
+      }
+      // Generate a confirmation token
+      const confirmationToken = crypto.randomBytes(32).toString("hex");
+      // Save the token in the database (you might want to create a separate model for this)
+      const token = new Token({
+        userID: cittadino._id,
+        userModel: "Cittadino", // chiaro riferimento dinamico
+        token: confirmationToken,
+        scadenza: Date.now() + 3600000,
+      });
+
+      await token.save();
+      // Send confirmation email
+      await sendConfirmationEmail(
+        cittadino.email,
+        cittadino.username,
+        confirmationToken
+      );
+
+      res.status(200).json({
+        cittadino: cittadino,
+        message:
+          "Registration successful! Please check your email to confirm your account.",
+      });
+
+    } catch (error) { 
+      console.error("Error resending confirmation email:", error);
+      res.status(500).json({ error: error.message });
+    } 
+}
+
+const getAllSegnalazioni = async (req, res) =>
+{
+  //get all segnalazionis of a cittadino
+  try
+  {
+    const { id } = req.params;
+    
+    const segnalazioni = await Segnalazione.find({ userID: id})
+
+    if (segnalazioni.length == 0)
+    {
+      res.status(404).json({message: "Questo utente non ha effettuato segnalazioni!"})
+    }
+    else
+    {
+      console.log("Segnalazioni trovate")
+      res.status(200).json({segnalazioniUtente: segnalazioni})
+    }
+  }
+  catch(error)
+  {
+    console.error("Error in segnalazioni:", error);
+    res.status(500).json({ error: error.message });
+  }
+}
+
+const recuperaPassword = async (req, res) =>
+{
+  //Define the process to start the recover of password, for google authentication is not required!
+  try
+  {
+    //Username or email
+      const { username } = req.body;
+      console.log("Username", username)
+    const cittadino = await Cittadino.findOne({
+      $or: [{ username: username }, { email: username }],
+    });
+
+      if(!cittadino)
+      {
+        res.status(404).json({message: "User not found"})
+      }
+      else
+      {
+        if(cittadino.isGoogleAutenticato)
+        {
+          res.status(401).json({message: "Google authenticated users must manage their passwords in their Google accounts!"})
+        }
+        //Can send mail
+        await sendEmailPassword(cittadino.email, cittadino.username, cittadino._id)
+        res.status(200).json({message: "Email sent successfully! Please check your email to change or recover you password."})
+      }
+  }
+  catch (error)
+  {
+    console.error("Error:", error);
+    res.status(500).json({message: error.message})
+  }
+}
+const setPassword = async (req, res) =>
+{
+  try
+  {
+    const { id } = req.params
+    const {password} = req.body
+
+    //Hash before updating
+    const salt = await bcrypt.genSalt(10); // Adjust cost factor as needed
+    const newPassword = await bcrypt.hash(password, salt);
+
+
+    const cittadino = await Cittadino.findByIdAndUpdate(
+      id,                          // The ID of the document to update
+      { password: newPassword }, // Fields to update
+      { new: true }                // Return the updated document
+    );
+
+    if(!cittadino)
+    {
+      //console.log("Not found")
+      res.status(404).json({message: "User don't found"})
+    }
+    else
+    {
+      //Return to the app!
+      //console.log("All good", cittadino.password)
+      res.status(200).json({message: "You can now go back to the mobile app!"})
+    }
+  }
+  catch(error)
+  {
+    console.error(error)
+    res.status(500).json({message: error.message})
+  }
+}
+
 // Export the functions to be used in the routes
-module.exports = {
+module.exports = 
+{
   signUp,
   confirmEmail,
   login,
@@ -315,4 +468,8 @@ module.exports = {
   editContattoEmergenza,
   deleteContattoEmergenza,
   editProfile,
+  reSendConfirmationEmail,
+  getAllSegnalazioni,
+  recuperaPassword,
+  setPassword
 };
