@@ -2,11 +2,20 @@ import { useState } from "react";
 import { View, Text, TextInput, TouchableOpacity, Alert, ScrollView, Pressable, Platform } from "react-native";
 import { useRouter } from "expo-router";
 import axios from "axios";
-import DateTimePicker from  "@react-native-community/datetimepicker";
+import DatePicker from 'react-native-date-picker';
 import LocationSearch from "@/app/components/LocationSearch";
+import { jwtDecode } from "jwt-decode";
+import { JWTPayload } from '../../../types/index';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useCittadino } from "../../../context/cittadinoContext";
+import Constants from 'expo-constants';
+
+const { apiUrl } = Constants.expoConfig?.extra ?? {};
 
 export default function CreaSegnalazione() {
   const router = useRouter();
+  const { cittadino } = useCittadino();
+  const { setCittadino } = useCittadino();
 
   const [selectedReato, setSelectedReato] = useState<string>("");
   const [descrizione, setDescrizione] = useState<string>("");
@@ -27,7 +36,8 @@ export default function CreaSegnalazione() {
     if (event.type == "set" && selectedDate) {
       const currentDate = selectedDate;
 
-      if(Platform.OS === "android") {
+      if(Platform.OS === "android") 
+      {
         toggleDatepicker();
         setDateEvent(currentDate.toDateString());
       }
@@ -51,37 +61,59 @@ export default function CreaSegnalazione() {
     "Altro",
     ];
 
-  const handleSubmit = async (): Promise<void> => {
+  const handleSubmit = async (): Promise<void> => 
+  {
     if (!selectedReato || !descrizione || !lat || !lng) {
       Alert.alert("Tutti i campi sono obbligatori!");
       return;
     }
 
-    try {
-      const response = await axios.post("http://localhost:3000/api/v1/cittadino/segnalazione", {
-         // Manca parametro id utente
-        tipoDiReato: selectedReato,
-        descrizione,
-        data: date,
-        tappa: {
-          nome: nomeLuogo || "Luogo segnalato",
-          coordinate: [parseFloat(lng), parseFloat(lat)],
-        },
-      });
+     const token = await AsyncStorage.getItem('jwtToken');
+      if(token)
+      {
+        const decoded = jwtDecode<JWTPayload>(token);
 
-      if (response.status === 201) {
-        Alert.alert("Segnalazione inviata con successo!");
-        setSelectedReato("");
-        setDescrizione("");
-        setLat("");
-        setLng("");
-      } else {
-        Alert.alert("Errore", "Impossibile inviare la segnalazione.");
+        try 
+        {
+          const response = await axios.post(`${apiUrl}/api/v1/cittadino/segnalazione`, 
+          {
+            userID: decoded.id,  
+            tipoDiReato: selectedReato,
+            descrizione,
+            data: date,
+            tappa: {
+              nome: nomeLuogo || "Luogo segnalato",
+              coordinate: [parseFloat(lat), parseFloat(lng)]
+            }
+          },
+          {
+            headers:
+            {
+              Authorization: `Bearer ${token}`
+            }
+          }
+          );
+
+          if (response.status === 201) {
+            Alert.alert("Segnalazione inviata con successo!");
+            setSelectedReato("");
+            setDescrizione("");
+            setLat("");
+            setLng("");
+          } else {
+            Alert.alert("Errore", "Impossibile inviare la segnalazione.");
+          }
+        } catch (err: any) 
+        {
+          Alert.alert("Errore", err.message || "Errore durante l'invio.");
+          console.log(JSON.stringify(err, null, 2));
+        }
       }
-    } catch (err: any) {
-      Alert.alert("Errore", err.message || "Errore durante l'invio.");
-      console.log(JSON.stringify(err, null, 2));
-    }
+      else
+      {
+        Alert.alert("Errore", "Token non trovato. Effettua il login.");
+        router.push('../login'); // Naviga alla pagina di login
+      }
   };
 
   return (
@@ -113,15 +145,17 @@ export default function CreaSegnalazione() {
       </View>
 
       <View>
-        <Text>Data</Text>
+        <Text className="text-white font-GothamBold mb-1">Data</Text>
         {showPicker && (
-          <DateTimePicker 
-          mode="date"
-          display="spinner"
-          value={date}
-          onChange={onChange}
-          minimumDate={new Date()}
-        />
+        <View className="bg-white rounded-2xl p-4 shadow-lg">
+  <DatePicker
+    date={date}
+    mode="date"
+    onDateChange={onChange}
+    minimumDate={new Date()}
+    theme="light"
+  />
+</View>
         )}
 
         {showPicker && Platform.OS === "ios" && (
@@ -160,11 +194,8 @@ export default function CreaSegnalazione() {
           </Pressable>
 
         )}
-        
       </View>
       
-
-
       <Text className="text-white font-GothamBold mb-1">Descrizione</Text>
       <TextInput
         className="border border-[#0AA696] rounded-3xl px-4 py-3 mb-4 bg-gray-100 text-gray-800"

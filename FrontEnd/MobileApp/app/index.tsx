@@ -6,6 +6,9 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { jwtDecode } from "jwt-decode";
 import React from "react";
 import { useCittadino } from "./context/cittadinoContext"; // Import the context
+import Constants from 'expo-constants';
+
+const { apiUrl } = Constants.expoConfig?.extra ?? {};
 
 export default function SignUp() {
   const router = useRouter();
@@ -46,7 +49,7 @@ export default function SignUp() {
               // Navigate to the home screen or perform any other action
               decodeToken(token);
               //Get Cittadino by ID
-              const response = await axios.get(`http://localhost:3000/api/v1/cittadino/${decoded.id}`,
+              const response = await axios.get(`${apiUrl}/api/v1/cittadino/${decoded.id}`,
               {
                 headers: {
                   Authorization: `Bearer ${token}`,
@@ -129,7 +132,7 @@ export default function SignUp() {
 
     // You can replace this with your API call
     try {
-        const response = await axios.post("http://localhost:3000/api/v1/cittadino/signup", {
+        const response = await axios.post(`${apiUrl}/api/v1/cittadino/signup`, {
           username, 
           email,
           password,

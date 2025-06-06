@@ -95,6 +95,7 @@ const creaSegnalazione = async (req, res) =>
   {
   try 
   {
+    //Check data if is ok
     const nuovaSegnalazione = await Segnalazione.create(req.body)
     res.status(201).json(nuovaSegnalazione);
   } catch (err) {

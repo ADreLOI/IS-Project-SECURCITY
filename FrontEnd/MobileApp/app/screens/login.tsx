@@ -8,8 +8,10 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useRouter } from "expo-router";
 //Define the webClientId and iosClientId in a separate file named costants.ts in root folder
 import CustomButton from '../components/googleButton';
-import { webClientId, iosClientId } from '../costants';
 import { useCittadino } from "../context/cittadinoContext"; // Import the context
+import Constants from 'expo-constants';
+
+const { apiUrl, iosClientId, webClientId } = Constants.expoConfig?.extra ?? {};
 
 const router = useRouter();
 
@@ -29,7 +31,7 @@ export default function Login()
       }
       // You can replace this with your API call
       try {
-          const response = await axios.post("http://localhost:3000/api/v1/cittadino/login", {
+          const response = await axios.post(`${apiUrl}/api/v1/cittadino/login`, {
             username,
             password,
           });
@@ -85,7 +87,7 @@ export default function Login()
         const idToken = response.data.idToken;
         console.log("ID Token: ", idToken);
         
-        const responseAPI = await axios.post("http://localhost:3000/api/v1/cittadino/google-login", {
+        const responseAPI = await axios.post(`${apiUrl}/api/v1/cittadino/google-login`, {
           idToken,
         });
         if (responseAPI.status === 200) 
@@ -144,7 +146,7 @@ export default function Login()
         try
         {
           console.log(username)
-          const response = await axios.post( `http://localhost:3000/api/v1/cittadino/recuperaPassword`,
+          const response = await axios.post( `${apiUrl}/api/v1/cittadino/recuperaPassword`,
             {
               username
             })

@@ -21,6 +21,9 @@ interface JWTPayload {
   exp: number;
   [key: string]: any;
 }
+import Constants from 'expo-constants';
+
+const { apiUrl } = Constants.expoConfig?.extra ?? {};
 
 export default function LoginPage() {
   const [username, setUsername] = useState("");
@@ -84,7 +87,7 @@ export default function LoginPage() {
 
     try {
       const response = await fetch(
-        "http://localhost:3000/api/v1/operatoreComunale/login-operatore",
+        `${apiUrl}/api/v1/operatoreComunale/login-operatore`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

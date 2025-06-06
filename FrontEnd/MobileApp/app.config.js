@@ -1,10 +1,13 @@
+import 'dotenv/config';
+
+export default 
 {
   "expo": {
     "name": "SecurCity",
     "slug": "SecurCity",
     "scheme": "com.mattdema.securcity",
     "version": "1.0.0",
-    "owner": "andreapezzo",
+    "owner": "mattdema",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "userInterfaceStyle": "automatic",
@@ -13,7 +16,7 @@
       "supportsTablet": true,
       "bundleIdentifier": "com.mattdema.securcity",
       "config": {
-        "googleMapsApiKey": "AIzaSyA_HYPztvPp_5YmMFUzc1DiV7RsmE0qYB0"
+        "googleMapsApiKey": process.env.GOOGLE_MAPS_API_KEY || ""
       },
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false
@@ -28,7 +31,7 @@
       "package": "com.AndreaPezzo.securcity",
       "config": {
         "googleMaps": {
-          "apiKey": "AIzaSyA_HYPztvPp_5YmMFUzc1DiV7RsmE0qYB0"
+          "apiKey": process.env.GOOGLE_MAPS_API_KEY || ""
         }
       },
       "permissions": [
@@ -55,7 +58,7 @@
       [
         "@react-native-google-signin/google-signin",
         {
-          "iosUrlScheme": "com.googleusercontent.apps.615949668776-cl5b7ni96kftafc8j6qc8m7ernf3nusu"
+          "iosUrlScheme": process.env.IOS_URL_SCHEME || "",
         }
       ],
       [
@@ -70,11 +73,13 @@
       "typedRoutes": true
     },
     "extra": {
-      "googleClientId": "615949668776-cqsq6am4797he6oqarsaqjn2076url55.apps.googleusercontent.com",
       "router": {},
       "eas": {
-        "projectId": "5c2baf7f-c692-4136-8a65-c3c9939a86d7"
-      }
+        "projectId":"0f8eff7a-84b0-4265-9967-653f44445113"
+      },
+      "apiUrl": process.env.API_BASE_URL || "http://localhost:3000",
+      "iosClientId": process.env.IOS_CLIENT_ID || "",
+      "webClientId": process.env.WEB_CLIENT_ID || ""
     }
   }
 }

@@ -9,6 +9,9 @@ import {
 } from "react-native";
 import { useRouter } from "expo-router";
 import axios from "axios";
+import Constants from 'expo-constants';
+
+const { apiUrl } = Constants.expoConfig?.extra ?? {};
 
 interface Segnalazione {
   _id: string;
@@ -57,7 +60,7 @@ export default function Segnalazioni() {
       try {
         const token = localStorage.getItem("token");
         const res = await axios.get(
-          "http://localhost:3000/api/v1/operatoreComunale/segnalazioni",
+          `${apiUrl}/api/v1/operatoreComunale/segnalazioni`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
