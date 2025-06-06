@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
-const OperatoreComunale = require('../models/operatoreComunaleModel.js');
-const Cittadino = require("../models/cittadinoModel.js");
+const OperatoreComunale = require("../models/operatoreComunaleModel");
+const Cittadino = require("../models/operatoreComunaleModel");
 
 // Middleware to verify JWT and protect routes
 const authenticateJWT = async (req, res, next) => {

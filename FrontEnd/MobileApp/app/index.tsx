@@ -6,7 +6,6 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { jwtDecode } from "jwt-decode";
 import React from "react";
 import { useCittadino } from "./context/cittadinoContext"; // Import the context
-const router = useRouter();
 
 export default function SignUp() {
   const router = useRouter();
@@ -217,14 +216,13 @@ export default function SignUp() {
           <Text className="text-center text-white font-GothamBold">Create Account</Text>
         </TouchableOpacity>
  
-        <Button
-      title="Go to About"
-      onPress={() => router.push('/screens/login')}
-    />
-      <Button
-      title="Home"
-      onPress={() => router.push('/screens/home')}
-    />
+       <TouchableOpacity
+          className="bg-[#0AA696] rounded-3xl py-4 mt-4"
+          onPress={() => router.push("/screens/login")}
+        >
+          <Text className="text-center text-white font-GothamBold">Log In</Text>
+        </TouchableOpacity>
+    
       </View>
     </View>
   );

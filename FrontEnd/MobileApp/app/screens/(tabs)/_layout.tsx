@@ -33,15 +33,17 @@ export default function TabsLayout() {
         name="home"
         options={{
           title: "Home",
+          headerShown: false,
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="home-outline" size={size} color={color} />
           ),
         }}
       />
       <Tabs.Screen
-        name="CreaSegnalazione"
+        name="segnalazioni"
         options={{
-          title: "segnalazione",
+          title: "Segnalazioni",
+          headerShown: false,
           tabBarIcon: ({ color, size }) => (
             <AntDesign name="pluscircle" size={size} color={color} />
           ),
@@ -51,6 +53,7 @@ export default function TabsLayout() {
         name="profile"
         options={{
           title: "Profilo",
+          headerShown: false,
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="person-circle-outline" size={size} color={color} />
           ),

@@ -44,8 +44,29 @@ async function sendConfirmationEmail(userEmail, userName, confirmationToken)
     await sgMail.send(msg);
   }
 
+  async function sendEmailPassword(userEmail, userName, userId) 
+  {
+    const confirmUrl = `http://localhost:8082/recoverPasswordCittadino/${userId}`;
+    console.log("Recover or change pwd URL: ", confirmUrl);
+    const msg = 
+    {
+      to: userEmail,
+      from: 'andrea.pezzo-1@studenti.unitn.it', // must be a verified sender in SendGrid
+      subject: 'Request of password recovery',
+      html: `
+        <h2>Hello ${userName},</h2>
+        <p>To recover your password for your account on SecurCity click the link below:</p>
+        <a href="${confirmUrl}">Recover Password</a>
+        <p>If you didn't request a password recovery, you can ignore this message.</p>
+      `,
+    };
+  
+    await sgMail.send(msg);
+  }
+
   module.exports =
   {
     sendConfirmationEmail,
-    sendEmailChange
+    sendEmailChange,
+    sendEmailPassword
   }

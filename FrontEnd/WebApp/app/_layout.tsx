@@ -21,6 +21,10 @@ export default function RootLayout() {
       {/* Signup page for Operatori Comunali */}
       <Stack.Screen name="signup" options={{ headerShown: false }} />
 
+      {/* Reset password page for Cittadino */}
+      <Stack.Screen name="recoverPasswordCittadino/[id]" options={{ headerShown: false }} />
+
+
       {/* Dashboard view for authenticated operators */}
       <Stack.Screen
         name="operatore/dashboard"

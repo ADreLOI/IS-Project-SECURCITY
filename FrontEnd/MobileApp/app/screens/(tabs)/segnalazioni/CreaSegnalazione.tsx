@@ -58,7 +58,7 @@ export default function CreaSegnalazione() {
     }
 
     try {
-      const response = await axios.post("http://localhost:3000/api/v1/segnalazioni", {
+      const response = await axios.post("http://localhost:3000/api/v1/cittadino/segnalazione", {
          // Manca parametro id utente
         tipoDiReato: selectedReato,
         descrizione,
@@ -87,7 +87,7 @@ export default function CreaSegnalazione() {
   return (
     <ScrollView className="flex-1 bg-[#011126] px-6 pt-12">
       <View className="mb-6">
-        <Text className="text-4xl font-GothamUltra text-white text-center">
+        <Text className="text-2xl font-GothamUltra text-white text-center">
           Nuova <Text className="text-[#0AA696]">Segnalazione</Text>
         </Text>
       </View>
@@ -120,7 +120,6 @@ export default function CreaSegnalazione() {
           display="spinner"
           value={date}
           onChange={onChange}
-          maximumDate={new Date('2005-1-1')}
           minimumDate={new Date()}
         />
         )}
