@@ -10,6 +10,7 @@ const { sendConfirmationEmail } = require("../utils/emailService");
 const Segnalazione = require("../models/segnalazioneModel");
 const { status } = require("../models/enumModel");
 const { IdentityPoolClient } = require("google-auth-library");
+const InfoComunali = require("../models/infoComunaliModel");
 
 // Operator signup handler
 const signupOperatore = async (req, res) => {
@@ -283,6 +284,35 @@ const eliminaSegnalazione = async (req, res) => {
   }
 };
 
+const creaInformazione = async (req, res) => {
+  try 
+    {
+      const { userID, informazione, tappa, gradoSicurezzaAssegnato } = req.body;
+
+      const nuovaInfo = new InfoComunali({
+        userID,
+        informazione,
+        tappa,
+        gradoSicurezzaAssegnato
+      });
+
+      const salvata = await nuovaInfo.save();
+      res.status(201).json(salvata);
+    } catch (err) {
+      console.error("Errore creazione info comunale:", err);
+      res.status(400).json({ error: err.message });
+    }
+};
+
+const getAllInformazioni = async (req, res) => {
+  try {
+    const informazioni = await InfoComunali.find();
+    res.status(200).json(informazioni);
+  } catch (err) {
+    console.error("Errore nel recupero delle informazioni comunali:", err);
+    res.status(500).json({error: "Errore server nel recupero delle informazioni."});
+  }
+}
 
 module.exports = {
   loginOperatore,
@@ -293,4 +323,6 @@ module.exports = {
   getAllSegnalazioni,
   aggiornaStatoSegnalazione,
   eliminaSegnalazione,
+  creaInformazione,
+  getAllInformazioni
 };
