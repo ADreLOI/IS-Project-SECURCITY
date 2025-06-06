@@ -73,11 +73,25 @@ export default function Segnalazioni() {
     fetchSegnalazioni();
   }, []);
 
+  const confermate = segnalazioni.filter(s => s.status === "Confermata").length;
+  const rigettate = segnalazioni.filter(s => s.status === "Rigettata").length;
+  const pendenti = segnalazioni.filter(s => s.status === "Pendente").length;
+
   return (
     <ScrollView className="p-6 space-y-5">
       <Text className="text-white text-3xl font-GothamBold mb-4">
         Segnalazioni recenti
       </Text>
+
+      <View className="mb-4 bg-[#0F2A3B] p-4 rounded-2xl">
+        <Text className="text-white text-lg font-GothamBold mb-2"> Riepilogo</Text>
+        <View className="flex-row justify-between">
+          <Text className="text-green-400 font-GothamBold"> Confermate: {confermate}</Text>
+          <Text className="text-yellow-300 font-GothamBold"> Pendenti: {pendenti}</Text>
+          <Text className="text-red-400 font-GothamBold">Rigettate: {rigettate}</Text>
+        </View>
+      </View>
+
 
       {segnalazioni.map((s) => {
         const { bgColor, textColor, borderColor } = getStatusStyles(s.status);

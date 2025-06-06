@@ -41,7 +41,7 @@ const sendConfirmationToken = async () =>
     const decoded = jwtDecode<JWTPayload>(token);
     try {
       const response = await axios.post(
-        `http://localhost:3000/api/v1/cittadino/resendToken/${decoded.id}`,
+        `http://10.0.2.2:3000/api/v1/cittadino/resendToken/${decoded.id}`,
         {},
         {
           headers: 

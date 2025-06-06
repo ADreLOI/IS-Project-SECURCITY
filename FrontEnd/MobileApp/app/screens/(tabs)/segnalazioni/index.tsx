@@ -44,7 +44,7 @@ const HomeSegnalazioni = () =>
         try
         {
           const response = await axios.get(
-            `http://localhost:3000/api/v1/cittadino/getAllSegnalazioni/${decoded.id}`,
+            `http://10.0.2.2:3000/api/v1/cittadino/getAllSegnalazioni/${decoded.id}`,
             {
               headers: {
                 Authorization: `Bearer ${token}`
