@@ -69,7 +69,7 @@ export default function Sidebar({
       // Backend call to logout endpoint with token in Authorization header
       const response = await axios({
         method: "post",
-        url: `${API_BASE_URL}/api/v1/operatoreComunale/logout`,
+        url: `${API_BASE_URL}/api/v1/operatoreComunale/logout-operatore`,
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
