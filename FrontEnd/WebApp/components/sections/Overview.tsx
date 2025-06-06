@@ -13,10 +13,8 @@ interface Segnalazione {
 
 export default function Overview() {
   const router = useRouter();
-  const [recentSegnalazioni, setRecentSegnalazioni] = useState<Segnalazione[]>(
-    []
-  );
-  
+  const [recentSegnalazioni, setRecentSegnalazioni] = useState<Segnalazione[]>([]);
+
   useEffect(() => {
     const fetchSegnalazioni = async () => {
       try {
@@ -44,7 +42,6 @@ export default function Overview() {
     fetchSegnalazioni();
   }, []);
 
-  // Function to style status pills uniformly
   const getStatusStyles = (status: string) => {
     switch (status) {
       case "Confermata":
@@ -77,7 +74,7 @@ export default function Overview() {
   return (
     <ScrollView className="p-6 space-y-6">
       {/* Sezione Segnalazioni */}
-      <View className="bg-[#0A1C2E] rounded-2xl p-5 shadow-md">
+      <View className="bg-[#0A1C2E] rounded-2xl p-5 shadow-md mb-4">
         <Text className="text-white font-GothamBold text-xl mb-4">
           Ultime Segnalazioni
         </Text>
@@ -107,10 +104,7 @@ export default function Overview() {
                 <View
                   className={`px-3 py-1 rounded-full border ${borderColor} ${bgColor}`}
                 >
-                  <Text
-                    className={`text-xs font-GothamBold ${textColor}`}
-                  >
-                    {" "}
+                  <Text className={`text-xs font-GothamBold ${textColor}`}>
                     {s.status}
                   </Text>
                 </View>
@@ -119,10 +113,7 @@ export default function Overview() {
           );
         })}
 
-        <TouchableOpacity
-          className="mt-4 bg-[#0AA696] py-2 px-4 rounded-xl"
-          //onPress={() => router.push("/operatore/segnalazioni")}
-        >
+        <TouchableOpacity className="mt-4 bg-[#0AA696] py-2 px-4 rounded-xl">
           <Text className="text-white text-center font-GothamBold">
             Vai a Segnalazioni
           </Text>
@@ -130,16 +121,13 @@ export default function Overview() {
       </View>
 
       {/* Sezione Statistiche */}
-      <View className="bg-[#0A1C2E] rounded-2xl p-5 shadow-md">
+      <View className="bg-[#0A1C2E] rounded-2xl p-5 shadow-md mb-4">
         <Text className="text-white font-GothamBold text-xl mb-3">
           Statistiche Recenti
         </Text>
         <Text className="text-white">• Incidenti: 35</Text>
         <Text className="text-white">• Furti: 22</Text>
-        <TouchableOpacity
-          className="mt-4 bg-[#0AA696] py-2 px-4 rounded-xl"
-          //onPress={() => router.push("/operatore/statistiche")}
-        >
+        <TouchableOpacity className="mt-4 bg-[#0AA696] py-2 px-4 rounded-xl">
           <Text className="text-white text-center font-GothamBold">
             Vai a Statistiche
           </Text>
@@ -147,16 +135,13 @@ export default function Overview() {
       </View>
 
       {/* Sezione Sensori Affollamento */}
-      <View className="bg-[#0A1C2E] rounded-2xl p-5 shadow-md">
+      <View className="bg-[#0A1C2E] rounded-2xl p-5 shadow-md mb-4">
         <Text className="text-white font-GothamBold text-xl mb-3">
           Stato Sensori Affollamento
         </Text>
         <Text className="text-white">• Centro - Alto</Text>
         <Text className="text-white">• Stazione - Medio</Text>
-        <TouchableOpacity
-          className="mt-4 bg-[#0AA696] py-2 px-4 rounded-xl"
-          //onPress={() => router.push("/operatore/sensori")}
-        >
+        <TouchableOpacity className="mt-4 bg-[#0AA696] py-2 px-4 rounded-xl">
           <Text className="text-white text-center font-GothamBold">
             Vai a Sensori
           </Text>

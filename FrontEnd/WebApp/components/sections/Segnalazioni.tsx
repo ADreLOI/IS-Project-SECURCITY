@@ -106,7 +106,7 @@ export default function Segnalazioni() {
                 params: { id: s._id },
               })
             }
-            className={`bg-[#0A1C2E] rounded-2xl p-5 shadow-md border border-[#0F2A3B] transition-all duration-200 ease-in-out hover:scale-[1.01]`}
+            className={`mb-4 bg-[#0A1C2E] rounded-2xl p-5 shadow-md border border-[#0F2A3B] transition-all duration-200 ease-in-out hover:scale-[1.01]`}
             style={{ gap: 4 }}
           >
             <View className="flex-row justify-between items-center">

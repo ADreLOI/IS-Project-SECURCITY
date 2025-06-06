@@ -2,7 +2,6 @@ import { Platform, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import Animated, { FadeIn } from 'react-native-reanimated';
-import MapView from 'react-native-maps';
 import { AppleMaps, GoogleMaps } from "expo-maps"
 import { locationList } from "@/LocationList";
 import {useState } from "react";
