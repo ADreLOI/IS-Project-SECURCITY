@@ -10,6 +10,7 @@ import CreaSegnalazione from './CreaSegnalazione';
 import axios from 'axios';
 import { jwtDecode } from 'jwt-decode';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { API_BASE_URL } from '../../../../config'; // Import the API base URL
 
 
 const HomeSegnalazioni = () => 
@@ -44,7 +45,7 @@ const HomeSegnalazioni = () =>
         try
         {
           const response = await axios.get(
-            `http://localhost:3000/api/v1/cittadino/getAllSegnalazioni/${decoded.id}`,
+            `${API_BASE_URL}/api/v1/cittadino/getAllSegnalazioni/${decoded.id}`,
             {
               headers: {
                 Authorization: `Bearer ${token}`

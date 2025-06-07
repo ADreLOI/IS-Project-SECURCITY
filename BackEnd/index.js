@@ -3,6 +3,8 @@ const mongoose = require("mongoose");
 const cittadinoRoutes = require("./routes/cittadinoRoute");
 const comuneRoutes = require("./routes/comuneRoute");
 const operatoreRoutes = require("./routes/operatoreRoute");
+const itinerarioRoutes = require("./routes/itinerarioRoute");
+
 
 require("dotenv").config();
 
@@ -37,6 +39,7 @@ app.use(
 app.use("/api/v1/cittadino", cittadinoRoutes);
 app.use("/api/v1/comune", comuneRoutes);
 app.use("/api/v1/operatoreComunale", operatoreRoutes);
+app.use("/api/v1/itinerario", itinerarioRoutes);
 
 
 mongoose

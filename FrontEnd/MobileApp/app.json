@@ -4,7 +4,7 @@
     "slug": "SecurCity",
     "scheme": "com.mattdema.securcity",
     "version": "1.0.0",
-    "owner": "andreapezzo",
+    "owner": "adreloi",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "userInterfaceStyle": "automatic",
@@ -43,6 +43,7 @@
     },
     "plugins": [
       "expo-router",
+      "expo-location",
       [
         "expo-splash-screen",
         {
@@ -69,11 +70,11 @@
     "experiments": {
       "typedRoutes": true
     },
-    "extra": 
-    {
+    "extra": {
       "router": {},
+      "GOOGLE_MAPS_API_KEY": "AIzaSyDmym-f0vXx62WkOvhKLAjx2vNAUazdrb4",
       "eas": {
-        "projectId": "5c2baf7f-c692-4136-8a65-c3c9939a86d7"
+        "projectId": "370ce26b-ae2a-49fd-ba7f-c6a59016817d"
       }
     }
   }

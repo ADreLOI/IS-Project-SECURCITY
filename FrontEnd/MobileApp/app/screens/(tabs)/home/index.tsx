@@ -1,127 +1,192 @@
-import React, { useEffect, useState } from 'react';
-import MapView, { Marker } from 'react-native-maps';
-import { View, StyleSheet, ActivityIndicator } from 'react-native';
-import axios from 'axios';
-import { useCallback } from 'react';
-import { useFocusEffect } from '@react-navigation/native';
+import React, { useEffect, useRef, useState } from "react";
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  Platform,
+  KeyboardAvoidingView,
+  Alert,
+} from "react-native";
+import MapView, { Marker, Polyline } from "react-native-maps";
+import * as Location from "expo-location";
+import axios from "axios";
 
-type Place = {
-  fsq_id: string;
-  name: string;
-  geocodes: {
-    main: {
-      latitude: number;
-      longitude: number;
+const GOOGLE_MAPS_API_KEY = "AIzaSyDmym-f0vXx62WkOvhKLAjx2vNAUazdrb4";
+
+type LatLng = { latitude: number; longitude: number };
+
+export default function HomeScreen() {
+  const [origin, setOrigin] = useState<LatLng | null>(null);
+  const [destination, setDestination] = useState("");
+  const [safeRoute, setSafeRoute] = useState<LatLng[] | null>(null);
+  const [fastRoute, setFastRoute] = useState<LatLng[] | null>(null);
+  const [selected, setSelected] = useState<"safe" | "fast">("safe");
+
+  const mapRef = useRef<MapView>(null);
+
+  useEffect(() => {
+    (async () => {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== "granted") {
+        Alert.alert(
+          "Permesso negato",
+          "La posizione è necessaria per usare la mappa."
+        );
+        return;
+      }
+
+      let location = await Location.getCurrentPositionAsync({});
+      const coords = {
+        latitude: location.coords.latitude,
+        longitude: location.coords.longitude,
+      };
+      setOrigin(coords);
+
+      mapRef.current?.animateToRegion({
+        ...coords,
+        latitudeDelta: 0.01,
+        longitudeDelta: 0.01,
+      });
+    })();
+  }, []);
+
+  const fetchRoute = async () => {
+    if (!origin || !destination) return;
+
+    try {
+      // Percorso veloce (drive)
+      const fastURL = `https://maps.googleapis.com/maps/api/directions/json?origin=${origin.latitude},${origin.longitude}&destination=${encodeURIComponent(
+        destination
+      )}&mode=driving&key=${GOOGLE_MAPS_API_KEY}`;
+
+      const fastRes = await axios.get(fastURL);
+      const fastPoints = fastRes.data.routes?.[0]?.overview_polyline?.points;
+      if (!fastPoints) {
+        Alert.alert("Errore", "Percorso veloce non trovato");
+        return;
+      }
+      setFastRoute(decodePolyline(fastPoints));
+
+      // Percorso sicuro (walk)
+      const safeURL = `https://maps.googleapis.com/maps/api/directions/json?origin=${origin.latitude},${origin.longitude}&destination=${encodeURIComponent(
+        destination
+      )}&mode=walking&key=${GOOGLE_MAPS_API_KEY}`;
+
+      const safeRes = await axios.get(safeURL);
+      const safePoints = safeRes.data.routes?.[0]?.overview_polyline?.points;
+      if (!safePoints) {
+        Alert.alert(
+          "Percorso sicuro non disponibile",
+          "Nessun percorso pedonale trovato. Verrà mostrato solo quello veloce."
+        );
+        setSafeRoute(null);
+        return;
+      }
+      setSafeRoute(decodePolyline(safePoints));
+    } catch (err) {
+      console.error("Errore nella richiesta del percorso:", err);
+      Alert.alert("Errore", "Impossibile calcolare il percorso.");
     }
   };
-};
 
-export default function Home() {
-  const [places, setPlaces] = useState<Place[]>([]);
-  const [loading, setLoading] = useState(true);
+  function decodePolyline(encoded: string) {
+    let points = [];
+    let index = 0,
+      lat = 0,
+      lng = 0;
 
-useFocusEffect(
-  useCallback(() => 
-    {
-    const fetchPlaces = async () => 
-      {
-        setLoading(true);
-      try 
-      {
-        const response = await axios.get('https://api.foursquare.com/v3/places/search', 
-        {
-          headers: {
-            Authorization: 'fsq3NW+XqOLEuviTJfKPo/uxj3tY1iBBSKpblXa07ExIKRk=',
-          },
-          params: {
-            ll: '46.068325,11.121112',
-            radius: 50,
-            limit: 20,
-          },
-        });
+    while (index < encoded.length) {
+      let b,
+        shift = 0,
+        result = 0;
+      do {
+        b = encoded.charCodeAt(index++) - 63;
+        result |= (b & 0x1f) << shift;
+        shift += 5;
+      } while (b >= 0x20);
+      let dlat = result & 1 ? ~(result >> 1) : result >> 1;
+      lat += dlat;
 
-        if(response.data.results.length === 0)
-        {
-          console.log('No results found');
-        } 
-        else 
-        {
-        
-            response.data.results.forEach(async (element: Place) => 
-            {
-             const details = await axios.get(
-              `https://api.foursquare.com/v3/places/${element.fsq_id}`,
-              {
-                headers: 
-                {
-                Authorization: 'fsq3NW+XqOLEuviTJfKPo/uxj3tY1iBBSKpblXa07ExIKRk='
-                }
-              }
-              );
+      shift = 0;
+      result = 0;
+      do {
+        b = encoded.charCodeAt(index++) - 63;
+        result |= (b & 0x1f) << shift;
+        shift += 5;
+      } while (b >= 0x20);
+      let dlng = result & 1 ? ~(result >> 1) : result >> 1;
+      lng += dlng;
 
-              const hours = details.data.hours ? details.data.hours.display : 'No hours available';
-              console.log(`Place: ${element.name}, Hours: ${hours}, Location: ${element.geocodes.main.latitude}, ${element.geocodes.main.longitude}`);
-            });         
-            setPlaces(response.data.results);
-            setLoading(false);
-       }
-      } 
-      catch (error) 
-      {
-        console.error('Error fetching places:', error);
-        setLoading(false);
-      }
-    };
+      points.push({ latitude: lat / 1e5, longitude: lng / 1e5 });
+    }
 
-    fetchPlaces();
-  }, [])
-);
-
-
-  if(loading)
-  {
-    return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <ActivityIndicator size="large" color="#0AA696" />
-      </View>
-    );
+    return points;
   }
-  else
-  {
-  return (
-    
 
-    <View style={styles.container}>
+  const selectedRoute = selected === "safe" ? safeRoute : fastRoute;
+
+  return (
+    <View className="flex-1">
       <MapView
-        style={styles.map}
-        initialRegion={{
-          latitude: 46.074779,
-          longitude: 11.121749,
-          latitudeDelta: 0.05,
-          longitudeDelta: 0.05,
-        }}
+        ref={mapRef}
+        style={{ flex: 1 }}
+        showsUserLocation={true}
+        showsMyLocationButton={true}
       >
-        {places.map((place) => (
-          <Marker
-            key={place.fsq_id}
-            coordinate={{
-              latitude: place.geocodes.main.latitude,
-              longitude: place.geocodes.main.longitude,
-            }}
-            title={place.name}
-            pinColor="#0AA696" // any CSS color: "red", "#00ff00", etc.
-            >
-              
-            </Marker>
-        ))}
-  
+        {selectedRoute && selectedRoute.length > 0 && (
+          <>
+            <Marker
+              coordinate={selectedRoute[selectedRoute.length - 1]}
+              title="Destinazione"
+            />
+            <Polyline
+              coordinates={selectedRoute as { latitude: number; longitude: number }[]}
+              strokeColor={selected === "safe" ? "grey" : "blue"}
+              strokeWidth={4}
+            />
+          </>
+        )}
       </MapView>
+
+      {/* Barra superiore con input + selezione */}
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : undefined}
+        className="absolute top-10 w-full px-4 space-y-2"
+      >
+        <TextInput
+          className="bg-white p-3 rounded-lg"
+          placeholder="Es: Via Roma, Trento"
+          value={destination}
+          onChangeText={setDestination}
+        />
+        <View className="flex-row justify-between">
+          <TouchableOpacity
+            className={`${
+              selected === "safe" ? "bg-green-700" : "bg-gray-300"
+            } flex-1 mr-2 py-2 rounded-lg`}
+            onPress={() => setSelected("safe")}
+          >
+            <Text className="text-white text-center">Percorso Sicuro</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            className={`${
+              selected === "fast" ? "bg-blue-700" : "bg-gray-300"
+            } flex-1 py-2 rounded-lg`}
+            onPress={() => setSelected("fast")}
+          >
+            <Text className="text-white text-center">Percorso Veloce</Text>
+          </TouchableOpacity>
+        </View>
+        <TouchableOpacity
+          className="bg-blue-600 py-3 rounded-lg"
+          onPress={fetchRoute}
+        >
+          <Text className="text-white text-center font-bold">
+            Genera Percorsi
+          </Text>
+        </TouchableOpacity>
+      </KeyboardAvoidingView>
     </View>
   );
 }
-}
-
-const styles = StyleSheet.create({
-  container: { flex: 1 },
-  map: { flex: 1 },
-});

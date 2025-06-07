@@ -11,7 +11,7 @@ import { jwtDecode } from 'jwt-decode';
 import { JWTPayload, ContattoEmergenza } from '../../../types/index';
 import { useRouter } from 'expo-router';
 import { FontAwesome, MaterialIcons } from '@expo/vector-icons';
-import e, { response } from 'express';
+import { API_BASE_URL } from '../../../../config'; // Import the API base URL
 
 export default function EditProfile() 
 {
@@ -44,7 +44,7 @@ export default function EditProfile()
         try
         {
           const response = await axios.put(
-            `http://localhost:3000/api/v1/cittadino/addContattiEmergenza/${decoded.id}`,
+            `${API_BASE_URL}/api/v1/cittadino/addContattiEmergenza/${decoded.id}`,
             { contattiEmergenza },
             {
               headers: {
@@ -99,7 +99,7 @@ export default function EditProfile()
           try
           {
             const response = await axios.put(
-              `http://localhost:3000/api/v1/cittadino/editContattiEmergenza/${decoded.id}`,
+              `${API_BASE_URL}/api/v1/cittadino/editContattiEmergenza/${decoded.id}`,
               {  contattoId: contattoToEdit._id,
                 nominativo: contattoToEdit.nominativo,
                 numeroTelefonico: contattoToEdit.numeroTelefonico,
@@ -149,7 +149,7 @@ export default function EditProfile()
           try
           {
             const response = await axios.put(
-              `http://localhost:3000/api/v1/cittadino/deleteContattiEmergenza/${decoded.id}`,
+              `${API_BASE_URL}/api/v1/cittadino/deleteContattiEmergenza/${decoded.id}`,
               { idContatto },
               {
                 headers: {
@@ -205,7 +205,7 @@ export default function EditProfile()
         {
           
           const response = await axios.put(
-            `http://localhost:3000/api/v1/cittadino/editProfile/${decoded.id}`,
+            `${API_BASE_URL}/api/v1/cittadino/editProfile/${decoded.id}`,
             { username,
               email
             },

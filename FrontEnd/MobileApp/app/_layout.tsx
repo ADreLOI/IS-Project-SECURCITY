@@ -24,8 +24,7 @@ export default function RootLayout()
   <Stack> 
           <Stack.Screen name="index" options={{ headerShown: false }} />
           <Stack.Screen name="screens/(tabs)" options={{ headerShown: false }} />
-          <Stack.Screen name="screens/login" options={{ headerShown: false }} /><Stack>
-        </Stack>
+          <Stack.Screen name="screens/login" options={{ headerShown: false }} />
   </Stack>;
   </CittadinoProvider>
   );

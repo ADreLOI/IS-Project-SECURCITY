@@ -10,6 +10,7 @@ import { useRouter } from "expo-router";
 import CustomButton from '../components/googleButton';
 import { webClientId, iosClientId } from '../costants';
 import { useCittadino } from "../context/cittadinoContext"; // Import the context
+import { API_BASE_URL } from '../../config'; // Import the API base URL
 
 const router = useRouter();
 
@@ -29,10 +30,13 @@ export default function Login()
       }
       // You can replace this with your API call
       try {
-          const response = await axios.post("http://localhost:3000/api/v1/cittadino/login", {
-            username,
-            password,
-          });
+          const response = await axios.post(
+            `${API_BASE_URL}/api/v1/cittadino/login`,
+            {
+              username,
+              password,
+            }
+          );
     
           if (response.status === 200) 
           {
@@ -85,9 +89,12 @@ export default function Login()
         const idToken = response.data.idToken;
         console.log("ID Token: ", idToken);
         
-        const responseAPI = await axios.post("http://localhost:3000/api/v1/cittadino/google-login", {
-          idToken,
-        });
+        const responseAPI = await axios.post(
+          `${API_BASE_URL}/api/v1/cittadino/google-login`,
+          {
+            idToken,
+          }
+        );
         if (responseAPI.status === 200) 
         {
           // Navigate or store token here
@@ -144,7 +151,7 @@ export default function Login()
         try
         {
           console.log(username)
-          const response = await axios.post( `http://localhost:3000/api/v1/cittadino/recuperaPassword`,
+          const response = await axios.post( `${API_BASE_URL}/api/v1/cittadino/recuperaPassword`,
             {
               username
             })

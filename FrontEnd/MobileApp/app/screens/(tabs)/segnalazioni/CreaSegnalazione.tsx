@@ -4,6 +4,7 @@ import { useRouter } from "expo-router";
 import axios from "axios";
 import DateTimePicker from  "@react-native-community/datetimepicker";
 import LocationSearch from "@/app/components/LocationSearch";
+import { API_BASE_URL } from "../../../../config"; //
 
 export default function CreaSegnalazione() {
   const router = useRouter();
@@ -58,7 +59,7 @@ export default function CreaSegnalazione() {
     }
 
     try {
-      const response = await axios.post("http://localhost:3000/api/v1/cittadino/segnalazione", {
+      const response = await axios.post(`${API_BASE_URL}/api/v1/cittadino/segnalazione`, {
          // Manca parametro id utente
         tipoDiReato: selectedReato,
         descrizione,
