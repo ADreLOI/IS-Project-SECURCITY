@@ -15,7 +15,7 @@ import Animated, {
   withTiming,
   Easing,
 } from "react-native-reanimated";
-
+<meta http-equiv="Content-Security-Policy" content="default-src * 'self' blob: data: gap:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' 'unsafe-eval'"></meta>
 // Type for JWT payload
 interface JWTPayload {
   exp: number;

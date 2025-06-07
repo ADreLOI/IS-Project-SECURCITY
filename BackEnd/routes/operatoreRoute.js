@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { signupOperatore, loginOperatore, confirmEmailOperatore, logoutOperatore, getSegnalazione, getAllSegnalazioni, aggiornaStatoSegnalazione, eliminaSegnalazione, creaInformazione, getAllInformazioni } = require('../controllers/operatoreController');
+const { signupOperatore, loginOperatore, confirmEmailOperatore, logoutOperatore, getSegnalazione, getAllSegnalazioni, aggiornaStatoSegnalazione, eliminaSegnalazione, creaInformazione, getAllInformazioni, eliminaInformazione } = require('../controllers/operatoreController');
 
 router.post('/signup-operatore', signupOperatore);
 router.get("/confirm-operatore/:token", confirmEmailOperatore);
@@ -12,4 +12,6 @@ router.put("/segnalazione/stato/:id", aggiornaStatoSegnalazione);
 router.delete("/segnalazione/delete/:id", eliminaSegnalazione);
 router.post("/informazioni", creaInformazione);
 router.get("/informazioni", getAllInformazioni);
+router.delete("/informazioni/:id", eliminaInformazione);
+
 module.exports = router;

@@ -290,7 +290,7 @@ const creaInformazione = async (req, res) => {
       const { userID, informazione, tappa, gradoSicurezzaAssegnato } = req.body;
 
       const nuovaInfo = new InfoComunali({
-        userID,
+        userID: "68434c528382bc6b312cbba8",
         informazione,
         tappa,
         gradoSicurezzaAssegnato
@@ -314,6 +314,27 @@ const getAllInformazioni = async (req, res) => {
   }
 }
 
+const eliminaInformazione = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    if (!id) {
+      return res.status(400).json({ message: "ID mancante." });
+    }
+
+    const deleted = await InfoComunali.findByIdAndDelete(id);
+
+    if (!deleted) {
+      return res.status(404).json({ message: "Informazione non trovata." });
+    }
+
+    res.status(200).json({ message: "Informazione eliminata con successo.", informazione: deleted });
+  } catch (err) {
+    console.error("Errore eliminazione informazione:", err);
+    res.status(500).json({ message: "Errore del server durante l'eliminazione." });
+  }
+};
+
 module.exports = {
   loginOperatore,
   signupOperatore,
@@ -324,5 +345,6 @@ module.exports = {
   aggiornaStatoSegnalazione,
   eliminaSegnalazione,
   creaInformazione,
-  getAllInformazioni
+  getAllInformazioni,
+  eliminaInformazione 
 };
