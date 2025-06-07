@@ -1,3 +1,6 @@
+import 'dotenv/config';
+
+export default 
 {
   "expo": {
     "name": "SecurCity",
@@ -13,7 +16,7 @@
       "supportsTablet": true,
       "bundleIdentifier": "com.mattdema.securcity",
       "config": {
-        "googleMapsApiKey": "AIzaSyA_HYPztvPp_5YmMFUzc1DiV7RsmE0qYB0"
+        "googleMapsApiKey": process.env.GOOGLE_MAPS_API_KEY || ""
       },
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false
@@ -28,7 +31,7 @@
       "package": "com.mattdema.securcity",
       "config": {
         "googleMaps": {
-          "apiKey":  "AIzaSyA_HYPztvPp_5YmMFUzc1DiV7RsmE0qYB0"
+          "apiKey":  process.env.GOOGLE_MAPS_API_KEY || ""
         }
       },
       "permissions": [
@@ -55,7 +58,7 @@
       [
         "@react-native-google-signin/google-signin",
         {
-          "iosUrlScheme":  "com.googleusercontent.apps.615949668776-cl5b7ni96kftafc8j6qc8m7ernf3nusu"
+          "iosUrlScheme": "com.googleusercontent.apps.615949668776-cl5b7ni96kftafc8j6qc8m7ernf3nusu"
         }
       ],
       [
@@ -74,9 +77,9 @@
       "eas": {
         "projectId":"0f8eff7a-84b0-4265-9967-653f44445113"
       },
-      "apiUrl": "http://10.0.2.2:3000",
-      "iosClientId": "615949668776-cl5b7ni96kftafc8j6qc8m7ernf3nusu.apps.googleusercontent.com",
-      "webClientId": "615949668776-cqsq6am4797he6oqarsaqjn2076url55.apps.googleusercontent.com"
+      "apiUrl":  process.env.API_BASE_URL || "",
+      "iosClientId":  process.env.IOS_CLIENT_ID || "",
+      "webClientId":  process.env.WEB_CLIENT_ID || ""
     }
   }
 }

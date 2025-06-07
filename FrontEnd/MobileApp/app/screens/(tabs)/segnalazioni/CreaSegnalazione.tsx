@@ -2,7 +2,8 @@ import { useState } from "react";
 import { View, Text, TextInput, TouchableOpacity, Alert, ScrollView, Pressable, Platform } from "react-native";
 import { useRouter } from "expo-router";
 import axios from "axios";
-import DatePicker from 'react-native-date-picker';
+import DateTimePicker from  "@react-native-community/datetimepicker";
+
 import LocationSearch from "@/app/components/LocationSearch";
 import { jwtDecode } from "jwt-decode";
 import { JWTPayload } from '../../../types/index';
@@ -147,15 +148,13 @@ export default function CreaSegnalazione() {
       <View>
         <Text className="text-white font-GothamBold mb-1">Data</Text>
         {showPicker && (
-        <View className="bg-white rounded-2xl p-4 shadow-lg">
-  <DatePicker
-    date={date}
-    mode="date"
-    onDateChange={onChange}
-    minimumDate={new Date()}
-    theme="light"
-  />
-</View>
+         <DateTimePicker 
+          mode="date"
+          display="spinner"
+          value={date}
+          onChange={onChange}
+          minimumDate={new Date()}
+        />
         )}
 
         {showPicker && Platform.OS === "ios" && (

@@ -20,13 +20,12 @@ export default function RootLayout()
 
   if (!fontsLoaded) return null;
   return (
-  <CittadinoProvider>
-  <Stack> 
-          <Stack.Screen name="index" options={{ headerShown: false }} />
-          <Stack.Screen name="screens/(tabs)" options={{ headerShown: false }} />
-          <Stack.Screen name="screens/login" options={{ headerShown: false }} /><Stack>
-        </Stack>
-  </Stack>;
-  </CittadinoProvider>
+    <CittadinoProvider>
+    <Stack> 
+            <Stack.Screen name="index" options={{ headerShown: false }} />
+            <Stack.Screen name="screens/(tabs)" options={{ headerShown: false }} />
+            <Stack.Screen name="screens/login" options={{ headerShown: false }} />
+    </Stack>
+    </CittadinoProvider>
   );
 }
