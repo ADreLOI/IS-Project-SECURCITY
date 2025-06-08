@@ -8,9 +8,9 @@ import axios from "axios";
 import type MapView from "react-native-maps";
 import { Modalize } from "react-native-modalize";
 import { decodePolyline } from "../utils/map";
-
+import Constants from 'expo-constants';
 // API Key di Google Maps (da proteggere in produzione)
-const GOOGLE_MAPS_API_KEY = "AIzaSyDmym-f0vXx62WkOvhKLAjx2vNAUazdrb4";
+const { apiUrl, GOOGLE_MAPS_API_KEY } = Constants.expoConfig?.extra ?? {};
 
 // Tipi personalizzati per coordinate e tappe
 export type Coordinate = { latitude: number; longitude: number };
@@ -53,7 +53,7 @@ export default function useRouteFetcher(
     try {
       // Chiamata al backend per ottenere percorso sicuro personalizzato
       const safeRes = await axios.post(
-        "http://10.0.2.2:3000/api/v1/itinerario/percorso-sicuro",
+        `${apiUrl}/api/v1/itinerario/percorso-sicuro`,
         {
           partenza: {
             nome: originName,
@@ -101,6 +101,7 @@ export default function useRouteFetcher(
 
       // Chiamata a Google Directions API per percorso sicuro
       const safeResGoogle = await axios.get(safeURL);
+      const status = safeResGoogle.data.status;
       const route = safeResGoogle.data.routes[0];
       const poly = route.overview_polyline.points;
       const legs = route.legs[0];

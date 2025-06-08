@@ -179,8 +179,10 @@ const googleLogin = async (req, res) => {
   }
 };
 
-const getCittadinoByID = async (req, res) => {
-  try {
+const getCittadinoByID = async (req, res) => 
+{
+  try 
+  {
     //Check beare token for authorization!!
     // Get the user ID from the request parameters
     const { id } = req.params;

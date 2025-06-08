@@ -13,9 +13,11 @@ import {
 import { Modalize } from "react-native-modalize";
 import { Ionicons } from "@expo/vector-icons";
 import { COLORS } from "../constants/colors";
-
+import { useRouter } from 'expo-router';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 // Tipo che rappresenta una tappa intermedia del percorso sicuro
 export type Tappa = { nome: string; coordinate: [number, number] };
+  const router = useRouter();
 
 // Proprietà accettate dal componente
 interface Props {
@@ -141,7 +143,13 @@ export default function RouteBottomSheet({
             keyExtractor={(_, idx) => idx.toString()}
             style={{ marginTop: 8 }}
             renderItem={({ item }) => (
-              <View
+              <TouchableOpacity
+                onPress={() => {
+                  router.push("/screens/home/getAutobus")
+
+                  console.log(JSON.stringify(item));
+                  AsyncStorage.setItem('tappa', JSON.stringify(item));
+                }} // <-- qui definisci l'azione
                 style={{
                   flexDirection: "row",
                   alignItems: "center",
@@ -162,7 +170,7 @@ export default function RouteBottomSheet({
                 >
                   {item.nome}
                 </Text>
-              </View>
+              </TouchableOpacity>
             )}
           />
         )}

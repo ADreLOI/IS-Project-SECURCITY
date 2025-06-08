@@ -15,7 +15,9 @@ import { useFocusEffect } from "@react-navigation/native";
 import { FontAwesome5, Ionicons } from "@expo/vector-icons";
 import { getDistance } from "geolib";
 import { Modalize } from "react-native-modalize";
-
+import { Tappa } from '@/app/types';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useRouter } from "expo-router";
 //250 meters as threshold for nearby stops
 
 type StopTimes = {
@@ -97,13 +99,14 @@ type routesArrival = {
   tripHeadsign: string;
 };
 
-export default function getBusiness() {
+export default function showAutobus() {
   const [autobusStops, setStops] = useState<AutobusStop[]>([]);
   const [StopsNearbyUser, setStopsNearbyUser] = useState<StopsNearbyUser[]>([]);
   const [stopInformation, setStopInformation] = useState<StopsNearbyUser>();
   const [loading, setLoading] = useState(false);
   const modalRef = useRef<Modalize>(null);
-
+  const [referencePoint, setReferencePoint] = useState<Tappa | null>(null);
+  const router = useRouter();
   useFocusEffect(
     useCallback(() => {
       const fetchStops = async () => {
@@ -112,7 +115,8 @@ export default function getBusiness() {
         // reset dei risultati a ogni chiamata
         const stopByUser: StopsNearbyUser[] = [];
 
-        try {
+        try 
+        {
           const response = await axios.get(
             "https://app-tpl.tndigit.it/gtlservice/stops",
             {
@@ -129,16 +133,21 @@ export default function getBusiness() {
           if (response.data.length === 0) {
             console.log("No results found");
           } else {
-            console.log(`Results found: ${response.data.length}`);
+            console.log(`Results found Stops: ${response.data.length}`);
             setStops(response.data);
 
-            const referencePoint = {
-              latitude: 46.068325,
-              longitude: 11.121112,
-            };
-
-            for (const stop of response.data) {
-              const distance = getDistance(referencePoint, {
+            
+              try 
+              {
+              const jsonValue = await AsyncStorage.getItem("tappa");
+              
+                
+              if (jsonValue != null) 
+              {
+                console.log(JSON.parse(jsonValue) as Tappa)
+                
+                for (const stop of response.data) {
+              const distance = getDistance((JSON.parse(jsonValue) as Tappa).coordinate, {
                 latitude: stop.stopLat,
                 longitude: stop.stopLon,
               });
@@ -171,6 +180,13 @@ export default function getBusiness() {
             }
 
             setStopsNearbyUser(stopByUser);
+            setReferencePoint(JSON.parse(jsonValue) as Tappa);
+              }
+            } 
+            catch (e) 
+            {
+              console.error('Error reading tappa from storage:', e);
+            }
           }
         } catch (error) {
           console.error("Error fetching places:", error);
@@ -185,6 +201,9 @@ export default function getBusiness() {
         date: string,
         routesByStop: routesArrival[]
       ) => {
+
+       console.log(`Prova`);
+
         try {
           const response = await axios.get(
             "https://app-tpl.tndigit.it/gtlservice/trips_new",
@@ -207,6 +226,9 @@ export default function getBusiness() {
             for (const corsa of response.data as Corse[]) {
               for (const linea of stop.routes) {
                 if (corsa.routeId === linea.routeId) {
+                  console.log(
+                    `Found route ${linea.routeShortName} for stop ${stop.stopName} at ${corsa.oraArrivoProgrammataAFermataSelezionata}`
+                  );
                   routesByStop.push({
                     routeId: linea.routeId,
                     routeShortName: linea.routeShortName,
@@ -221,6 +243,10 @@ export default function getBusiness() {
               }
             }
           }
+          else
+          {
+            console.log(`No routes found for stop ${stop.stopName}`);
+          }
         } catch (error) {
           console.error("Error fetching places:", error);
         }
@@ -230,9 +256,6 @@ export default function getBusiness() {
     }, [])
   );
 
-
-
- 
 
   if (loading) {
     return (
@@ -287,7 +310,29 @@ export default function getBusiness() {
               </View>
             </Marker>
           ))}
+
+       {referencePoint?.coordinate?.lat != null &&
+      referencePoint?.coordinate?.lng != null && (
+        <Marker
+          coordinate={{
+            latitude: referencePoint.coordinate.lat,
+            longitude: referencePoint.coordinate.lng,
+          }}
+          title="Posizione Utente"
+          pinColor="#0AA696"
+        />
+        )}
         </MapView>
+          {/* Bottone Back sopra la mappa */}
+        <TouchableOpacity
+        onPress={async () => {
+          await AsyncStorage.removeItem("tappa");
+          router.back();
+        }}
+        className="absolute top-12 left-5 bg-[#111126] p-3 rounded-full z-50 shadow-md"
+      >
+        <Ionicons name="arrow-back" size={24} color="#0AA696" />
+      </TouchableOpacity>
         <Modalize
           ref={modalRef}
           modalHeight={500}

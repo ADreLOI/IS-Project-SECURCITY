@@ -16,7 +16,7 @@ export default
       "supportsTablet": true,
       "bundleIdentifier": "com.mattdema.securcity",
       "config": {
-        "googleMapsApiKey": process.env.GOOGLE_MAPS_API_KEY || ""
+        "googleMapsApiKey": process.env.GOOGLE_MAPS_API_KEY_2 || ""
       },
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false
@@ -31,7 +31,7 @@ export default
       "package": "com.mattdema.securcity",
       "config": {
         "googleMaps": {
-          "apiKey":  process.env.GOOGLE_MAPS_API_KEY || ""
+          "apiKey":  process.env.GOOGLE_MAPS_API_KEY_2 || ""
         }
       },
       "permissions": [
@@ -75,7 +75,7 @@ export default
     },
     "extra": {
       "router": {},
-      "GOOGLE_MAPS_API_KEY": "AIzaSyDmym-f0vXx62WkOvhKLAjx2vNAUazdrb4",
+      "GOOGLE_MAPS_API_KEY": process.env.GOOGLE_MAPS_API_KEY,
       "eas": {
         "projectId":"0f8eff7a-84b0-4265-9967-653f44445113"
       },
