@@ -151,7 +151,7 @@ useFocusEffect(
                 //Once stops are rilevated, fetch the corse
                  //I can fetch the trips by stopId and date
                  const now = new Date();
-                await fetchCorse(stop, new Date(now.getTime() - now.getTimezoneOffset() * 60000).toISOString());
+                await fetchCorse(stop, "2025-06-06T00:45:00Z");
                //console.log("ITERATE")
                        
             }
@@ -307,6 +307,8 @@ useEffect(() => {
     }, 50); // Delay opening slightly
   }
 }, [stopInformation]);
+
+
   if(loading)
   {
     return (
@@ -329,14 +331,7 @@ useEffect(() => {
           longitudeDelta: 0.05,
         }}
       >
-      {/* Floating Button */}
-      <TouchableOpacity
-        onPress={() => console.log("cisao")}
-        className="absolute bottom-6 right-4 bg-[#0AA696] p-4 rounded-full shadow-lg"
-      >
-        <Ionicons name="add" size={24} color="#fffff" />
-      </TouchableOpacity>
-
+ 
   {StopsNearbyUser.map((stop) => (
           <Marker
             key={stop.stopId}
@@ -389,7 +384,8 @@ useEffect(() => {
         ))}
             */}
       </MapView>
-          <Modalize
+
+      <Modalize
         ref={modalRef}
         modalHeight={500}
         handleStyle={{ backgroundColor: '#0AA696' }}
