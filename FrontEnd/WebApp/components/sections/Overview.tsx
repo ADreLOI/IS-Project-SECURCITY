@@ -14,6 +14,9 @@ interface Segnalazione {
 export default function Overview() {
   const router = useRouter();
   const [recentSegnalazioni, setRecentSegnalazioni] = useState<Segnalazione[]>([]);
+  const [statisticheReati, setStatisticheReati] = useState<{
+    [key: string]: number;
+  }>({});
 
   useEffect(() => {
     const fetchSegnalazioni = async () => {
@@ -34,6 +37,18 @@ export default function Overview() {
           .slice(0, 3);
 
         setRecentSegnalazioni(sorted);
+
+        const confermate = res.data.filter(
+          (s: Segnalazione) => s.status === "Confermata"
+        );
+
+        const  conteggioPerReato: { [key: string]: number} = {};
+
+        confermate.forEach((s: Segnalazione) => {
+          conteggioPerReato[s.tipoDiReato] = (conteggioPerReato[s.tipoDiReato] || 0) + 1;
+        });
+
+        setStatisticheReati(conteggioPerReato);
       } catch (err) {
         console.error("Errore nel recupero segnalazioni:", err);
       }
@@ -113,11 +128,6 @@ export default function Overview() {
           );
         })}
 
-        <TouchableOpacity className="mt-4 bg-[#0AA696] py-2 px-4 rounded-xl">
-          <Text className="text-white text-center font-GothamBold">
-            Vai a Segnalazioni
-          </Text>
-        </TouchableOpacity>
       </View>
 
       {/* Sezione Statistiche */}
@@ -125,13 +135,16 @@ export default function Overview() {
         <Text className="text-white font-GothamBold text-xl mb-3">
           Statistiche Recenti
         </Text>
-        <Text className="text-white">• Incidenti: 35</Text>
-        <Text className="text-white">• Furti: 22</Text>
-        <TouchableOpacity className="mt-4 bg-[#0AA696] py-2 px-4 rounded-xl">
-          <Text className="text-white text-center font-GothamBold">
-            Vai a Statistiche
-          </Text>
-        </TouchableOpacity>
+
+        {Object.entries(statisticheReati).length === 0 ? (
+          <Text className="text-gray-400">Nessuna segnalazione confermata.</Text>
+        ) : (
+          Object.entries(statisticheReati).map(([reato, conteggio]) => (
+            <Text key={reato} className="text-white">
+              • {reato}: {conteggio}
+            </Text>
+          ))
+        )}
       </View>
 
       {/* Sezione Sensori Affollamento */}
@@ -141,11 +154,6 @@ export default function Overview() {
         </Text>
         <Text className="text-white">• Centro - Alto</Text>
         <Text className="text-white">• Stazione - Medio</Text>
-        <TouchableOpacity className="mt-4 bg-[#0AA696] py-2 px-4 rounded-xl">
-          <Text className="text-white text-center font-GothamBold">
-            Vai a Sensori
-          </Text>
-        </TouchableOpacity>
       </View>
     </ScrollView>
   );

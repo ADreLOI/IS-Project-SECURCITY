@@ -238,10 +238,10 @@ export default function Informazioni() {
                 </div>
             </div>
 
-            <div style={{ width: 400, height: 300 }}>
+            <div style={{ width: 400, height: 300, borderRadius: 5 }}>
                 <LoadScript googleMapsApiKey="AIzaSyA_HYPztvPp_5YmMFUzc1DiV7RsmE0qYB0">
                 <GoogleMap
-                    mapContainerStyle={{ width: "100%", height: "100%" }}
+                    mapContainerStyle={{ width: "100%", height: "100%", borderRadius: 8 }}
                     zoom={14}
                     center={{
                     lat: selectedInfo.tappa.coordinate[1],

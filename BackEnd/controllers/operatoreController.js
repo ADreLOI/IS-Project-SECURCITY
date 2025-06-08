@@ -11,6 +11,7 @@ const Segnalazione = require("../models/segnalazioneModel");
 const { status } = require("../models/enumModel");
 const { IdentityPoolClient } = require("google-auth-library");
 const InfoComunali = require("../models/infoComunaliModel");
+const Itinerario = require("../models/itinerarioModel");
 
 // Operator signup handler
 const signupOperatore = async (req, res) => {
@@ -335,6 +336,16 @@ const eliminaInformazione = async (req, res) => {
   }
 };
 
+const getAllItinerari = async (req, res) => {
+  try {
+    const itinerari = await Itinerario.find();
+    res.json(itinerari);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Errore interno del server' });
+  }
+};
+
 module.exports = {
   loginOperatore,
   signupOperatore,
@@ -346,5 +357,6 @@ module.exports = {
   eliminaSegnalazione,
   creaInformazione,
   getAllInformazioni,
-  eliminaInformazione 
+  eliminaInformazione,
+  getAllItinerari 
 };
