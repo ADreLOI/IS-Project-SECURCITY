@@ -73,34 +73,58 @@ const generaPercorsoSicuro = async (req, res) => {
       indirizzo: es.vicinity || "ND",
     }));
 
-    // 4. Costruisce tappe alternative in base a uno score di sicurezza
+    // 4. Costruisce tappe alternative in base a uno score di sicurezza.
+    //    Per ogni step del percorso veloce cerca POI e sensori vicini e
+    //    valuta possibili deviazioni più sicure.
     const tappeSicure = [];
 
-    for (const point of percorsoFast) {
-      let score = 0;
-
-      // Incrementa score se c'è un esercizio commerciale vicino
-      if (esercizi.some((es) => distanza(point, es.coordinate) < 150)) score++;
-
-      // Incrementa score se un sensore rileva alta affluenza
+    // Funzione di supporto per calcolare lo score di un punto
+    const calcolaScore = (p) => {
+      let s = 0;
+      if (esercizi.some((es) => distanza(p, es.coordinate) < 150)) s++;
       if (
         sensori.some(
-          (s) =>
-            distanza(point, s.coordinate) < 150 && s.affollamentoCalcolato >= 50
+          (sn) =>
+            distanza(p, sn.coordinate) < 150 && sn.affollamentoCalcolato >= 50
         )
       )
-        score++;
+        s++;
+      if (segnalazioni.some((seg) => distanza(p, seg.tappa.coordinate) < 150))
+        s--;
+      return s;
+    };
 
-      // Penalizza se ci sono segnalazioni di crimini
-      if (segnalazioni.some((s) => distanza(point, s.tappa.coordinate) < 150))
-        score--;
+    const RADIUS_DETOUR = 200; // raggio per cercare deviazioni possibili
 
-      // Se lo score è positivo, aggiunge il punto come tappa sicura
-      if (score > 0) {
-        const nomeVia = await reverseGeocode(point);
+    for (const point of percorsoFast) {
+      // Punteggio del punto della fast route
+      let bestPoint = point;
+      let bestScore = calcolaScore(point);
+
+      // Candidati vicini (esercizi o sensori) come possibili deviazioni
+      const candidati = [
+        ...esercizi
+          .filter((es) => distanza(point, es.coordinate) < RADIUS_DETOUR)
+          .map((es) => es.coordinate),
+        ...sensori
+          .filter((s) => distanza(point, s.coordinate) < RADIUS_DETOUR)
+          .map((s) => s.coordinate),
+      ];
+
+      for (const cand of candidati) {
+        const candScore = calcolaScore(cand);
+        if (candScore > bestScore) {
+          bestPoint = cand;
+          bestScore = candScore;
+        }
+      }
+
+      // Se il migliore è positivo lo aggiunge tra le tappe sicure
+      if (bestScore > 0) {
+        const nomeVia = await reverseGeocode(bestPoint);
         tappeSicure.push({
           nome: nomeVia,
-          coordinate: point,
+          coordinate: bestPoint,
         });
       }
     }
@@ -131,11 +155,14 @@ const generaPercorsoSicuro = async (req, res) => {
       destinazione,
     ];
 
-    // 8. Controlla se il percorso sicuro coincide praticamente col percorso veloce
-    const ugualeAFast =
-      tappeFinali.length === percorsoFast.length + 2 &&
-      percorsoFast.every(
-        (coord, idx) => distanza(coord, tappeFinali[idx + 1]?.coordinate) < 20
+    // 8. Controlla se il percorso sicuro è di fatto identico alla fast route.
+    //    Ora le tappe sicure possono includere deviazioni, quindi verifichiamo
+    //    semplicemente che ogni tappa (escluse partenza e destinazione) sia
+    //    molto vicina a una delle tappe del percorso veloce.
+    const ugualeAFast = tappeFinali
+      .slice(1, -1)
+      .every((t) =>
+        percorsoFast.some((coord) => distanza(coord, t.coordinate) < 20)
       );
 
     if (ugualeAFast) {
