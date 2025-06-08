@@ -91,9 +91,11 @@ export default function SearchBar({
       );
       const loc = res.data.result.geometry.location;
       // Esegui la callback onSubmit con descrizione e coordinate
+      onChangeDestination(description);
       onSubmit({ description, location: { lat: loc.lat, lng: loc.lng } });
     } catch {
       // Se fallisce, invia la sola descrizione
+      onChangeDestination(description);
       onSubmit({ description, location: null });
     }
     // Dopo la selezione, svuota i suggerimenti

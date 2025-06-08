@@ -31,6 +31,7 @@ interface Props {
   fastStops: string[]; // descrizioni step del percorso veloce
   safetyLevel: string | null; // grado di sicurezza del percorso sicuro
   fallbackReason: string | null; // motivo del fallback (es. nessun percorso sicuro disponibile)
+  onClose: () => void; // callback per chiudere la ricerca
 }
 
 // Componente principale
@@ -45,6 +46,7 @@ export default function RouteBottomSheet({
   fastStops,
   safetyLevel,
   fallbackReason,
+  onClose,
 }: Props) {
   return (
     <Modalize
@@ -55,11 +57,19 @@ export default function RouteBottomSheet({
       handleStyle={{ backgroundColor: COLORS.primary }}
     >
       <ScrollView style={{ padding: 16 }}>
+        <TouchableOpacity
+          onPress={onClose}
+          style={{ position: "absolute", right: 8, top: 8, padding: 4 }}
+        >
+          <Ionicons name="close" size={20} color={COLORS.primary} />
+        </TouchableOpacity>
         {/* Titolo dinamico in base al tipo di percorso selezionato */}
         <Text style={{ fontWeight: "bold", fontSize: 16 }}>
           {selectedRoute === "safe"
             ? `Percorso Sicuro`
-            : `Percorso Veloce a piedi ${fastDuration ? `(${fastDuration})` : ""}`}
+            : `Percorso Veloce a piedi ${
+                fastDuration ? `(${fastDuration})` : ""
+              }`}
         </Text>
 
         {/* Grado di sicurezza, solo per percorso sicuro */}

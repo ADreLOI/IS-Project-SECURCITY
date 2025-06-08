@@ -16,6 +16,7 @@ interface Props {
   fastRoute: Coordinate[] | null; // array di coordinate per il percorso veloce
   destinationCoords: Coordinate | null; // coordinate della destinazione selezionata
   destinationName: string; // nome leggibile della destinazione
+  onMapPress?: () => void; // callback per chiudere la ricerca se si tocca fuori
 }
 
 // Componente principale per il rendering della mappa e dei percorsi
@@ -26,6 +27,7 @@ export default function MapSection({
   fastRoute,
   destinationCoords,
   destinationName,
+  onMapPress,
 }: Props) {
   return (
     <MapView
@@ -33,6 +35,7 @@ export default function MapSection({
       style={{ flex: 1 }}
       showsUserLocation // mostra la posizione attuale dell’utente
       showsMyLocationButton // mostra il pulsante per tornare alla posizione dell’utente
+      onPress={onMapPress}
     >
       {/* Rendering del percorso SICURO (doppia linea: bordo esterno + colore primario) */}
       {selectedRoute === "safe" && safeRoute && (

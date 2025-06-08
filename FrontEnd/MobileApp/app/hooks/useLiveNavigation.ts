@@ -23,13 +23,17 @@ interface StartParams {
   fastRoute: Coordinate[] | null;
   setFastRoute: React.Dispatch<React.SetStateAction<Coordinate[] | null>>;
   safeSteps: Step[]; // elenco delle tappe del percorso sicuro
-  currentStep: number; // step attuale
+  currentStep: number; // step attuale per percorso sicuro
   setCurrentStep: React.Dispatch<React.SetStateAction<number>>;
+  fastSteps: Step[]; // tappe dettagliate del percorso veloce
+  currentFastStep: number; // step attuale per percorso veloce
+  setCurrentFastStep: React.Dispatch<React.SetStateAction<number>>;
   findNearestIndex: (
     coords: Coordinate[],
     loc: { latitude: number; longitude: number }
   ) => number; // funzione per trovare la coordinata più vicina alla posizione attuale
   bottomSheetRef: React.RefObject<Modalize>; // riferimento alla bottom sheet da chiudere
+  onArrive?: () => void; // callback opzionale al raggiungimento della meta
 }
 
 // Hook principale
@@ -38,6 +42,8 @@ export default function useLiveNavigation(mapRef: React.RefObject<MapView>) {
   const [headingAngle, setHeadingAngle] = useState(0); // angolo di orientamento del dispositivo
   const locationSub = useRef<Location.LocationSubscription | null>(null); // riferimento al listener sulla posizione
   const headingSub = useRef<Location.LocationSubscription | null>(null); // riferimento al listener sull’orientamento
+  const stepIndexRef = useRef(0); // indice step percorso sicuro
+  const fastStepIndexRef = useRef(0); // indice step percorso veloce
 
   // Al dismount del componente: rimuove entrambi i listener per evitare memory leak
   useEffect(() => {
@@ -58,10 +64,18 @@ export default function useLiveNavigation(mapRef: React.RefObject<MapView>) {
     safeSteps,
     currentStep,
     setCurrentStep,
+    fastSteps,
+    currentFastStep,
+    setCurrentFastStep,
     findNearestIndex,
     bottomSheetRef,
+    onArrive,
   }: StartParams) => {
     if (!origin) return;
+
+    // Imposta l'indice dello step corrente
+    stepIndexRef.current = currentStep;
+    fastStepIndexRef.current = currentFastStep;
 
     // Chiude la bottom sheet e attiva il flag di navigazione
     bottomSheetRef.current?.close();
@@ -87,14 +101,31 @@ export default function useLiveNavigation(mapRef: React.RefObject<MapView>) {
         }
 
         // Avanza allo step successivo del percorso sicuro se si è vicini al punto finale dello step attuale
-        if (selectedRoute === "safe" && safeSteps[currentStep]) {
-          const stepPoly = safeSteps[currentStep].polyline;
+        if (selectedRoute === "safe" && safeSteps[stepIndexRef.current]) {
+          const stepPoly = safeSteps[stepIndexRef.current].polyline;
           const lastPt = stepPoly[stepPoly.length - 1];
           const dist =
             (lastPt.latitude - latitude) ** 2 +
             (lastPt.longitude - longitude) ** 2;
-          if (dist < 0.000001 && currentStep < safeSteps.length - 1) {
-            setCurrentStep(currentStep + 1);
+          if (dist < 0.000001 && stepIndexRef.current < safeSteps.length - 1) {
+            stepIndexRef.current += 1;
+            setCurrentStep(stepIndexRef.current);
+          }
+        }
+
+        // Avanza allo step successivo del percorso veloce
+        if (selectedRoute === "fast" && fastSteps[fastStepIndexRef.current]) {
+          const stepPoly = fastSteps[fastStepIndexRef.current].polyline;
+          const lastPt = stepPoly[stepPoly.length - 1];
+          const dist =
+            (lastPt.latitude - latitude) ** 2 +
+            (lastPt.longitude - longitude) ** 2;
+          if (
+            dist < 0.000001 &&
+            fastStepIndexRef.current < fastSteps.length - 1
+          ) {
+            fastStepIndexRef.current += 1;
+            setCurrentFastStep(fastStepIndexRef.current);
           }
         }
 
@@ -108,6 +139,20 @@ export default function useLiveNavigation(mapRef: React.RefObject<MapView>) {
           },
           { duration: 500 }
         );
+
+        // termina la navigazione se si è vicini alla destinazione
+        const dest =
+          selectedRoute === "safe"
+            ? safeRoute?.[safeRoute.length - 1]
+            : fastRoute?.[fastRoute.length - 1];
+        if (dest) {
+          const dist =
+            (dest.latitude - latitude) ** 2 + (dest.longitude - longitude) ** 2;
+          if (dist < 0.00001) {
+            stopNavigation();
+            onArrive?.();
+          }
+        }
       }
     );
 
@@ -122,6 +167,17 @@ export default function useLiveNavigation(mapRef: React.RefObject<MapView>) {
     });
   };
 
+  // Interrompe la navigazione e rimuove i listener attivi
+  const stopNavigation = () => {
+    locationSub.current?.remove();
+    headingSub.current?.remove();
+    locationSub.current = null;
+    headingSub.current = null;
+    stepIndexRef.current = 0;
+    fastStepIndexRef.current = 0;
+    setIsNavigating(false);
+  };
+
   // Hook restituisce la funzione per avviare la navigazione, stato attivo e angolo attuale
-  return { startNavigation, isNavigating, headingAngle };
+  return { startNavigation, stopNavigation, isNavigating, headingAngle };
 }
