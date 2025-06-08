@@ -1,3 +1,4 @@
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { Stack } from "expo-router";
 import './global.css';
 import { useFonts } from 'expo-font';
@@ -20,6 +21,7 @@ export default function RootLayout()
 
   if (!fontsLoaded) return null;
   return (
+    <GestureHandlerRootView style={{ flex: 1 }}>
     <CittadinoProvider>
     <Stack> 
             <Stack.Screen name="index" options={{ headerShown: false }} />
@@ -27,5 +29,7 @@ export default function RootLayout()
             <Stack.Screen name="screens/login" options={{ headerShown: false }} />
     </Stack>
     </CittadinoProvider>
+    </GestureHandlerRootView>
+
   );
 }

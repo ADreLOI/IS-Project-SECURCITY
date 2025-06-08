@@ -34,6 +34,7 @@ export default function SignUp() {
       //Function to check if the user is already logged in with JWT token
       try 
       {
+        console.log("URL",apiUrl)
         const token = await AsyncStorage.getItem('jwtToken');
         if (token) 
         {
