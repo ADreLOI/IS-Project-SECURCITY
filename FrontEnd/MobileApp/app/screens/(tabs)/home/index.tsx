@@ -1,7 +1,7 @@
 // screens/(tabs)/home/index.tsx
 
 import React, { useEffect, useRef, useState } from "react";
-import { View, Text, Alert } from "react-native";
+import { View, Text, Alert, TouchableOpacity } from "react-native";
 import MapView from "react-native-maps";
 import * as Location from "expo-location";
 import { Modalize } from "react-native-modalize";
@@ -48,12 +48,16 @@ export default function HomeScreen() {
     setFastRoute,
     fastStops,
     fastDuration,
+    fastStepsNav,
+    currentFastStep,
+    setCurrentFastStep,
     safetyLevel,
     fallbackReason,
     safeSteps,
     currentStep,
     setCurrentStep,
     handleDestinationSubmit,
+    clearRoutes,
   } = useRouteFetcher(
     origin,
     originName,
@@ -62,14 +66,8 @@ export default function HomeScreen() {
   );
 
   // Hook per la navigazione dinamica durante il tragitto
-  const { startNavigation, isNavigating, headingAngle } =
+  const { startNavigation, stopNavigation, isNavigating, headingAngle } =
     useLiveNavigation(mapRef);
-
-  // Stato per la navigazione del percorso veloce
-  const [fastStepsNav, setFastStepsNav] = useState<
-    { instruction: string; polyline: Coordinate[] }[]
-  >([]);
-  const [currentFastStep, setCurrentFastStep] = useState(0);
 
   // Funzione di supporto per trovare il punto più vicino alla posizione attuale
   const findNearestIndex = (
@@ -135,7 +133,29 @@ export default function HomeScreen() {
         fastRoute={fastRoute}
         destinationCoords={destinationCoords}
         destinationName={destinationName}
+        onMapPress={!isNavigating ? clearRoutes : undefined}
       />
+
+      {/* Pulsante per annullare la navigazione */}
+      {isNavigating && (
+        <TouchableOpacity
+          onPress={() => {
+            stopNavigation();
+            bottomSheetRef.current?.open();
+          }}
+          style={{
+            position: "absolute",
+            top: 80,
+            right: 16,
+            backgroundColor: "white",
+            padding: 8,
+            borderRadius: 20,
+            elevation: 5,
+          }}
+        >
+          <Ionicons name="close" size={20} color={COLORS.primary} />
+        </TouchableOpacity>
+      )}
 
       {/* Indicazioni durante la navigazione per il percorso SICURO */}
       {isNavigating && selectedRoute === "safe" && safeSteps[currentStep] && (
@@ -234,10 +254,15 @@ export default function HomeScreen() {
             safeSteps,
             currentStep,
             setCurrentStep,
+            fastSteps: fastStepsNav,
+            currentFastStep,
+            setCurrentFastStep,
             findNearestIndex,
             bottomSheetRef,
+            onArrive: () => bottomSheetRef.current?.open(),
           })
         }
+        onClose={clearRoutes}
         safeStops={safeStops}
         fastStops={fastStops}
         safetyLevel={safetyLevel}

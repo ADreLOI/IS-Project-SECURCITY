@@ -44,8 +44,31 @@ export default function useRouteFetcher(
   const [fastRoute, setFastRoute] = useState<Coordinate[] | null>(null);
   const [fastStops, setFastStops] = useState<string[]>([]);
   const [fastDuration, setFastDuration] = useState<string | null>(null);
+  const [fastStepsNav, setFastStepsNav] = useState<
+    { instruction: string; polyline: Coordinate[] }[]
+  >([]);
+  const [currentFastStep, setCurrentFastStep] = useState(0);
 
   const [currentStep, setCurrentStep] = useState(0);
+
+  // Funzione per ripulire i percorsi calcolati e chiudere la bottom sheet
+  const clearRoutes = () => {
+    setSafeRoute(null);
+    setFastRoute(null);
+    setSafeStops([]);
+    setFastStops([]);
+    setSafeDuration(null);
+    setFastDuration(null);
+    setSafetyLevel(null);
+    setFallbackReason(null);
+    setSafeSteps([]);
+    setFastStepsNav([]);
+    setCurrentFastStep(0);
+    setDestination("");
+    setDestinationCoords(null);
+    setDestinationName("Destinazione");
+    bottomSheetRef.current?.close();
+  };
 
   // Funzione che chiama il backend e Google Directions API per calcolare entrambi i percorsi
   const fetchRoutes = async () => {
@@ -131,6 +154,12 @@ export default function useRouteFetcher(
           s.html_instructions.replace(/<[^>]+>/g, "")
         ) || [];
       setFastStops(fastStepsArr);
+      const fastNavArr = fastLeg.steps.map((s: any) => ({
+        instruction: s.html_instructions.replace(/<[^>]+>/g, ""),
+        polyline: decodePolyline(s.polyline.points),
+      }));
+      setFastStepsNav(fastNavArr);
+      setCurrentFastStep(0);
 
       // Centra la mappa tra origine e destinazione
       mapRef.current?.fitToCoordinates([origin, destinationCoords], {
@@ -193,6 +222,8 @@ export default function useRouteFetcher(
     setFastRoute,
     fastStops,
     fastDuration,
+    fastStepsNav,
+    currentFastStep,
     safetyLevel,
     fallbackReason,
     safeSteps,
@@ -200,5 +231,7 @@ export default function useRouteFetcher(
     currentStep,
     setCurrentStep,
     handleDestinationSubmit,
+    clearRoutes,
+    setCurrentFastStep,
   };
 }
