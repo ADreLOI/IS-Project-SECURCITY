@@ -15,6 +15,7 @@ import Animated, {
   withTiming,
   Easing,
 } from "react-native-reanimated";
+import API_BASE_URL from "@config";
 
 // Type for JWT payload
 interface JWTPayload {
@@ -87,7 +88,11 @@ export default function LoginPage() {
 
     try {
       const response = await fetch(
+<<<<<<< HEAD
         `${apiUrl}/api/v1/operatoreComunale/login-operatore`,
+=======
+        `${API_BASE_URL}/api/v1/operatoreComunale/login-operatore`,
+>>>>>>> origin/itinerario
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

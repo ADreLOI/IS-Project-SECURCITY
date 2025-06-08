@@ -192,7 +192,7 @@ const getCittadinoByID = async (req, res) => {
   } catch (error) {
     console.error("Error fetching user:", error);
     res.status(500).json({ error: error.message });
-  }
+  } 
 };
 
 const addContattoEmergenza = async (req, res) => {

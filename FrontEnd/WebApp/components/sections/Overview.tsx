@@ -19,7 +19,7 @@ export default function Overview() {
   const [recentSegnalazioni, setRecentSegnalazioni] = useState<Segnalazione[]>(
     []
   );
-  
+
   useEffect(() => {
     const fetchSegnalazioni = async () => {
       try {
@@ -110,9 +110,7 @@ export default function Overview() {
                 <View
                   className={`px-3 py-1 rounded-full border ${borderColor} ${bgColor}`}
                 >
-                  <Text
-                    className={`text-xs font-GothamBold ${textColor}`}
-                  >
+                  <Text className={`text-xs font-GothamBold ${textColor}`}>
                     {" "}
                     {s.status}
                   </Text>

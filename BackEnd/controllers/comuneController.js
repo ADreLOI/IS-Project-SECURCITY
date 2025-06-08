@@ -2,7 +2,6 @@ const ComuneToken = require("../models/comuneTokenModel");
 
 const generaTokenComune = async (req, res) => {
   const { codiceAdmin } = req.body;
-
   // Verifies admin password (from .env)
   if (!codiceAdmin || codiceAdmin !== process.env.SECRET_ADMIN_CODE) {
     return res
@@ -18,7 +17,7 @@ const generaTokenComune = async (req, res) => {
     });
 
     await newToken.save();
-
+ 
     return res.status(201).json({
       message: "Token generato con successo.",
       token: value,

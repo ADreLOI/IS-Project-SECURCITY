@@ -46,6 +46,7 @@ export default
     },
     "plugins": [
       "expo-router",
+      "expo-location",
       [
         "expo-splash-screen",
         {
@@ -74,6 +75,7 @@ export default
     },
     "extra": {
       "router": {},
+      "GOOGLE_MAPS_API_KEY": "AIzaSyDmym-f0vXx62WkOvhKLAjx2vNAUazdrb4",
       "eas": {
         "projectId":"0f8eff7a-84b0-4265-9967-653f44445113"
       },

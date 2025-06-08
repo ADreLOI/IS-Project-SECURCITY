@@ -3,6 +3,7 @@ import { useLocalSearchParams, useRouter } from "expo-router";
 import { View, Text, TouchableOpacity, Modal, ScrollView } from "react-native";
 import axios from "axios";
 import Animated, { FadeIn, SlideInLeft } from "react-native-reanimated";
+import API_BASE_URL from "@config";
 
 // Component for displaying the details of a single report
 export default function DettaglioSegnalazione() {

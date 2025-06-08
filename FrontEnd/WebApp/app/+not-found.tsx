@@ -1,42 +1,38 @@
 // app/+not-found.tsx
-import { Link, Stack } from "expo-router";
-import { StyleSheet, Text, View } from "react-native";
+import { View, Text, TouchableOpacity } from "react-native";
+import { useRouter } from "expo-router";
 
-export default function NotFoundScreen() {
+export default function NotFound() {
+  const router = useRouter();
+
   return (
-    <>
-      <Stack.Screen options={{ title: "Pagina non trovata" }} />
-      <View style={styles.container}>
-        <Text style={styles.title}>Questa pagina non esiste.</Text>
-        <Link href="/" style={styles.link}>
-          <Text style={styles.linkText}>Torna alla login</Text>
-        </Link>
+    <View className="flex-1 items-center justify-center bg-[#011126] px-6">
+      {/* Logo tipografico */}
+      <View className="mb-10">
+        <Text className="text-5xl font-GothamUltra flex-row">
+          <Text className="text-white">SECUR</Text>
+          <Text className="text-[#0AA696]">C</Text>
+          <Text className="text-white">ITY</Text>
+        </Text>
       </View>
-    </>
+
+      {/* Titolo 404 */}
+      <Text className="text-white text-6xl font-GothamUltra mb-4">404</Text>
+
+      {/* Messaggio errore */}
+      <Text className="text-white text-xl font-GothamBold mb-8 text-center">
+        Pagina non trovata. Il percorso che hai inserito non esiste.
+      </Text>
+
+      {/* Pulsante ritorno */}
+      <TouchableOpacity
+        onPress={() => router.replace("/")}
+        className="bg-[#0AA696] px-6 py-3 rounded-2xl"
+      >
+        <Text className="text-white text-lg font-GothamBold">
+          Torna alla Home
+        </Text>
+      </TouchableOpacity>
+    </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    padding: 20,
-    backgroundColor: "#011126",
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: "bold",
-    color: "white",
-  },
-  link: {
-    marginTop: 20,
-    padding: 10,
-    borderRadius: 8,
-    backgroundColor: "#0AA696",
-  },
-  linkText: {
-    color: "white",
-    fontWeight: "bold",
-  },
-});
