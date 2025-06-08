@@ -7,6 +7,12 @@ const axios = require("axios");
 // Chiave API per le richieste a Google Maps
 const GOOGLE_MAPS_API_KEY = process.env.GOOGLE_MAPS_API_KEY;
 
+// Pesi per i vari fattori di sicurezza
+const PESO_NEGOZIO = 1; // presenza di negozi aperti
+const PESO_SENSORE_MEDIO = 1; // sensore con affollamento >= 50%
+const PESO_SENSORE_ALTO = 2; // sensore con affollamento >= 70%
+const PESO_SEGNALAZIONE = -2; // penalità per segnalazioni di crimini
+
 // Funzione per calcolare la distanza in metri tra due coordinate [lon, lat] usando la formula dell'haversine
 function distanza(a, b) {
   const [lon1, lat1] = a;
@@ -81,16 +87,25 @@ const generaPercorsoSicuro = async (req, res) => {
     // Funzione di supporto per calcolare lo score di un punto
     const calcolaScore = (p) => {
       let s = 0;
-      if (esercizi.some((es) => distanza(p, es.coordinate) < 150)) s++;
-      if (
-        sensori.some(
-          (sn) =>
-            distanza(p, sn.coordinate) < 150 && sn.affollamentoCalcolato >= 50
-        )
-      )
-        s++;
-      if (segnalazioni.some((seg) => distanza(p, seg.tappa.coordinate) < 150))
-        s--;
+
+      // Incrementa se nelle vicinanze c'è almeno un esercizio aperto
+      if (esercizi.some((es) => distanza(p, es.coordinate) < 150)) {
+        s += PESO_NEGOZIO;
+      }
+
+      // Aggiunge punteggio in base al livello di affollamento rilevato dai sensori
+      sensori.forEach((sn) => {
+        if (distanza(p, sn.coordinate) < 150) {
+          if (sn.affollamentoCalcolato >= 70) s += PESO_SENSORE_ALTO;
+          else if (sn.affollamentoCalcolato >= 50) s += PESO_SENSORE_MEDIO;
+        }
+      });
+
+      // Penalizza se ci sono segnalazioni di reati nelle vicinanze
+      if (segnalazioni.some((seg) => distanza(p, seg.tappa.coordinate) < 150)) {
+        s += PESO_SEGNALAZIONE;
+      }
+
       return s;
     };
 
@@ -155,7 +170,24 @@ const generaPercorsoSicuro = async (req, res) => {
       destinazione,
     ];
 
-    // 8. Controlla se il percorso sicuro è di fatto identico alla fast route.
+    // 8. Elimina eventuali tappe che causerebbero deviazioni eccessive o
+    //    "rami" nella poliline. Se la somma delle distanze prev->curr e
+    //    curr->next è molto più grande della distanza diretta prev->next,
+    //    la tappa intermedia non porta vantaggi e viene rimossa.
+    const MAX_DEVIATION_RATIO = 2; // tolleranza sul tragitto
+    for (let i = 1; i < tappeFinali.length - 1; i++) {
+      const prev = tappeFinali[i - 1].coordinate;
+      const curr = tappeFinali[i].coordinate;
+      const next = tappeFinali[i + 1].coordinate;
+      const direct = distanza(prev, next);
+      const withStop = distanza(prev, curr) + distanza(curr, next);
+      if (withStop > MAX_DEVIATION_RATIO * direct) {
+        tappeFinali.splice(i, 1);
+        i--; // ricontrolla la nuova combinazione
+      }
+    }
+
+    // 9. Controlla se il percorso sicuro è di fatto identico alla fast route.
     //    Ora le tappe sicure possono includere deviazioni, quindi verifichiamo
     //    semplicemente che ogni tappa (escluse partenza e destinazione) sia
     //    molto vicina a una delle tappe del percorso veloce.
@@ -173,7 +205,7 @@ const generaPercorsoSicuro = async (req, res) => {
       });
     }
 
-    // 9. Salva il nuovo itinerario nel database
+    // 10. Salva il nuovo itinerario nel database
     console.log(
       "Tappe percorso sicuro:",
       tappeFinali.map((t) => t.coordinate)
