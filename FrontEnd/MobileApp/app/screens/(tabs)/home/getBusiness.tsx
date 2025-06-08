@@ -60,6 +60,15 @@ function decodePolyline(
 
 const GOOGLE_MAPS_API_KEY = "AIzaSyDmym-f0vXx62WkOvhKLAjx2vNAUazdrb4";
 
+// Palette Securcity
+const COLORS = {
+  primary: "#01261C",
+  accent: "#065F46",
+  highlight: "#059669",
+  secondary: "#2563EB",
+  lightGray: "#E5E7EB",
+};
+
 type Coordinate = { latitude: number; longitude: number };
 type Tappa = { nome: string; coordinate: [number, number] };
 
@@ -83,8 +92,42 @@ export default function HomeScreen() {
   const [safetyLevel, setSafetyLevel] = useState<string | null>(null);
   const [fallbackReason, setFallbackReason] = useState<string | null>(null);
 
+  // navigation state
+  const [isNavigating, setIsNavigating] = useState(false);
+  const [headingAngle, setHeadingAngle] = useState(0);
+  const locationSub = useRef<Location.LocationSubscription | null>(null);
+  const headingSub = useRef<Location.LocationSubscription | null>(null);
+
+  // turn-by-turn steps for 'safe' route
+  const [safeSteps, setSafeSteps] = useState<
+    { instruction: string; polyline: Coordinate[] }[]
+  >([]);
+  const [currentStep, setCurrentStep] = useState(0);
+  const [fastStepsNav, setFastStepsNav] = useState<
+    { instruction: string; polyline: Coordinate[] }[]
+  >([]);
+  const [currentFastStep, setCurrentFastStep] = useState(0);
+
   const mapRef = useRef<MapView>(null);
   const bottomSheetRef = useRef<Modalize>(null);
+
+  // helper per tagliare il percorso già fatto
+  const findNearestIndex = (
+    coords: Coordinate[],
+    loc: { latitude: number; longitude: number }
+  ) => {
+    let minD = Infinity,
+      idx = 0;
+    coords.forEach((c, i) => {
+      const d =
+        (c.latitude - loc.latitude) ** 2 + (c.longitude - loc.longitude) ** 2;
+      if (d < minD) {
+        minD = d;
+        idx = i;
+      }
+    });
+    return idx;
+  };
 
   useEffect(() => {
     (async () => {
@@ -149,38 +192,62 @@ export default function HomeScreen() {
       setFallbackReason(null);
       setSafeStops(tappe);
 
+      // GOOGLE SAFE ROUTE
       const originStr = `${tappe[0].coordinate[1]},${tappe[0].coordinate[0]}`;
-      const destinationStr = `${tappe[tappe.length - 1].coordinate[1]},${tappe[tappe.length - 1].coordinate[0]}`;
+      const destinationStr = `${
+        tappe[tappe.length - 1].coordinate[1]
+      },${tappe[tappe.length - 1].coordinate[0]}`;
       const waypointsStr = tappe
         .slice(1, -1)
         .map((t: any) => `${t.coordinate[1]},${t.coordinate[0]}`)
         .join("|");
 
-      const safeURL = `https://maps.googleapis.com/maps/api/directions/json?origin=${originStr}&destination=${destinationStr}&mode=walking&waypoints=${encodeURIComponent(waypointsStr)}&key=${GOOGLE_MAPS_API_KEY}`;
+      const safeURL =
+        `https://maps.googleapis.com/maps/api/directions/json?origin=${originStr}` +
+        `&destination=${destinationStr}&mode=walking&waypoints=${encodeURIComponent(
+          waypointsStr
+        )}&key=${GOOGLE_MAPS_API_KEY}`;
       const safeResGoogle = await axios.get(safeURL);
-      const safePolyline =
-        safeResGoogle.data.routes?.[0]?.overview_polyline?.points;
-      const safeDur = safeResGoogle.data.routes?.[0]?.legs?.[0]?.duration?.text;
-      if (safePolyline) setSafeRoute(decodePolyline(safePolyline));
-      if (safeDur) setSafeDuration(safeDur);
+      const route = safeResGoogle.data.routes[0];
+      const poly = route.overview_polyline.points;
+      const legs = route.legs[0];
 
-      const fastURL = `https://maps.googleapis.com/maps/api/directions/json?origin=${origin.latitude},${origin.longitude}&destination=${destinationCoords.latitude},${destinationCoords.longitude}&mode=walking&key=${GOOGLE_MAPS_API_KEY}`;
+      setSafeRoute(decodePolyline(poly));
+      setSafeDuration(legs.duration.text);
+      const steps = legs.steps.map((s: any) => ({
+        instruction: s.html_instructions.replace(/<[^>]+>/g, ""),
+        polyline: decodePolyline(s.polyline.points),
+      }));
+      setSafeSteps(steps);
+      setCurrentStep(0);
+
+      // GOOGLE FAST ROUTE
+      const fastURL =
+        `https://maps.googleapis.com/maps/api/directions/json?origin=${origin.latitude},${origin.longitude}` +
+        `&destination=${destinationCoords.latitude},${
+          destinationCoords.longitude
+        }&mode=walking&key=${GOOGLE_MAPS_API_KEY}`;
       const fastRes = await axios.get(fastURL);
-      const fastPolyline = fastRes.data.routes?.[0]?.overview_polyline?.points;
-      if (fastPolyline) setFastRoute(decodePolyline(fastPolyline));
-
-      const fastDur = fastRes.data.routes?.[0]?.legs?.[0]?.duration?.text;
-      const fastSteps =
-        fastRes.data.routes?.[0]?.legs?.[0]?.steps?.map((s: any) =>
+      const fastPoly = fastRes.data.routes?.[0]?.overview_polyline?.points;
+      if (fastPoly) setFastRoute(decodePolyline(fastPoly));
+      const fastLeg = fastRes.data.routes[0].legs[0];
+      setFastDuration(fastLeg.duration.text);
+      const fastStepsArr =
+        fastLeg.steps.map((s: any) =>
           s.html_instructions.replace(/<[^>]+>/g, "")
         ) || [];
-      setFastDuration(fastDur || null);
-      setFastStops(fastSteps);
+      setFastStops(fastStepsArr);
 
       mapRef.current?.fitToCoordinates([origin, destinationCoords], {
         edgePadding: { top: 100, bottom: 300, left: 50, right: 50 },
         animated: true,
       });
+      mapRef.current?.fitToCoordinates([origin, destinationCoords], {
+        edgePadding: { top: 100, bottom: 300, left: 50, right: 50 },
+        animated: true,
+      });
+      // piccoli ms di pausa per garantire il layout
+      await new Promise((res) => setTimeout(res, 300));
       bottomSheetRef.current?.open();
     } catch (err) {
       console.error("Errore nel calcolo percorsi:", err);
@@ -192,7 +259,9 @@ export default function HomeScreen() {
     if (!destination) return;
     try {
       const res = await axios.get(
-        `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(destination)}&key=${GOOGLE_MAPS_API_KEY}`
+        `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(
+          destination
+        )}&key=${GOOGLE_MAPS_API_KEY}`
       );
       const result = res.data.results[0];
       const location = result?.geometry?.location;
@@ -214,6 +283,65 @@ export default function HomeScreen() {
     }
   };
 
+  const startNavigation = async () => {
+    if (!origin) return;
+    // 1) chiudo subito la sheet
+    bottomSheetRef.current?.close();
+    // 2) inizio navigazione live…
+    setIsNavigating(true);
+    locationSub.current = await Location.watchPositionAsync(
+      {
+        accuracy: Location.Accuracy.BestForNavigation,
+        timeInterval: 1000,
+        distanceInterval: 1,
+      },
+      (loc) => {
+        const { latitude, longitude } = loc.coords;
+        if (selectedRoute === "safe" && safeRoute) {
+          const i = findNearestIndex(safeRoute, loc.coords);
+          setSafeRoute(safeRoute.slice(i));
+        } else if (selectedRoute === "fast" && fastRoute) {
+          const i = findNearestIndex(fastRoute, loc.coords);
+          setFastRoute(fastRoute.slice(i));
+        }
+        if (selectedRoute === "safe" && safeSteps[currentStep]) {
+          const stepPoly = safeSteps[currentStep].polyline;
+          const lastPt = stepPoly[stepPoly.length - 1];
+          const dist =
+            (lastPt.latitude - latitude) ** 2 +
+            (lastPt.longitude - longitude) ** 2;
+          if (dist < 0.000001 && currentStep < safeSteps.length - 1) {
+            setCurrentStep(currentStep + 1);
+          }
+        }
+        mapRef.current?.animateCamera(
+          {
+            center: { latitude, longitude },
+            heading: headingAngle,
+            pitch: 60,
+            zoom: 18,
+          },
+          { duration: 500 }
+        );
+      }
+    );
+    headingSub.current = await Location.watchHeadingAsync((heading) => {
+      const newHeading = heading.trueHeading ?? heading.magHeading;
+      setHeadingAngle(newHeading);
+      mapRef.current?.animateCamera(
+        { heading: newHeading, pitch: 60 },
+        { duration: 300 }
+      );
+    });
+  };
+
+  useEffect(() => {
+    return () => {
+      locationSub.current?.remove();
+      headingSub.current?.remove();
+    };
+  }, []);
+
   return (
     <View style={{ flex: 1 }}>
       <MapView
@@ -222,26 +350,111 @@ export default function HomeScreen() {
         showsUserLocation
         showsMyLocationButton
       >
+        //{/* percorso con doppio bordo
         {selectedRoute === "safe" && safeRoute && (
-          <Polyline
-            coordinates={safeRoute}
-            strokeColor="#01261C"
-            strokeWidth={4}
-          />
+          <>
+            <Polyline
+              coordinates={safeRoute}
+              strokeColor={COLORS.primary}
+              strokeWidth={10}
+            />
+            <Polyline
+              coordinates={safeRoute}
+              strokeColor={COLORS.highlight}
+              strokeWidth={6}
+            />
+          </>
         )}
         {selectedRoute === "fast" && fastRoute && (
-          <Polyline
-            coordinates={fastRoute}
-            strokeColor="gray"
-            strokeWidth={3}
-          />
+          <>
+            <Polyline
+              coordinates={fastRoute}
+              strokeColor={COLORS.primary}
+              strokeWidth={10}
+            />
+            <Polyline
+              coordinates={fastRoute}
+              strokeColor={COLORS.secondary}
+              strokeWidth={6}
+            />
+          </>
         )}
         {destinationCoords && (
           <Marker coordinate={destinationCoords} title={destinationName} />
         )}
       </MapView>
 
-      //Barra di ricerca
+      {/* overlay indicazione turno corrente
+      {isNavigating && selectedRoute === "safe" && safeSteps[currentStep] && (
+        <View
+          style={{
+            position: "absolute",
+            bottom: 180, // poco sopra la bottom sheet
+            left: 16,
+            right: 16,
+            flexDirection: "row",
+            alignItems: "center",
+            backgroundColor: "rgba(1,38,28,0.9)",
+            padding: 12,
+            borderRadius: 8,
+            shadowColor: "#000",
+            shadowOpacity: 0.3,
+            shadowRadius: 5,
+            elevation: 5,
+          }}
+        >
+          <Ionicons name="arrow-forward" size={20} color="white" />
+          <Text
+            style={{
+              color: "white",
+              fontSize: 16,
+              marginLeft: 12,
+              flex: 1,
+              fontFamily: "Gotham",
+            }}
+            numberOfLines={2}
+          >
+            {safeSteps[currentStep].instruction}
+          </Text>
+        </View>
+      )}
+      {isNavigating &&
+        selectedRoute === "fast" &&
+        fastStepsNav[currentFastStep] && (
+          <View
+            style={{
+              position: "absolute",
+              bottom: 180,
+              left: 16,
+              right: 16,
+              flexDirection: "row",
+              alignItems: "center",
+              backgroundColor: "rgba(1,38,28,0.9)",
+              padding: 12,
+              borderRadius: 8,
+              shadowColor: "#000",
+              shadowOpacity: 0.3,
+              shadowRadius: 5,
+              elevation: 5,
+            }}
+          >
+            <Ionicons name="arrow-forward" size={20} color="white" />
+            <Text
+              style={{
+                color: "white",
+                fontSize: 16,
+                marginLeft: 12,
+                flex: 1,
+                fontFamily: "Gotham",
+              }}
+              numberOfLines={2}
+            >
+              {fastStepsNav[currentFastStep].instruction}
+            </Text>
+          </View>
+        )}
+
+      {/* Barra di ricerca
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : undefined}
         style={{
@@ -263,7 +476,7 @@ export default function HomeScreen() {
             shadowRadius: 6,
           }}
         >
-          <Ionicons name="search" size={20} color="#888" />
+          <Ionicons name="search" size={20} color={COLORS.primary} />
           <TextInput
             style={{ flex: 1, marginLeft: 8, fontSize: 14 }}
             placeholder="Cerca destinazione..."
@@ -275,11 +488,13 @@ export default function HomeScreen() {
         </View>
       </KeyboardAvoidingView>
 
-      //Bottom sheet per i percorsi
+      {/* Bottom Sheet
       <Modalize
         ref={bottomSheetRef}
         modalHeight={420}
-        handleStyle={{ backgroundColor: "#ccc" }}
+        withOverlay={false}
+        overlayStyle={{ backgroundColor: "transparent" }}
+        handleStyle={{ backgroundColor: COLORS.primary }}
       >
         <ScrollView style={{ padding: 16 }}>
           <Text style={{ fontWeight: "bold", fontSize: 16 }}>
@@ -302,7 +517,7 @@ export default function HomeScreen() {
             </Text>
           )}
 
-          //Pulsanti percorso
+          {/* Pulsanti percorso
           <View
             style={{
               flexDirection: "row",
@@ -343,7 +558,7 @@ export default function HomeScreen() {
             </TouchableOpacity>
           </View>
 
-          //Pulsante avvio
+          {/* Pulsante avvio
           <TouchableOpacity
             style={{
               backgroundColor: "#059669",
@@ -353,21 +568,42 @@ export default function HomeScreen() {
               alignItems: "center",
               marginBottom: 12,
             }}
+            onPress={startNavigation} // ← qui colleghiamo la navigazione live
           >
             <Text style={{ color: "white", fontWeight: "bold" }}>
               Avvia Navigazione
             </Text>
           </TouchableOpacity>
 
-          //lista tappe
-          {selectedRoute === "safe" && safeStops.length > 0 && (
+          {/* Lista tappe
+          {selectedRoute === "safe" && safeStops.length > 2 && (
             <FlatList
               data={safeStops.slice(1, -1)}
               keyExtractor={(_, idx) => idx.toString()}
+              style={{ marginTop: 8 }}
               renderItem={({ item }) => (
-                <Text style={{ fontSize: 13, paddingVertical: 2 }}>
-                  • {item.nome}
-                </Text>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                    backgroundColor: COLORS.lightGray,
+                    padding: 10,
+                    borderRadius: 8,
+                    marginBottom: 6,
+                  }}
+                >
+                  <Ionicons name="ellipse" size={8} color={COLORS.primary} />
+                  <Text
+                    style={{
+                      marginLeft: 8,
+                      fontSize: 14,
+                      fontFamily: "Gotham",
+                      flexShrink: 1,
+                    }}
+                  >
+                    {item.nome}
+                  </Text>
+                </View>
               )}
             />
           )}
@@ -375,10 +611,30 @@ export default function HomeScreen() {
             <FlatList
               data={fastStops}
               keyExtractor={(_, idx) => idx.toString()}
+              style={{ marginTop: 8 }}
               renderItem={({ item }) => (
-                <Text style={{ fontSize: 13, paddingVertical: 2 }}>
-                  • {item}
-                </Text>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                    backgroundColor: COLORS.lightGray,
+                    padding: 10,
+                    borderRadius: 8,
+                    marginBottom: 6,
+                  }}
+                >
+                  <Ionicons name="ellipse" size={8} color={COLORS.primary} />
+                  <Text
+                    style={{
+                      marginLeft: 8,
+                      fontSize: 14,
+                      fontFamily: "Gotham",
+                      flexShrink: 1,
+                    }}
+                  >
+                    {item}
+                  </Text>
+                </View>
               )}
             />
           )}
@@ -387,4 +643,7 @@ export default function HomeScreen() {
     </View>
   );
 }
+
+
 */
+
