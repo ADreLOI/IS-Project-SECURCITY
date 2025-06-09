@@ -12,6 +12,7 @@ const { status } = require("../models/enumModel");
 const { IdentityPoolClient } = require("google-auth-library");
 const InfoComunali = require("../models/infoComunaliModel");
 const Itinerario = require("../models/itinerarioModel");
+const Sensore = require("../models/sensoreAffollamentoModel");
 
 // Operator signup handler
 const signupOperatore = async (req, res) => {
@@ -346,6 +347,19 @@ const getAllItinerari = async (req, res) => {
   }
 };
 
+// GET random crowd sensors (2)
+const getRandomSensori = async (req, res) => {
+  try {
+    const count = await Sensore.countDocuments();
+    const skip = count > 2 ? Math.floor(Math.random() * (count - 2)) : 0;
+    const sensori = await Sensore.find().skip(skip).limit(2);
+    res.status(200).json(sensori);
+  } catch (err) {
+    console.error('Errore recupero sensori:', err);
+    res.status(500).json({ message: 'Errore del server durante il recupero dei sensori.' });
+  }
+};
+
 module.exports = {
   loginOperatore,
   signupOperatore,
@@ -358,5 +372,6 @@ module.exports = {
   creaInformazione,
   getAllInformazioni,
   eliminaInformazione,
-  getAllItinerari 
+  getAllItinerari,
+  getRandomSensori
 };

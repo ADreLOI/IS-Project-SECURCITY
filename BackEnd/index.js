@@ -21,7 +21,7 @@ app.use(
     origin: (origin, callback) => {
       const allowedOrigins = [
         "http://localhost:8081",
-        "http://localhost:8082",
+        //"http://localhost:8082",
         "https://is-project-securcity.onrender.com",
       ];
 

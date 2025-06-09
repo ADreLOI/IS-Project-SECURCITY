@@ -178,7 +178,7 @@ const Statistiche = () => {
         style={{
           labels: { display:"none"},
         }}
-        colorScale={["#34D399", "#FBBF24", "#F87171", "#60A5FA", "#A78BFA"]}
+        colorScale={["#34D399", "#FBBF24", "#F87171", "#60A5FA", "#A78BFA", "#F472B6"]}
       />
     </Svg>
 
@@ -190,13 +190,27 @@ const Statistiche = () => {
         const percent = total > 0 ? ((slice.y / total) * 100).toFixed(1) : "0.0";
 
         return (
-          <View key={index} style={{ flexDirection: "row", alignItems: "center", marginBottom: 8 }}>
+          <View
+            key={index}
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              marginBottom: 8,
+            }}
+          >
             {/* Box colore */}
             <View
               style={{
                 width: 20,
                 height: 20,
-                backgroundColor: ["#34D399", "#FBBF24", "#F87171", "#60A5FA", "#A78BFA"][index],
+                backgroundColor: [
+                  "#34D399",
+                  "#FBBF24",
+                  "#F87171",
+                  "#60A5FA",
+                  "#A78BFA",
+                  "#F472B6",
+                ][index],
                 borderRadius: 4,
                 marginRight: 8,
               }}
