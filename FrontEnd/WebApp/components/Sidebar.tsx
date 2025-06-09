@@ -9,7 +9,7 @@ import {
   ChartLine,
   Cctv,
   LogOut,
-  Info
+  Info,
 } from "lucide-react"; // Icon set
 import Animated, {
   Easing,
@@ -17,7 +17,7 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from "react-native-reanimated";
-import Constants from 'expo-constants';
+import Constants from "expo-constants";
 
 const { apiUrl } = Constants.expoConfig?.extra ?? {};
 
@@ -104,10 +104,10 @@ export default function Sidebar({
         {/* Top logo section - toggles on click */}
         <TouchableOpacity
           onPress={toggleSidebar}
-          className={`mb-6 items-center ${expanded ? "flex-row" : "justify-center"}`}
+          className="mb-6 items-center justify-center w-full"
         >
           {expanded ? (
-            <Text className="text-white text-3xl font-GothamUltra flex-row">
+            <Text className="text-white text-3xl font-GothamUltra">
               SECUR
               <Text className="text-[#0AA696]">C</Text>
               ITY
@@ -136,9 +136,7 @@ export default function Sidebar({
       >
         <LogOut color="#F87171" size={26} />
         {expanded && (
-          <Text className="text-red-400 ml-4 font-GothamBold ">
-            Logout
-          </Text>
+          <Text className="text-red-400 ml-4 font-GothamBold ">Logout</Text>
         )}
       </TouchableOpacity>
     </Animated.View>
