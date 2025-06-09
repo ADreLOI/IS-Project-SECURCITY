@@ -9,7 +9,9 @@ import {
 } from "react-native";
 import { useRouter } from "expo-router";
 import axios from "axios";
-import API_BASE_URL from "@config";
+import Constants from 'expo-constants';
+
+const { apiUrl } = Constants.expoConfig?.extra ?? {};
 
 interface Segnalazione {
   _id: string;
@@ -58,7 +60,7 @@ export default function Segnalazioni() {
       try {
         const token = localStorage.getItem("token");
         const res = await axios.get(
-          `${API_BASE_URL}/api/v1/operatoreComunale/segnalazioni`,
+          `${apiUrl}/api/v1/operatoreComunale/segnalazioni`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -74,11 +76,25 @@ export default function Segnalazioni() {
     fetchSegnalazioni();
   }, []);
 
+  const confermate = segnalazioni.filter(s => s.status === "Confermata").length;
+  const rigettate = segnalazioni.filter(s => s.status === "Rigettata").length;
+  const pendenti = segnalazioni.filter(s => s.status === "Pendente").length;
+
   return (
     <ScrollView className="p-6 space-y-5">
       <Text className="text-white text-3xl font-GothamBold mb-4">
         Segnalazioni recenti
       </Text>
+
+      <View className="mb-4 bg-[#0F2A3B] p-4 rounded-2xl">
+        <Text className="text-white text-lg font-GothamBold mb-2"> Riepilogo</Text>
+        <View className="flex-row justify-between">
+          <Text className="text-green-400 font-GothamBold"> Confermate: {confermate}</Text>
+          <Text className="text-yellow-300 font-GothamBold"> Pendenti: {pendenti}</Text>
+          <Text className="text-red-400 font-GothamBold">Rigettate: {rigettate}</Text>
+        </View>
+      </View>
+
 
       {segnalazioni.map((s) => {
         const { bgColor, textColor, borderColor } = getStatusStyles(s.status);
@@ -93,7 +109,7 @@ export default function Segnalazioni() {
                 params: { id: s._id },
               })
             }
-            className={`bg-[#0A1C2E] rounded-2xl p-5 shadow-md border border-[#0F2A3B] transition-all duration-200 ease-in-out hover:scale-[1.01]`}
+            className={`mb-4 bg-[#0A1C2E] rounded-2xl p-5 shadow-md border border-[#0F2A3B] transition-all duration-200 ease-in-out hover:scale-[1.01]`}
             style={{ gap: 4 }}
           >
             <View className="flex-row justify-between items-center">

@@ -9,6 +9,7 @@ import {
   ChartLine,
   Cctv,
   LogOut,
+  Info,
 } from "lucide-react"; // Icon set
 import Animated, {
   Easing,
@@ -16,6 +17,9 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from "react-native-reanimated";
+import Constants from "expo-constants";
+
+const { apiUrl } = Constants.expoConfig?.extra ?? {};
 
 // Sidebar component for navigation
 export default function Sidebar({
@@ -69,7 +73,7 @@ export default function Sidebar({
       // Backend call to logout endpoint with token in Authorization header
       const response = await axios({
         method: "post",
-        url: `${API_BASE_URL}/api/v1/operatoreComunale/logout-operatore`,
+        url: `${apiUrl}/api/v1/operatoreComunale/logout-operatore`,
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
@@ -100,10 +104,10 @@ export default function Sidebar({
         {/* Top logo section - toggles on click */}
         <TouchableOpacity
           onPress={toggleSidebar}
-          className={`mb-6 items-center ${expanded ? "flex-row" : "justify-center"}`}
+          className="mb-6 items-center justify-center w-full"
         >
           {expanded ? (
-            <Text className="text-white text-3xl font-GothamUltra flex-row">
+            <Text className="text-white text-3xl font-GothamUltra">
               SECUR
               <Text className="text-[#0AA696]">C</Text>
               ITY
@@ -122,6 +126,7 @@ export default function Sidebar({
         />
         <MenuItem icon={ChartLine} label="Statistiche" section="statistiche" />
         <MenuItem icon={Cctv} label="Sensori" section="sensori" />
+        <MenuItem icon={Info} label="Informazioni" section="informazioni" />
       </View>
 
       {/* Logout item */}
@@ -131,9 +136,7 @@ export default function Sidebar({
       >
         <LogOut color="#F87171" size={26} />
         {expanded && (
-          <Text className="text-red-400 ml-4 font-GothamBold text-base border">
-            Logout
-          </Text>
+          <Text className="text-red-400 ml-4 font-GothamBold ">Logout</Text>
         )}
       </TouchableOpacity>
     </Animated.View>

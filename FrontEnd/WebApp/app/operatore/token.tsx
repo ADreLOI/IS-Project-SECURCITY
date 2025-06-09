@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { View, Text, TextInput, TouchableOpacity } from "react-native";
 import Animated, { FadeIn, FadeOut, SlideInUp } from "react-native-reanimated";
-import API_BASE_URL from "@config";
+import Constants from 'expo-constants';
+
+const { apiUrl } = Constants.expoConfig?.extra ?? {};
 
 export default function TokenGeneratorPage() {
   // Local state variables for inputs and UI flow
@@ -13,6 +15,9 @@ export default function TokenGeneratorPage() {
   const [showCopied, setShowCopied] = useState(false); // Flag to display 'copied' message
   const [isValidated, setIsValidated] = useState(false); // Tracks if admin code has been validated
 
+
+
+  
   // Function to request token generation from the backend
   const handleGenerateToken = async () => {
     setIsGenerating(true);
@@ -21,7 +26,7 @@ export default function TokenGeneratorPage() {
 
     try {
       const response = await fetch(
-        `${API_BASE_URL}/api/v1/comune/genera-token`,
+        `${apiUrl}/api/v1/comune/genera-token`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

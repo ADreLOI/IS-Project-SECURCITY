@@ -11,7 +11,9 @@ import { jwtDecode } from 'jwt-decode';
 import { JWTPayload, ContattoEmergenza } from '../../../types/index';
 import { useRouter } from 'expo-router';
 import { FontAwesome, MaterialIcons } from '@expo/vector-icons';
-import { API_BASE_URL } from '../../../../config'; // Import the API base URL
+import Constants from 'expo-constants';
+
+const { apiUrl } = Constants.expoConfig?.extra ?? {};
 
 const profile = () => {
 
@@ -42,7 +44,7 @@ const sendConfirmationToken = async () =>
     const decoded = jwtDecode<JWTPayload>(token);
     try {
       const response = await axios.post(
-        `${API_BASE_URL}/api/v1/cittadino/resendToken/${decoded.id}`,
+        `${apiUrl}/api/v1/cittadino/resendToken/${decoded.id}`,
         {},
         {
           headers: 

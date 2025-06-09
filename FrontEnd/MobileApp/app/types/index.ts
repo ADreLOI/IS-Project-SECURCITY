@@ -111,3 +111,8 @@ export interface JWTPayload
   [key: string]: any;
 }
 
+export type LatLng = {
+  latitude: number;
+  longitude: number;
+};
+  

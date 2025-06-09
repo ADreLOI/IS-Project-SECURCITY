@@ -31,7 +31,7 @@ const itinerarioSchema = new mongoose.Schema
         eserciziCommerciali:
         {
             type: [eserciziCommercialiSchema],
-            required: true,
+            required: false,
         },
         taxiReperibili:
         {
@@ -41,7 +41,7 @@ const itinerarioSchema = new mongoose.Schema
         casermeForzeOrdine:
         {
             type: [casermeForzeOrdineSchema],
-            required: true,
+            required: false,
         },
         infoComunali:
         {
@@ -52,7 +52,7 @@ const itinerarioSchema = new mongoose.Schema
         {
             type: String,
             enum: Object.values(gradoSicurezza),
-            required: true,
+            required: false,
         }
     }
 );

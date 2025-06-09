@@ -15,13 +15,15 @@ import Animated, {
   withTiming,
   Easing,
 } from "react-native-reanimated";
-import API_BASE_URL from "@config";
-
+<meta http-equiv="Content-Security-Policy" content="default-src * 'self' blob: data: gap:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' 'unsafe-eval'"></meta>
 // Type for JWT payload
 interface JWTPayload {
   exp: number;
   [key: string]: any;
 }
+import Constants from 'expo-constants';
+
+const { apiUrl } = Constants.expoConfig?.extra ?? {};
 
 export default function LoginPage() {
   const [username, setUsername] = useState("");
@@ -49,30 +51,39 @@ export default function LoginPage() {
   }, []);
 
   useEffect(() => {
-    // Check for a valid token to auto-redirect authenticated user
-    const checkAuth = () => {
-      const token = localStorage.getItem("token");
-      if (token) {
-        try {
-          const decoded = jwtDecode<JWTPayload>(token);
-          const now = Math.floor(Date.now() / 1000);
-          if (decoded.exp > now) {
+  let isMounted = true;
+
+  const checkAuth = () => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      try {
+        const decoded = jwtDecode<JWTPayload>(token);
+        const now = Math.floor(Date.now() / 1000);
+        if (decoded.exp > now) {
+          if (isMounted) {
             setIsAuthenticated(true);
             setIsLoading(false);
-            router.push("/operatore/dashboard");
-            return;
-          } else {
-            localStorage.removeItem("token");
-            localStorage.removeItem("user");
+            // NAVIGAZIONE dentro setTimeout o dopo render:
+            setTimeout(() => router.replace("/operatore/dashboard"), 0);
           }
-        } catch (err) {
-          console.error("Invalid token:", err);
+          return;
+        } else {
+          localStorage.removeItem("token");
+          localStorage.removeItem("user");
         }
+      } catch (err) {
+        console.error("Invalid token:", err);
       }
-      setIsLoading(false);
-    };
-    checkAuth();
-  }, []);
+    }
+    if (isMounted) setIsLoading(false);
+  };
+
+  checkAuth();
+
+  return () => {
+    isMounted = false;
+  };
+}, []);
 
   // Handle login request
   const handleLogin = async () => {
@@ -85,7 +96,7 @@ export default function LoginPage() {
 
     try {
       const response = await fetch(
-        `${API_BASE_URL}/api/v1/operatoreComunale/login-operatore`,
+        `${apiUrl}/api/v1/operatoreComunale/login-operatore`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

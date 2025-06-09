@@ -10,6 +10,9 @@ const { sendConfirmationEmail } = require("../utils/emailService");
 const Segnalazione = require("../models/segnalazioneModel");
 const { status } = require("../models/enumModel");
 const { IdentityPoolClient } = require("google-auth-library");
+const InfoComunali = require("../models/infoComunaliModel");
+const Itinerario = require("../models/itinerarioModel");
+const Sensore = require("../models/sensoreAffollamentoModel");
 
 // Operator signup handler
 const signupOperatore = async (req, res) => {
@@ -283,6 +286,79 @@ const eliminaSegnalazione = async (req, res) => {
   }
 };
 
+const creaInformazione = async (req, res) => {
+  try 
+    {
+      const { userID, informazione, tappa, gradoSicurezzaAssegnato } = req.body;
+
+      const nuovaInfo = new InfoComunali({
+        userID: "68434c528382bc6b312cbba8",
+        informazione,
+        tappa,
+        gradoSicurezzaAssegnato
+      });
+
+      const salvata = await nuovaInfo.save();
+      res.status(201).json(salvata);
+    } catch (err) {
+      console.error("Errore creazione info comunale:", err);
+      res.status(400).json({ error: err.message });
+    }
+};
+
+const getAllInformazioni = async (req, res) => {
+  try {
+    const informazioni = await InfoComunali.find();
+    res.status(200).json(informazioni);
+  } catch (err) {
+    console.error("Errore nel recupero delle informazioni comunali:", err);
+    res.status(500).json({error: "Errore server nel recupero delle informazioni."});
+  }
+}
+
+const eliminaInformazione = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    if (!id) {
+      return res.status(400).json({ message: "ID mancante." });
+    }
+
+    const deleted = await InfoComunali.findByIdAndDelete(id);
+
+    if (!deleted) {
+      return res.status(404).json({ message: "Informazione non trovata." });
+    }
+
+    res.status(200).json({ message: "Informazione eliminata con successo.", informazione: deleted });
+  } catch (err) {
+    console.error("Errore eliminazione informazione:", err);
+    res.status(500).json({ message: "Errore del server durante l'eliminazione." });
+  }
+};
+
+const getAllItinerari = async (req, res) => {
+  try {
+    const itinerari = await Itinerario.find();
+    res.json(itinerari);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Errore interno del server' });
+  }
+};
+
+// GET random crowd sensors (2)
+const getRandomSensori = async (req, res) => {
+  try {
+    const count = await Sensore.countDocuments();
+    const skip = count > 2 ? Math.floor(Math.random() * (count - 2)) : 0;
+    const sensori = await Sensore.find().skip(skip).limit(2);
+    res.status(200).json(sensori);
+  } catch (err) {
+    console.error('Errore recupero sensori:', err);
+    res.status(500).json({ message: 'Errore del server durante il recupero dei sensori.' });
+  }
+};
 
 module.exports = {
   loginOperatore,
@@ -293,4 +369,9 @@ module.exports = {
   getAllSegnalazioni,
   aggiornaStatoSegnalazione,
   eliminaSegnalazione,
+  creaInformazione,
+  getAllInformazioni,
+  eliminaInformazione,
+  getAllItinerari,
+  getRandomSensori
 };

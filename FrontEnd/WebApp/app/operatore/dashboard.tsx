@@ -2,12 +2,18 @@
 
 import { useEffect, useState } from "react";
 import { View } from "react-native";
+import { useLocalSearchParams } from "expo-router";
 import { jwtDecode } from "jwt-decode";
 import Sidebar from "@/components/Sidebar";
 import DashboardContent from "@/components/DashboardContent";
 
 // Define the valid dashboard sections
-export type Section = "overview" | "segnalazioni" | "statistiche" | "sensori";
+export type Section =
+  | "overview"
+  | "segnalazioni"
+  | "statistiche"
+  | "sensori"
+  | "informazioni";
 
 // Define the expected structure of the JWT payload
 interface JWTPayload {
@@ -18,9 +24,24 @@ interface JWTPayload {
 }
 
 export default function DashboardPage() {
+  const { section } = useLocalSearchParams<{ section?: string }>();
   const [selectedSection, setSelectedSection] = useState<Section>("overview");
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState<{ id: string; email: string } | null>(null);
+
+  // Update selected section when query param changes
+  useEffect(() => {
+    const validSections: Section[] = [
+      "overview",
+      "segnalazioni",
+      "statistiche",
+      "sensori",
+      "informazioni",
+    ];
+    if (section && validSections.includes(section as Section)) {
+      setSelectedSection(section as Section);
+    }
+  }, [section]);
 
   // On mount: verify token validity and extract user info
   useEffect(() => {
@@ -58,6 +79,7 @@ export default function DashboardPage() {
       "segnalazioni",
       "statistiche",
       "sensori",
+      "informazioni",
     ];
     if (validSections.includes(section as Section)) {
       setSelectedSection(section as Section);

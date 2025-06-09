@@ -6,7 +6,9 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { jwtDecode } from "jwt-decode";
 import React from "react";
 import { useCittadino } from "./context/cittadinoContext"; // Import the context
-import { API_BASE_URL } from "../config"; // Import the API base URL
+import Constants from 'expo-constants';
+
+const { apiUrl } = Constants.expoConfig?.extra ?? {};
 
 export default function SignUp() {
   const router = useRouter();
@@ -32,6 +34,7 @@ export default function SignUp() {
       //Function to check if the user is already logged in with JWT token
       try 
       {
+        console.log("URL",apiUrl)
         const token = await AsyncStorage.getItem('jwtToken');
         if (token) 
         {
@@ -47,7 +50,7 @@ export default function SignUp() {
               // Navigate to the home screen or perform any other action
               decodeToken(token);
               //Get Cittadino by ID
-              const response = await axios.get(`${API_BASE_URL}/api/v1/cittadino/${decoded.id}`,
+              const response = await axios.get(`${apiUrl}/api/v1/cittadino/${decoded.id}`,
               {
                 headers: {
                   Authorization: `Bearer ${token}`,
@@ -122,6 +125,7 @@ export default function SignUp() {
 
   const handleSignUp = async () => 
     {
+      
     if (!username || !email || !password) 
     {
       Alert.alert("All fields are required!");
@@ -130,12 +134,12 @@ export default function SignUp() {
 
     // You can replace this with your API call
     try {
-        const response = await axios.post(`${API_BASE_URL}/api/v1/cittadino/signup`, {
+        const response = await axios.post(`${apiUrl}/api/v1/cittadino/signup`, {
           username, 
           email,
           password,
         });
-  
+        console.log("Attempt")
         if (response.status === 200) {
           Alert.alert("SignUp successful!", response.data.message); //Works parsing automatically the JSON elements
             // Clear the input fields
@@ -150,8 +154,8 @@ export default function SignUp() {
            setEmail("");
            setPassword("");
         }
-      } catch (error) {
-        Alert.alert("Error", "Something went wrong. Please try again.");
+      } catch (error:any) {
+        Alert.alert("Error", error.response.data.message);
         console.log(error);
       }
   };

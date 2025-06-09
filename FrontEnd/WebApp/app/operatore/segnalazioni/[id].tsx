@@ -57,7 +57,10 @@ export default function DettaglioSegnalazione() {
       );
       setShowModal(false);
       setTimeout(() => {
-        router.push("/operatore/dashboard"); // Navigate back after short delay
+        router.push({
+          pathname: "/operatore/dashboard",
+          params: { section: "segnalazioni" },
+        }); // Navigate back after short delay
       }, 400);
     } catch (error) {
       console.error("Errore eliminazione:", error);
@@ -87,7 +90,12 @@ export default function DettaglioSegnalazione() {
       {/* Floating back button */}
       <View className="absolute top-6 left-6 z-10">
         <TouchableOpacity
-          onPress={() => router.push("/operatore/dashboard")}
+          onPress={() =>
+            router.push({
+              pathname: "/operatore/dashboard",
+              params: { section: "segnalazioni" },
+            })
+          }
           className="bg-[#0AA696] px-4 py-2 rounded-xl shadow-md"
         >
           <Text className="text-white font-GothamBold">← Dashboard</Text>
