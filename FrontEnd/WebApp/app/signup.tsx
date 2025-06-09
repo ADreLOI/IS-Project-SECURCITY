@@ -3,13 +3,11 @@ import { View, Text, TextInput, TouchableOpacity } from "react-native";
 import { useRouter } from "expo-router";
 import axios from "axios";
 import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
-<<<<<<< HEAD
+
+
 import Constants from 'expo-constants';
 
 const { apiUrl } = Constants.expoConfig?.extra ?? {};
-=======
-import API_BASE_URL from "@config";
->>>>>>> origin/itinerario
 
 export default function SignupOperatore() {
   // State variables for the input fields
@@ -36,11 +34,7 @@ export default function SignupOperatore() {
     try {
       // Send signup request to the backend
       const response = await axios.post(
-<<<<<<< HEAD
         `${apiUrl}/api/v1/operatoreComunale/signup-operatore`,
-=======
-        `${API_BASE_URL}/api/v1/operatoreComunale/signup-operatore`,
->>>>>>> origin/itinerario
         {
           username,
           email,
