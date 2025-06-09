@@ -125,6 +125,7 @@ export default function SignUp() {
 
   const handleSignUp = async () => 
     {
+      
     if (!username || !email || !password) 
     {
       Alert.alert("All fields are required!");
@@ -138,7 +139,7 @@ export default function SignUp() {
           email,
           password,
         });
-  
+        console.log("Attempt")
         if (response.status === 200) {
           Alert.alert("SignUp successful!", response.data.message); //Works parsing automatically the JSON elements
             // Clear the input fields
@@ -153,8 +154,8 @@ export default function SignUp() {
            setEmail("");
            setPassword("");
         }
-      } catch (error) {
-        Alert.alert("Error", "Something went wrong. Please try again.");
+      } catch (error:any) {
+        Alert.alert("Error", error.response.data.message);
         console.log(error);
       }
   };

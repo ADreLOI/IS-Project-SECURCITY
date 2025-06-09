@@ -17,6 +17,7 @@ const bcrypt = require("bcryptjs");
 
 const signUp = async (req, res) => {
   try {
+    console.log(req.body);
     // Check if the user already exists
     const existingUser = await Cittadino.find({
       $or: [{ username: req.body.username }, { email: req.body.email }],
