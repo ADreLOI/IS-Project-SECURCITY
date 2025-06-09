@@ -9,6 +9,7 @@ import {
   ChartLine,
   Cctv,
   LogOut,
+  Info
 } from "lucide-react"; // Icon set
 import Animated, {
   Easing,
@@ -125,6 +126,7 @@ export default function Sidebar({
         />
         <MenuItem icon={ChartLine} label="Statistiche" section="statistiche" />
         <MenuItem icon={Cctv} label="Sensori" section="sensori" />
+        <MenuItem icon={Info} label="Informazioni" section="informazioni" />
       </View>
 
       {/* Logout item */}
@@ -134,7 +136,7 @@ export default function Sidebar({
       >
         <LogOut color="#F87171" size={26} />
         {expanded && (
-          <Text className="text-red-400 ml-4 font-GothamBold text-base border">
+          <Text className="text-red-400 ml-4 font-GothamBold ">
             Logout
           </Text>
         )}

@@ -7,7 +7,7 @@ import Sidebar from "@/components/Sidebar";
 import DashboardContent from "@/components/DashboardContent";
 
 // Define the valid dashboard sections
-export type Section = "overview" | "segnalazioni" | "statistiche" | "sensori";
+export type Section = "overview" | "segnalazioni" | "statistiche" | "sensori" | "informazioni";
 
 // Define the expected structure of the JWT payload
 interface JWTPayload {
@@ -58,6 +58,7 @@ export default function DashboardPage() {
       "segnalazioni",
       "statistiche",
       "sensori",
+      "informazioni"
     ];
     if (validSections.includes(section as Section)) {
       setSelectedSection(section as Section);

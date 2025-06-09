@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { GoogleMap, LoadScript, Marker } from "@react-google-maps/api";
+import { GoogleMap, LoadScript, Marker, MarkerClusterer  } from "@react-google-maps/api";
 import { AntDesign } from "@expo/vector-icons";
 import { VictoryPie } from "victory";
 import { VictoryChart, VictoryBar, VictoryAxis } from "victory";
@@ -24,21 +24,25 @@ interface Segnalazione {
 
 const containerStyle = {
   width: "100%",
-  maxWidth: "600px",
+  maxWidth: "700px",
   height: "300px",
   borderRadius: "12px",
   overflow: "hidden",
+  marginLeft: 30
 };
 
 const legendaStyle: React.CSSProperties = {
   width: "100%",
+  height: 250,
   maxWidth: "300px",
   color: "white",
   display: "flex",
   flexDirection: "column",
   justifyContent: "center",
   fontFamily: "GothamBold, sans-serif",
-  marginRight: "30px",
+  backgroundColor: "#011126",
+  borderRadius: 8,
+  marginRight: 30
 };
 
 const getMarkerColor = (status: string) => {
@@ -246,9 +250,10 @@ const Statistiche = () => {
             display: "flex",
             flexDirection: "row",
             flexWrap: "wrap",
-            gap: "16px",
+            
             marginTop: "16px",
-            justifyContent: "space-between"
+            justifyContent: "space-between",
+            alignItems: "center"
           }}>
             {/* Mappa */}
             <GoogleMap mapContainerStyle={containerStyle} center={center} zoom={13}>
@@ -272,19 +277,19 @@ const Statistiche = () => {
 
             {/* Legenda */}
             <div style={legendaStyle}>
-              <div style={{ display: "flex", alignItems: "center", marginBottom: 8 }}>
+              <div style={{ display: "flex", alignItems: "center", marginBottom: 8, justifyContent: "center" }}>
                 <AntDesign name="checkcircle" size={20} color="#4ade80" style={{ marginRight: 8 }} />
                 <span style={{ color: "#4ade80", fontWeight: "bold", fontSize: 20 }}>
                   Confermate: {counts.Confermata} ({percentuali.Confermata}%)
                 </span>
               </div>
-              <div style={{ display: "flex", alignItems: "center", marginBottom: 8 }}>
+              <div style={{ display: "flex", alignItems: "center", marginBottom: 8, justifyContent: "center" }}>
                 <AntDesign name="clockcircle" size={20} color="#fbbf24" style={{ marginRight: 8 }} />
                 <span style={{ color: "#fbbf24", fontWeight: "bold", fontSize: 20 }}>
                   Pendenti: {counts.Pendente} ({percentuali.Pendente}%)
                 </span>
               </div>
-              <div style={{ display: "flex", alignItems: "center" }}>
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
                 <AntDesign name="closecircle" size={20} color="#f87171" style={{ marginRight: 8 }} />
                 <span style={{ color: "#f87171", fontWeight: "bold", fontSize: 20 }}>
                   Rigettate: {counts.Rigettata} ({percentuali.Rigettata}%)
@@ -295,21 +300,29 @@ const Statistiche = () => {
 
           {/* Grafico a barre ore */}
           <div style={{ marginTop: 40 }}>
-            <p style={{ color: "white", fontWeight: "bold", margin: "0 0 4px 0", fontSize: 25 }}>
-              Segnalazioni confermate per ora
-            </p>
-            <VictoryChart domainPadding={{ x:15 }} height={80} width={150} padding={{ top: 10, bottom: 25, left: 30, right: 10 }}>
+          <p style={{ color: "white", fontWeight: "bold", margin: "0 0 4px 0", fontSize: 25 }}>
+            Segnalazioni confermate per ora
+          </p>
+
+          <div style={{ display: "flex", flexDirection: "row", alignItems: "center", gap: 20 }}>
+            <VictoryChart domainPadding={{ x:15 }} height={80} width={150} padding={{ top: 10, bottom: 10, left: 30, right: 10 }}>
               <VictoryAxis
                 tickValues={[0, 4, 8, 12, 16, 20, 23]}
                 tickFormat={(t) => `${t}:00`}
-                style={{ tickLabels: { fill: "white", fontSize: 3 } }}
+                style={{ 
+                  tickLabels: { fill: "white", fontSize: 3, padding: 1 }, 
+                  axis: { stroke: "white" },
+                  ticks: { stroke: "white" }
+                }}
               />
               <VictoryAxis
                 dependentAxis
                 tickFormat={(t) => `${Math.round(t)}%`}
-                style={{ tickLabels: { fill: "white", fontSize: 3 } }}
+                style={{ 
+                  tickLabels: { fill: "white", fontSize: 3, padding: 4 },
+                
+                }}
               />
-
               <VictoryBar
                 data={getBarDataByHour(reato)}
                 style={{ data: { fill: "#0AA696" } }}
@@ -317,7 +330,15 @@ const Statistiche = () => {
                 barWidth={3}
               />
             </VictoryChart>
+
+            {/* Legenda barre */}
+            <div style={{ color: "white", fontSize: 20, width: 600 }}>
+              <p><strong>Legenda:</strong></p>
+              <p>• Asse X: ore del giorno</p>
+              <p>• Asse Y: % di segnalazioni confermate</p>
+            </div>
           </div>
+        </div>
         </>
       )}
 
