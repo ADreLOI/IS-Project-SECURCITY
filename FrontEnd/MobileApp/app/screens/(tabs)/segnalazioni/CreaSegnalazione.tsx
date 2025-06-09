@@ -17,7 +17,8 @@ import { jwtDecode } from "jwt-decode";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { JWTPayload } from "../../../types/index";
 import { useCittadino } from "../../../context/cittadinoContext";
-import { API_BASE_URL } from "../../../../config"; //
+import Constants from "expo-constants";
+const { apiUrl } = Constants.expoConfig?.extra ?? {};
 
 export default function CreaSegnalazione() {
   const router = useRouter();
@@ -79,7 +80,7 @@ export default function CreaSegnalazione() {
       const decoded = jwtDecode<JWTPayload>(token);
       try {
         const response = await axios.post(
-          `${API_BASE_URL}/api/v1/cittadino/segnalazione`,
+          `${apiUrl}/api/v1/cittadino/segnalazione`,
           {
             userID: decoded.id,
             tipoDiReato: selectedReato,
