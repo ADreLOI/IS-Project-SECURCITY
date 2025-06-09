@@ -69,17 +69,20 @@ describe('Cittadino Routes (mocked)', () => {
   });
 
   test('GET /confirm/:token - valid token', async () => {
-    Token.findOne.mockResolvedValue({
+  Token.findOne.mockReturnValue({
+    populate: jest.fn().mockResolvedValue({
       scadenza: Date.now() + 10000,
       userID: { save: jest.fn(), isVerificato: false },
       _id: 'token-id',
-    });
-    Token.deleteOne.mockResolvedValue();
-
-    const res = await request(app).get('/api/v1/cittadino/confirm/mocktoken');
-    expect(res.statusCode).toBe(200);
-    expect(Token.deleteOne).toHaveBeenCalled();
+    }),
   });
+  Token.deleteOne.mockResolvedValue();
+
+  const res = await request(app).get('/api/v1/cittadino/confirm/mocktoken');
+
+  expect(res.statusCode).toBe(200);
+  expect(Token.deleteOne).toHaveBeenCalled();
+});
 
   test('POST /login - success', async () => {
     const mockUser = {
@@ -107,18 +110,29 @@ describe('Cittadino Routes (mocked)', () => {
     expect([400, 500]).toContain(res.statusCode);
   });
 
-  test('POST /segnalazione - success', async () => {
-    Segnalazione.countDocuments.mockResolvedValue(0);
-    Segnalazione.create.mockResolvedValue({ titolo: 'test' });
+test('POST /segnalazione - success', async () => {
+  Segnalazione.countDocuments.mockResolvedValue(0);
+  Segnalazione.create.mockResolvedValue({ titolo: 'test' });
 
-    const res = await request(app)
-      .post('/api/v1/cittadino/segnalazione')
-      .set(headers)
-      .send({ titolo: 'test', data: new Date() });
+  const validPayload = {
+    userID: "60f6c2b3a2e8a51234567890", // metti un ID valido fittizio
+    tipoDiReato: "Furto", // o un valore valido preso da reati enum
+    descrizione: "Segnalazione di prova",
+    tappa: {
+      coordinate: { lat: 46.07, lng: 11.12 },
+      nome: "Posizione prova"
+    },
+    data: new Date()
+  };
 
-    expect(res.statusCode).toBe(201);
-    expect(Segnalazione.create).toHaveBeenCalled();
-  });
+  const res = await request(app)
+    .post('/api/v1/cittadino/segnalazione')
+    .set(headers)
+    .send(validPayload);
+
+  expect(res.statusCode).toBe(201);
+  expect(Segnalazione.create).toHaveBeenCalled();
+});
 
   test('GET /:id - success', async () => {
     Cittadino.findById.mockResolvedValue({ _id: 'mock-id', email: 'a@a.com' });
