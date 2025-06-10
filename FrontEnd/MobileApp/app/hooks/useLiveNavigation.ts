@@ -4,6 +4,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import * as Location from "expo-location";
+import { getDistance } from "geolib";
 import type MapView from "react-native-maps";
 import type { Modalize } from "react-native-modalize";
 import type { Coordinate } from "./useRouteFetcher";
@@ -146,9 +147,8 @@ export default function useLiveNavigation(mapRef: React.RefObject<MapView>) {
             ? safeRoute?.[safeRoute.length - 1]
             : fastRoute?.[fastRoute.length - 1];
         if (dest) {
-          const dist =
-            (dest.latitude - latitude) ** 2 + (dest.longitude - longitude) ** 2;
-          if (dist < 0.00001) {
+          const dist = getDistance({ latitude, longitude }, dest);
+          if (dist < 20) {
             stopNavigation();
             onArrive?.();
           }

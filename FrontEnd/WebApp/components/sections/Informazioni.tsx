@@ -12,6 +12,8 @@ import Modal from "react-native-modal";
 import { GoogleMap, LoadScript, Marker } from "@react-google-maps/api";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import AddressAutocomplete from "../AddressAutocomplete";
+import API_BASE_URL from "@config";
+
 
 const livelliSicurezza = ["Alto", "Medio", "Basso", "Nessuno"];
 
@@ -36,7 +38,7 @@ export default function Informazioni() {
       const token = await getToken();
 
       const res = await axios.get(
-        "http://localhost:3000/api/v1/operatoreComunale/informazioni",
+        `${API_BASE_URL}/api/v1/operatoreComunale/informazioni`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -73,7 +75,7 @@ export default function Informazioni() {
       const token = await getToken();
       setLoading(true);
       await axios.post(
-        "http://localhost:3000/api/v1/operatoreComunale/informazioni",
+        `${API_BASE_URL}/api/v1/operatoreComunale/informazioni`,
         data,
         {
           headers: {
@@ -102,7 +104,7 @@ export default function Informazioni() {
       const token = await getToken();
 
       await axios.delete(
-        `http://localhost:3000/api/v1/operatoreComunale/informazioni/${id}`,
+        `${API_BASE_URL}/api/v1/operatoreComunale/informazioni/${id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

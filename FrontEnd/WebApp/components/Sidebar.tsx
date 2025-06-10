@@ -17,9 +17,6 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from "react-native-reanimated";
-import Constants from "expo-constants";
-
-const { apiUrl } = Constants.expoConfig?.extra ?? {};
 
 // Sidebar component for navigation
 export default function Sidebar({
@@ -73,7 +70,7 @@ export default function Sidebar({
       // Backend call to logout endpoint with token in Authorization header
       const response = await axios({
         method: "post",
-        url: `${apiUrl}/api/v1/operatoreComunale/logout-operatore`,
+        url: `${API_BASE_URL}/api/v1/operatoreComunale/logout-operatore`,
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
