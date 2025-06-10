@@ -2,6 +2,36 @@
 
 SecurCity is a cross-platform system designed to enhance personal safety in everyday life. By leveraging intelligent route planning, it helps users reach their destinations safely with the support of local public services, municipal authorities, and real-time community alerts submitted anonymously. 
 
+## Project structure
+
+The project is divided in two main parts: FrontEnd and BackEnd.
+
+## Get started with web app
+
+The web app is developed using [React]([https://reactnative.dev/docs/getting-started](https://react.dev/learn)) and [Expo](https://docs.expo.dev/get-started/introduction/) frameworks.
+
+1. Move into ```WebApp``` directory
+
+```bash
+   cd FrontEnd/WebApp
+   ```
+
+2. Install dependencies
+
+```bash
+   npm install
+   ```
+
+3. Start the app in your simulator
+
+```bash
+   npx expo start -w
+   ```
+
+Also, to enable Google Signin:
+- Go to your [Google Console](https://console.cloud.google.com/) and create a new project and called it **SecurCity**
+- Go to **API & Services** and create a new **OAuth Client**
+- Select application type **Web** and give it a name
 
 ## Get started with mobile app
 
