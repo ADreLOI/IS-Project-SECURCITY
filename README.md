@@ -33,6 +33,60 @@ Also, to enable Google Signin:
 - Go to **API & Services** and create a new **OAuth Client**
 - Select application type **Web** and give it a name
 
+## 📁 File Organization
+
+### 🔧 Root Files
+
+- `.gitignore` – Specifica i file da escludere dal controllo di versione.
+- `app.config.js` – Configurazione generale dell'app.
+- `babel.config.js` – Configurazione di Babel.
+- `config.js` – Configurazioni personalizzate.
+- `eslint.config.js` – Regole per l'analisi statica del codice (linting).
+- `metro.config.js` – Configurazione per Metro bundler.
+- `nativewind-env.d.ts` – Tipizzazioni per NativeWind.
+- `package.json` / `package-lock.json` – Gestione delle dipendenze e script.
+- `tailwind.config.js` – Configurazione di Tailwind CSS.
+- `tsconfig.json` – Configurazione del compilatore TypeScript.
+- `webpack.config.js` – Configurazione di Webpack.
+
+---
+
+### 📂 Animations
+
+Contiene hook personalizzati per animazioni, come la rotazione infinita con Reanimated.
+
+### 📂 App
+
+Struttura principale dell’applicazione:
+
+- `+not-found.tsx` – Pagina per errori 404.
+- `global.css` – Stili globali.
+- `index.tsx` – Entry point dell'applicazione.
+- `pages/` – Pagine principali della webapp.
+- `Operatore/` – Dashboard e gestione token per l'operatore.
+- `RecoverPasswordCittadino/` – Recupero password per utenti cittadini.
+
+### 📂 Assets
+
+File statici: immagini, SVG, loghi, ecc.
+
+### 📂 Components
+
+Componenti UI riutilizzabili: bottoni, form, layout, ecc.
+
+### 📂 Constants
+
+Costanti globali usate nell’applicazione.
+
+### 📂 Hooks
+
+Hook React personalizzati per funzionalità condivise.
+
+### 📂 Scripts
+
+Script di supporto per automazioni e task ricorrenti.
+
+
 ## Get started with mobile app
 
 The mobile app is developed using [React Native](https://reactnative.dev/docs/getting-started) and [Expo](https://docs.expo.dev/get-started/introduction/) frameworks.
