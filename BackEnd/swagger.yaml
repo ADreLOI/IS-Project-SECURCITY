@@ -1,0 +1,5687 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "SecurCity API",
+    "description": "Description of APIs provided by the application",
+    "contact": {},
+    "version": "1.0"
+  },
+  "servers": [
+    {
+      "url": "https://{defaultHost}",
+      "variables": {
+        "defaultHost": {
+          "default": "www.example.com"
+        }
+      }
+    }
+  ],
+  "paths": {
+    "/api/v1/cittadino/signup": {
+      "post": {
+        "tags": [
+          "/api/v1/cittadino/signup"
+        ],
+        "summary": "Register a new user on the DB",
+        "description": "Returns the registered user to allow access to limited functionality of the application",
+        "operationId": "RegisteranewuserontheDB",
+        "parameters": [],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/RegisteranewuserontheDBrequest"
+                  },
+                  {
+                    "example": {
+                      "username": "John123",
+                      "email": "john.doe@gmail.com",
+                      "password": "password"
+                    }
+                  }
+                ]
+              },
+              "example": {
+                "username": "John123",
+                "email": "john.doe@gmail.com",
+                "password": "password"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/SignUpResponse"
+                    },
+                    {
+                      "example": {
+                        "message": "User profile retrieved successfully",
+                        "cittadino": {
+                          "id": "60f6c2b3a2e8a51234567890",
+                          "username": "John123",
+                          "email": "john.doe@gmail.com",
+                          "password": "password",
+                          "isVerificato": false,
+                          "isGoogleAutenticato": false,
+                          "googleId": "null",
+                          "storico": [
+                            {
+                              "userId": "60f6c2b3a2e8a51234567890",
+                              "tipoDiReato": "Furto",
+                              "descrizione": "Furto con scasso",
+                              "tappa": {
+                                "id": "60f6c2bsds3aa2e8a51234a567890",
+                                "nome": "Piazza Fiera",
+                                "coordinate": []
+                              },
+                              "status": "Pendente",
+                              "data": "2024"
+                            }
+                          ],
+                          "itinerariPreferiti": [
+                            {
+                              "tappe": [
+                                {
+                                  "id": "60f6c2bsds3aa2e8a51234a567890",
+                                  "nome": "Piazza Fiera",
+                                  "coordinate": []
+                                }
+                              ],
+                              "autobus": [
+                                {
+                                  "linea": "linea 17",
+                                  "fermate": [],
+                                  "calendario": "Estivo",
+                                  "orari": []
+                                }
+                              ],
+                              "taxiReperibili": [
+                                {
+                                  "nome": "TaxiTrento",
+                                  "numeriTelefonici": [],
+                                  "coordinate": []
+                                }
+                              ],
+                              "casermeForzeOrdine": [
+                                {
+                                  "nome": "Carabinieri",
+                                  "numeriTelefonici": [],
+                                  "coordinate": []
+                                }
+                              ],
+                              "infoComunali": [
+                                {
+                                  "userId": "2",
+                                  "informazione": "Interruzione presso Via Roma",
+                                  "tappa": {
+                                    "id": "60f6c2bsds3aa2e8a51234a567890",
+                                    "nome": "Piazza Fiera",
+                                    "coordinate": []
+                                  },
+                                  "gradoSicurezzaAssegnato": "Nessuno"
+                                }
+                              ],
+                              "gradoSicurezzaTotale": "Molto Sicuro"
+                            }
+                          ],
+                          "contattiEmergenza": [
+                            {
+                              "nominativo": "Mario Rossi",
+                              "numeroTelefonico": "333444555"
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                "example": {
+                  "message": "User profile retrieved successfully",
+                  "cittadino": {
+                    "id": "60f6c2b3a2e8a51234567890",
+                    "username": "John123",
+                    "email": "john.doe@gmail.com",
+                    "password": "password",
+                    "isVerificato": false,
+                    "isGoogleAutenticato": false,
+                    "googleId": "null",
+                    "storico": [
+                      {
+                        "userId": "60f6c2b3a2e8a51234567890",
+                        "tipoDiReato": "Furto",
+                        "descrizione": "Furto con scasso",
+                        "tappa": {
+                          "id": "60f6c2bsds3aa2e8a51234a567890",
+                          "nome": "Piazza Fiera",
+                          "coordinate": []
+                        },
+                        "status": "Pendente",
+                        "data": "2024"
+                      }
+                    ],
+                    "itinerariPreferiti": [
+                      {
+                        "tappe": [
+                          {
+                            "id": "60f6c2bsds3aa2e8a51234a567890",
+                            "nome": "Piazza Fiera",
+                            "coordinate": []
+                          }
+                        ],
+                        "autobus": [
+                          {
+                            "linea": "linea 17",
+                            "fermate": [],
+                            "calendario": "Estivo",
+                            "orari": []
+                          }
+                        ],
+                        "taxiReperibili": [
+                          {
+                            "nome": "TaxiTrento",
+                            "numeriTelefonici": [],
+                            "coordinate": []
+                          }
+                        ],
+                        "casermeForzeOrdine": [
+                          {
+                            "nome": "Carabinieri",
+                            "numeriTelefonici": [],
+                            "coordinate": []
+                          }
+                        ],
+                        "infoComunali": [
+                          {
+                            "userId": "2",
+                            "informazione": "Interruzione presso Via Roma",
+                            "tappa": {
+                              "id": "60f6c2bsds3aa2e8a51234a567890",
+                              "nome": "Piazza Fiera",
+                              "coordinate": []
+                            },
+                            "gradoSicurezzaAssegnato": "Nessuno"
+                          }
+                        ],
+                        "gradoSicurezzaTotale": "Molto Sicuro"
+                      }
+                    ],
+                    "contattiEmergenza": [
+                      {
+                        "nominativo": "Mario Rossi",
+                        "numeroTelefonico": "333444555"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/RegisteranewuserontheDBresponse"
+                    },
+                    {
+                      "example": {
+                        "error": "Invalid input parameters"
+                      }
+                    }
+                  ]
+                },
+                "example": {
+                  "error": "Invalid input parameters"
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/api/v1/cittadino/login": {
+      "post": {
+        "tags": [
+          "/api/v1/cittadino/login"
+        ],
+        "summary": "Authenticate a user on the DB",
+        "description": "Returns the authenticate user and returns the user along with JWT toke",
+        "operationId": "AuthenticateauserontheDB",
+        "parameters": [],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/AuthenticateauserontheDBrequest"
+                  },
+                  {
+                    "example": {
+                      "username": "John123",
+                      "password": "password"
+                    }
+                  }
+                ]
+              },
+              "example": {
+                "username": "John123",
+                "password": "password"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/AuthenticateauserontheDBresponse"
+                    },
+                    {
+                      "example": {
+                        "message": "\"Login Successful\"",
+                        "cittadino": {
+                          "id": "60f6c2b3a2e8a51234567890",
+                          "username": "John123",
+                          "email": "john.doe@gmail.com",
+                          "password": "password",
+                          "isVerificato": false,
+                          "isGoogleAutenticato": false,
+                          "googleId": "null",
+                          "storico": [
+                            {
+                              "userId": "60f6c2b3a2e8a51234567890",
+                              "tipoDiReato": "Furto",
+                              "descrizione": "Furto con scasso",
+                              "tappa": {
+                                "id": "60f6c2bsds3aa2e8a51234a567890",
+                                "nome": "Piazza Fiera",
+                                "coordinate": []
+                              },
+                              "status": "Pendente",
+                              "data": "2024"
+                            }
+                          ],
+                          "itinerariPreferiti": [
+                            {
+                              "tappe": [
+                                {
+                                  "id": "60f6c2bsds3aa2e8a51234a567890",
+                                  "nome": "Piazza Fiera",
+                                  "coordinate": []
+                                }
+                              ],
+                              "autobus": [
+                                {
+                                  "linea": "linea 17",
+                                  "fermate": [],
+                                  "calendario": "Estivo",
+                                  "orari": []
+                                }
+                              ],
+                              "taxiReperibili": [
+                                {
+                                  "nome": "TaxiTrento",
+                                  "numeriTelefonici": [],
+                                  "coordinate": []
+                                }
+                              ],
+                              "casermeForzeOrdine": [
+                                {
+                                  "nome": "Carabinieri",
+                                  "numeriTelefonici": [],
+                                  "coordinate": []
+                                }
+                              ],
+                              "infoComunali": [
+                                {
+                                  "userId": "2",
+                                  "informazione": "Interruzione presso Via Roma",
+                                  "tappa": {
+                                    "id": "60f6c2bsds3aa2e8a51234a567890",
+                                    "nome": "Piazza Fiera",
+                                    "coordinate": []
+                                  },
+                                  "gradoSicurezzaAssegnato": "Nessuno"
+                                }
+                              ],
+                              "gradoSicurezzaTotale": "Molto Sicuro"
+                            }
+                          ],
+                          "contattiEmergenza": [
+                            {
+                              "nominativo": "Mario Rossi",
+                              "numeroTelefonico": "333444555"
+                            }
+                          ]
+                        },
+                        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4MmNhMWMwZTFjYjcwNmE3YTU0ZTY0MiIsImVtYWlsIjoibWF0"
+                      }
+                    }
+                  ]
+                },
+                "example": {
+                  "message": "\"Login Successful\"",
+                  "cittadino": {
+                    "id": "60f6c2b3a2e8a51234567890",
+                    "username": "John123",
+                    "email": "john.doe@gmail.com",
+                    "password": "password",
+                    "isVerificato": false,
+                    "isGoogleAutenticato": false,
+                    "googleId": "null",
+                    "storico": [
+                      {
+                        "userId": "60f6c2b3a2e8a51234567890",
+                        "tipoDiReato": "Furto",
+                        "descrizione": "Furto con scasso",
+                        "tappa": {
+                          "id": "60f6c2bsds3aa2e8a51234a567890",
+                          "nome": "Piazza Fiera",
+                          "coordinate": []
+                        },
+                        "status": "Pendente",
+                        "data": "2024"
+                      }
+                    ],
+                    "itinerariPreferiti": [
+                      {
+                        "tappe": [
+                          {
+                            "id": "60f6c2bsds3aa2e8a51234a567890",
+                            "nome": "Piazza Fiera",
+                            "coordinate": []
+                          }
+                        ],
+                        "autobus": [
+                          {
+                            "linea": "linea 17",
+                            "fermate": [],
+                            "calendario": "Estivo",
+                            "orari": []
+                          }
+                        ],
+                        "taxiReperibili": [
+                          {
+                            "nome": "TaxiTrento",
+                            "numeriTelefonici": [],
+                            "coordinate": []
+                          }
+                        ],
+                        "casermeForzeOrdine": [
+                          {
+                            "nome": "Carabinieri",
+                            "numeriTelefonici": [],
+                            "coordinate": []
+                          }
+                        ],
+                        "infoComunali": [
+                          {
+                            "userId": "2",
+                            "informazione": "Interruzione presso Via Roma",
+                            "tappa": {
+                              "id": "60f6c2bsds3aa2e8a51234a567890",
+                              "nome": "Piazza Fiera",
+                              "coordinate": []
+                            },
+                            "gradoSicurezzaAssegnato": "Nessuno"
+                          }
+                        ],
+                        "gradoSicurezzaTotale": "Molto Sicuro"
+                      }
+                    ],
+                    "contattiEmergenza": [
+                      {
+                        "nominativo": "Mario Rossi",
+                        "numeroTelefonico": "333444555"
+                      }
+                    ]
+                  },
+                  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4MmNhMWMwZTFjYjcwNmE3YTU0ZTY0MiIsImVtYWlsIjoibWF0"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/AuthenticateauserontheDBresponse1"
+                    },
+                    {
+                      "example": {
+                        "error": "Invalid input parameters"
+                      }
+                    }
+                  ]
+                },
+                "example": {
+                  "error": "Invalid input parameters"
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/api/v1/cittadino/confirm/{token}": {
+      "get": {
+        "tags": [
+          "/api/v1/cittadino/confirm/:token"
+        ],
+        "summary": "Confirm email of new user",
+        "description": "Checks the token and returns a message with the confirmation of the new user",
+        "operationId": "Confirmemailofnewuser",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "abdcibdscjknsdkkd"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Confirmemailofnewuserresponse"
+                    },
+                    {
+                      "example": {
+                        "message": "Email confirmed successfully"
+                      }
+                    }
+                  ]
+                },
+                "example": {
+                  "message": "Email confirmed successfully"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Confirmemailofnewuserresponse1"
+                    },
+                    {
+                      "example": {
+                        "error": "Invalid token or expired"
+                      }
+                    }
+                  ]
+                },
+                "example": {
+                  "error": "Invalid token or expired"
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/api/v1/cittadino/google-login": {
+      "post": {
+        "tags": [
+          "/api/v1/cittadino/google-login"
+        ],
+        "summary": "Login with Google",
+        "description": "Using Google's APIs log the user with his Google account and returns the user along with JWT token",
+        "operationId": "LoginwithGoogle",
+        "parameters": [],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/LoginwithGooglerequest"
+                  },
+                  {
+                    "example": {
+                      "idToken": "eyJhbGciOiJSUzI1NiIsImtpZCI6IjY2MGVmM2I5Nzg0YmRmNTZlYmU4NTlmNTc3ZjdmYjJlOGMxY2VmZmIiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL2FjY291bnRzLmdvb2dsZS5jb20iLCJhenAiOiI2MTU5NDk2Njg3NzYtY2w1YjduaTk2a2Z0YWZjOGo2"
+                    }
+                  }
+                ]
+              },
+              "example": {
+                "idToken": "eyJhbGciOiJSUzI1NiIsImtpZCI6IjY2MGVmM2I5Nzg0YmRmNTZlYmU4NTlmNTc3ZjdmYjJlOGMxY2VmZmIiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL2FjY291bnRzLmdvb2dsZS5jb20iLCJhenAiOiI2MTU5NDk2Njg3NzYtY2w1YjduaTk2a2Z0YWZjOGo2"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/LoginwithGoogleresponse"
+                    },
+                    {
+                      "example": {
+                        "message": "\"Login Successful\"",
+                        "cittadino": {
+                          "id": "60f6c2b3a2e8a51234567890",
+                          "username": "John123",
+                          "email": "john.doe@gmail.com",
+                          "password": "password",
+                          "isVerificato": false,
+                          "isGoogleAutenticato": false,
+                          "googleId": "null",
+                          "storico": [
+                            {
+                              "userId": "60f6c2b3a2e8a51234567890",
+                              "tipoDiReato": "Furto",
+                              "descrizione": "Furto con scasso",
+                              "tappa": {
+                                "id": "60f6c2bsds3aa2e8a51234a567890",
+                                "nome": "Piazza Fiera",
+                                "coordinate": []
+                              },
+                              "status": "Pendente",
+                              "data": "2024"
+                            }
+                          ],
+                          "itinerariPreferiti": [
+                            {
+                              "tappe": [
+                                {
+                                  "id": "60f6c2bsds3aa2e8a51234a567890",
+                                  "nome": "Piazza Fiera",
+                                  "coordinate": []
+                                }
+                              ],
+                              "autobus": [
+                                {
+                                  "linea": "linea 17",
+                                  "fermate": [],
+                                  "calendario": "Estivo",
+                                  "orari": []
+                                }
+                              ],
+                              "taxiReperibili": [
+                                {
+                                  "nome": "TaxiTrento",
+                                  "numeriTelefonici": [],
+                                  "coordinate": []
+                                }
+                              ],
+                              "casermeForzeOrdine": [
+                                {
+                                  "nome": "Carabinieri",
+                                  "numeriTelefonici": [],
+                                  "coordinate": []
+                                }
+                              ],
+                              "infoComunali": [
+                                {
+                                  "userId": "2",
+                                  "informazione": "Interruzione presso Via Roma",
+                                  "tappa": {
+                                    "id": "60f6c2bsds3aa2e8a51234a567890",
+                                    "nome": "Piazza Fiera",
+                                    "coordinate": []
+                                  },
+                                  "gradoSicurezzaAssegnato": "Nessuno"
+                                }
+                              ],
+                              "gradoSicurezzaTotale": "Molto Sicuro"
+                            }
+                          ],
+                          "contattiEmergenza": [
+                            {
+                              "nominativo": "Mario Rossi",
+                              "numeroTelefonico": "333444555"
+                            }
+                          ]
+                        },
+                        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4MmNhMWMwZTFjYjcwNmE3YTU0ZTY0MiIsImVtYWlsIjoibWF0"
+                      }
+                    }
+                  ]
+                },
+                "example": {
+                  "message": "\"Login Successful\"",
+                  "cittadino": {
+                    "id": "60f6c2b3a2e8a51234567890",
+                    "username": "John123",
+                    "email": "john.doe@gmail.com",
+                    "password": "password",
+                    "isVerificato": false,
+                    "isGoogleAutenticato": false,
+                    "googleId": "null",
+                    "storico": [
+                      {
+                        "userId": "60f6c2b3a2e8a51234567890",
+                        "tipoDiReato": "Furto",
+                        "descrizione": "Furto con scasso",
+                        "tappa": {
+                          "id": "60f6c2bsds3aa2e8a51234a567890",
+                          "nome": "Piazza Fiera",
+                          "coordinate": []
+                        },
+                        "status": "Pendente",
+                        "data": "2024"
+                      }
+                    ],
+                    "itinerariPreferiti": [
+                      {
+                        "tappe": [
+                          {
+                            "id": "60f6c2bsds3aa2e8a51234a567890",
+                            "nome": "Piazza Fiera",
+                            "coordinate": []
+                          }
+                        ],
+                        "autobus": [
+                          {
+                            "linea": "linea 17",
+                            "fermate": [],
+                            "calendario": "Estivo",
+                            "orari": []
+                          }
+                        ],
+                        "taxiReperibili": [
+                          {
+                            "nome": "TaxiTrento",
+                            "numeriTelefonici": [],
+                            "coordinate": []
+                          }
+                        ],
+                        "casermeForzeOrdine": [
+                          {
+                            "nome": "Carabinieri",
+                            "numeriTelefonici": [],
+                            "coordinate": []
+                          }
+                        ],
+                        "infoComunali": [
+                          {
+                            "userId": "2",
+                            "informazione": "Interruzione presso Via Roma",
+                            "tappa": {
+                              "id": "60f6c2bsds3aa2e8a51234a567890",
+                              "nome": "Piazza Fiera",
+                              "coordinate": []
+                            },
+                            "gradoSicurezzaAssegnato": "Nessuno"
+                          }
+                        ],
+                        "gradoSicurezzaTotale": "Molto Sicuro"
+                      }
+                    ],
+                    "contattiEmergenza": [
+                      {
+                        "nominativo": "Mario Rossi",
+                        "numeroTelefonico": "333444555"
+                      }
+                    ]
+                  },
+                  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4MmNhMWMwZTFjYjcwNmE3YTU0ZTY0MiIsImVtYWlsIjoibWF0"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/LoginwithGoogleresponse1"
+                    },
+                    {
+                      "example": {
+                        "error": "Google account error"
+                      }
+                    }
+                  ]
+                },
+                "example": {
+                  "error": "Google account error"
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/api/v1/cittadino/{id}": {
+      "get": {
+        "tags": [
+          "/api/v1/cittadino/:id"
+        ],
+        "summary": "Get the user by ID",
+        "description": "",
+        "operationId": "GettheuserbyID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "abchd7844bndcjs029"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {
+              "Authorization": {
+                "content": {
+                  "text/plain": {
+                    "schema": {
+                      "type": "string"
+                    },
+                    "example": "Bearer 4Ve6eAGcVS4q2q4UeNtDKt8hwKcjCXJ85W"
+                  }
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/GettheuserbyIDresponse"
+                    },
+                    {
+                      "example": {
+                        "cittadino": {
+                          "id": "60f6c2b3a2e8a51234567890",
+                          "username": "John123",
+                          "email": "john.doe@gmail.com",
+                          "password": "password",
+                          "isVerificato": false,
+                          "isGoogleAutenticato": false,
+                          "googleId": "null",
+                          "storico": [
+                            {
+                              "userId": "60f6c2b3a2e8a51234567890",
+                              "tipoDiReato": "Furto",
+                              "descrizione": "Furto con scasso",
+                              "tappa": {
+                                "id": "60f6c2bsds3aa2e8a51234a567890",
+                                "nome": "Piazza Fiera",
+                                "coordinate": []
+                              },
+                              "status": "Pendente",
+                              "data": "2024"
+                            }
+                          ],
+                          "itinerariPreferiti": [
+                            {
+                              "tappe": [
+                                {
+                                  "id": "60f6c2bsds3aa2e8a51234a567890",
+                                  "nome": "Piazza Fiera",
+                                  "coordinate": []
+                                }
+                              ],
+                              "autobus": [
+                                {
+                                  "linea": "linea 17",
+                                  "fermate": [],
+                                  "calendario": "Estivo",
+                                  "orari": []
+                                }
+                              ],
+                              "taxiReperibili": [
+                                {
+                                  "nome": "TaxiTrento",
+                                  "numeriTelefonici": [],
+                                  "coordinate": []
+                                }
+                              ],
+                              "casermeForzeOrdine": [
+                                {
+                                  "nome": "Carabinieri",
+                                  "numeriTelefonici": [],
+                                  "coordinate": []
+                                }
+                              ],
+                              "infoComunali": [
+                                {
+                                  "userId": "2",
+                                  "informazione": "Interruzione presso Via Roma",
+                                  "tappa": {
+                                    "id": "60f6c2bsds3aa2e8a51234a567890",
+                                    "nome": "Piazza Fiera",
+                                    "coordinate": []
+                                  },
+                                  "gradoSicurezzaAssegnato": "Nessuno"
+                                }
+                              ],
+                              "gradoSicurezzaTotale": "Molto Sicuro"
+                            }
+                          ],
+                          "contattiEmergenza": [
+                            {
+                              "nominativo": "Mario Rossi",
+                              "numeroTelefonico": "333444555"
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                "example": {
+                  "cittadino": {
+                    "id": "60f6c2b3a2e8a51234567890",
+                    "username": "John123",
+                    "email": "john.doe@gmail.com",
+                    "password": "password",
+                    "isVerificato": false,
+                    "isGoogleAutenticato": false,
+                    "googleId": "null",
+                    "storico": [
+                      {
+                        "userId": "60f6c2b3a2e8a51234567890",
+                        "tipoDiReato": "Furto",
+                        "descrizione": "Furto con scasso",
+                        "tappa": {
+                          "id": "60f6c2bsds3aa2e8a51234a567890",
+                          "nome": "Piazza Fiera",
+                          "coordinate": []
+                        },
+                        "status": "Pendente",
+                        "data": "2024"
+                      }
+                    ],
+                    "itinerariPreferiti": [
+                      {
+                        "tappe": [
+                          {
+                            "id": "60f6c2bsds3aa2e8a51234a567890",
+                            "nome": "Piazza Fiera",
+                            "coordinate": []
+                          }
+                        ],
+                        "autobus": [
+                          {
+                            "linea": "linea 17",
+                            "fermate": [],
+                            "calendario": "Estivo",
+                            "orari": []
+                          }
+                        ],
+                        "taxiReperibili": [
+                          {
+                            "nome": "TaxiTrento",
+                            "numeriTelefonici": [],
+                            "coordinate": []
+                          }
+                        ],
+                        "casermeForzeOrdine": [
+                          {
+                            "nome": "Carabinieri",
+                            "numeriTelefonici": [],
+                            "coordinate": []
+                          }
+                        ],
+                        "infoComunali": [
+                          {
+                            "userId": "2",
+                            "informazione": "Interruzione presso Via Roma",
+                            "tappa": {
+                              "id": "60f6c2bsds3aa2e8a51234a567890",
+                              "nome": "Piazza Fiera",
+                              "coordinate": []
+                            },
+                            "gradoSicurezzaAssegnato": "Nessuno"
+                          }
+                        ],
+                        "gradoSicurezzaTotale": "Molto Sicuro"
+                      }
+                    ],
+                    "contattiEmergenza": [
+                      {
+                        "nominativo": "Mario Rossi",
+                        "numeroTelefonico": "333444555"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "",
+            "headers": {
+              "Authorization": {
+                "content": {
+                  "text/plain": {
+                    "schema": {
+                      "type": "string"
+                    },
+                    "example": "Bearer 4Ve6eAGcVS4q2q4UeNtDKt8hwKcjCXJ85W"
+                  }
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/GettheuserbyIDresponse1"
+                    },
+                    {
+                      "example": {
+                        "error": "User does not exist"
+                      }
+                    }
+                  ]
+                },
+                "example": {
+                  "error": "User does not exist"
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/api/v1/cittadino/addContattiEmergenza/{id}": {
+      "put": {
+        "tags": [
+          "/api/v1/cittadino/addContattiEmergenza/:id"
+        ],
+        "summary": "Update the user's contatti",
+        "description": "Update user's contatti di emergenza by creating a new contatto and returning updated Cittadino",
+        "operationId": "Updatetheuser'scontatti",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "abchd7844bndcjs029"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/Updatetheuserscontattirequest"
+                  },
+                  {
+                    "example": {
+                      "nominativo": "Gianfranco Zola",
+                      "numeroTelefonico": "3920001111"
+                    }
+                  }
+                ]
+              },
+              "example": {
+                "nominativo": "Gianfranco Zola",
+                "numeroTelefonico": "3920001111"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {
+              "Authorization": {
+                "content": {
+                  "text/plain": {
+                    "schema": {
+                      "type": "string"
+                    },
+                    "example": "Bearer 4Ve6eAGcVS4q2q4UeNtDKt8hwKcjCXJ85W"
+                  }
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Updatetheuserscontattiresponse"
+                    },
+                    {
+                      "example": {
+                        "cittadino": {
+                          "id": "60f6c2b3a2e8a51234567890",
+                          "username": "John123",
+                          "email": "john.doe@gmail.com",
+                          "password": "password",
+                          "isVerificato": false,
+                          "isGoogleAutenticato": false,
+                          "googleId": "null",
+                          "storico": [
+                            {
+                              "userId": "60f6c2b3a2e8a51234567890",
+                              "tipoDiReato": "Furto",
+                              "descrizione": "Furto con scasso",
+                              "tappa": {
+                                "id": "60f6c2bsds3aa2e8a51234a567890",
+                                "nome": "Piazza Fiera",
+                                "coordinate": []
+                              },
+                              "status": "Pendente",
+                              "data": "2024"
+                            }
+                          ],
+                          "itinerariPreferiti": [
+                            {
+                              "tappe": [
+                                {
+                                  "id": "60f6c2bsds3aa2e8a51234a567890",
+                                  "nome": "Piazza Fiera",
+                                  "coordinate": []
+                                }
+                              ],
+                              "autobus": [
+                                {
+                                  "linea": "linea 17",
+                                  "fermate": [],
+                                  "calendario": "Estivo",
+                                  "orari": []
+                                }
+                              ],
+                              "taxiReperibili": [
+                                {
+                                  "nome": "TaxiTrento",
+                                  "numeriTelefonici": [],
+                                  "coordinate": []
+                                }
+                              ],
+                              "casermeForzeOrdine": [
+                                {
+                                  "nome": "Carabinieri",
+                                  "numeriTelefonici": [],
+                                  "coordinate": []
+                                }
+                              ],
+                              "infoComunali": [
+                                {
+                                  "userId": "2",
+                                  "informazione": "Interruzione presso Via Roma",
+                                  "tappa": {
+                                    "id": "60f6c2bsds3aa2e8a51234a567890",
+                                    "nome": "Piazza Fiera",
+                                    "coordinate": []
+                                  },
+                                  "gradoSicurezzaAssegnato": "Nessuno"
+                                }
+                              ],
+                              "gradoSicurezzaTotale": "Molto Sicuro"
+                            }
+                          ],
+                          "contattiEmergenza": [
+                            {
+                              "nominativo": "Mario Rossi",
+                              "numeroTelefonico": "333444555"
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                "example": {
+                  "cittadino": {
+                    "id": "60f6c2b3a2e8a51234567890",
+                    "username": "John123",
+                    "email": "john.doe@gmail.com",
+                    "password": "password",
+                    "isVerificato": false,
+                    "isGoogleAutenticato": false,
+                    "googleId": "null",
+                    "storico": [
+                      {
+                        "userId": "60f6c2b3a2e8a51234567890",
+                        "tipoDiReato": "Furto",
+                        "descrizione": "Furto con scasso",
+                        "tappa": {
+                          "id": "60f6c2bsds3aa2e8a51234a567890",
+                          "nome": "Piazza Fiera",
+                          "coordinate": []
+                        },
+                        "status": "Pendente",
+                        "data": "2024"
+                      }
+                    ],
+                    "itinerariPreferiti": [
+                      {
+                        "tappe": [
+                          {
+                            "id": "60f6c2bsds3aa2e8a51234a567890",
+                            "nome": "Piazza Fiera",
+                            "coordinate": []
+                          }
+                        ],
+                        "autobus": [
+                          {
+                            "linea": "linea 17",
+                            "fermate": [],
+                            "calendario": "Estivo",
+                            "orari": []
+                          }
+                        ],
+                        "taxiReperibili": [
+                          {
+                            "nome": "TaxiTrento",
+                            "numeriTelefonici": [],
+                            "coordinate": []
+                          }
+                        ],
+                        "casermeForzeOrdine": [
+                          {
+                            "nome": "Carabinieri",
+                            "numeriTelefonici": [],
+                            "coordinate": []
+                          }
+                        ],
+                        "infoComunali": [
+                          {
+                            "userId": "2",
+                            "informazione": "Interruzione presso Via Roma",
+                            "tappa": {
+                              "id": "60f6c2bsds3aa2e8a51234a567890",
+                              "nome": "Piazza Fiera",
+                              "coordinate": []
+                            },
+                            "gradoSicurezzaAssegnato": "Nessuno"
+                          }
+                        ],
+                        "gradoSicurezzaTotale": "Molto Sicuro"
+                      }
+                    ],
+                    "contattiEmergenza": [
+                      {
+                        "nominativo": "Mario Rossi",
+                        "numeroTelefonico": "333444555"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "",
+            "headers": {
+              "Authorization": {
+                "content": {
+                  "text/plain": {
+                    "schema": {
+                      "type": "string"
+                    },
+                    "example": "Bearer 4Ve6eAGcVS4q2q4UeNtDKt8hwKcjCXJ85W"
+                  }
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Updatetheuserscontattiresponse1"
+                    },
+                    {
+                      "example": {
+                        "error": "User does not exist"
+                      }
+                    }
+                  ]
+                },
+                "example": {
+                  "error": "User does not exist"
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/api/v1/cittadino/editContattiEmergenza/{id}": {
+      "put": {
+        "tags": [
+          "/api/v1/cittadino/editContattiEmergenza/:id"
+        ],
+        "summary": "Update the user's contatti",
+        "description": "Update user's contatti di emergenza by modifying a contact and returning updated Cittadino",
+        "operationId": "PutUpdatetheuser'scontatti",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "abchd7844bndcjs029"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/Updatetheuserscontattirequest"
+                  },
+                  {
+                    "example": {
+                      "nominativo": "John Doe",
+                      "numeroTelefonico": "3920001111"
+                    }
+                  }
+                ]
+              },
+              "example": {
+                "nominativo": "John Doe",
+                "numeroTelefonico": "3920001111"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {
+              "Authorization": {
+                "content": {
+                  "text/plain": {
+                    "schema": {
+                      "type": "string"
+                    },
+                    "example": "Bearer 4Ve6eAGcVS4q2q4UeNtDKt8hwKcjCXJ85W"
+                  }
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Updatetheuserscontattiresponse"
+                    },
+                    {
+                      "example": {
+                        "cittadino": {
+                          "id": "60f6c2b3a2e8a51234567890",
+                          "username": "John123",
+                          "email": "john.doe@gmail.com",
+                          "password": "password",
+                          "isVerificato": false,
+                          "isGoogleAutenticato": false,
+                          "googleId": "null",
+                          "storico": [
+                            {
+                              "userId": "60f6c2b3a2e8a51234567890",
+                              "tipoDiReato": "Furto",
+                              "descrizione": "Furto con scasso",
+                              "tappa": {
+                                "id": "60f6c2bsds3aa2e8a51234a567890",
+                                "nome": "Piazza Fiera",
+                                "coordinate": []
+                              },
+                              "status": "Pendente",
+                              "data": "2024"
+                            }
+                          ],
+                          "itinerariPreferiti": [
+                            {
+                              "tappe": [
+                                {
+                                  "id": "60f6c2bsds3aa2e8a51234a567890",
+                                  "nome": "Piazza Fiera",
+                                  "coordinate": []
+                                }
+                              ],
+                              "autobus": [
+                                {
+                                  "linea": "linea 17",
+                                  "fermate": [],
+                                  "calendario": "Estivo",
+                                  "orari": []
+                                }
+                              ],
+                              "taxiReperibili": [
+                                {
+                                  "nome": "TaxiTrento",
+                                  "numeriTelefonici": [],
+                                  "coordinate": []
+                                }
+                              ],
+                              "casermeForzeOrdine": [
+                                {
+                                  "nome": "Carabinieri",
+                                  "numeriTelefonici": [],
+                                  "coordinate": []
+                                }
+                              ],
+                              "infoComunali": [
+                                {
+                                  "userId": "2",
+                                  "informazione": "Interruzione presso Via Roma",
+                                  "tappa": {
+                                    "id": "60f6c2bsds3aa2e8a51234a567890",
+                                    "nome": "Piazza Fiera",
+                                    "coordinate": []
+                                  },
+                                  "gradoSicurezzaAssegnato": "Nessuno"
+                                }
+                              ],
+                              "gradoSicurezzaTotale": "Molto Sicuro"
+                            }
+                          ],
+                          "contattiEmergenza": [
+                            {
+                              "nominativo": "Mario Rossi",
+                              "numeroTelefonico": "333444555"
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                "example": {
+                  "cittadino": {
+                    "id": "60f6c2b3a2e8a51234567890",
+                    "username": "John123",
+                    "email": "john.doe@gmail.com",
+                    "password": "password",
+                    "isVerificato": false,
+                    "isGoogleAutenticato": false,
+                    "googleId": "null",
+                    "storico": [
+                      {
+                        "userId": "60f6c2b3a2e8a51234567890",
+                        "tipoDiReato": "Furto",
+                        "descrizione": "Furto con scasso",
+                        "tappa": {
+                          "id": "60f6c2bsds3aa2e8a51234a567890",
+                          "nome": "Piazza Fiera",
+                          "coordinate": []
+                        },
+                        "status": "Pendente",
+                        "data": "2024"
+                      }
+                    ],
+                    "itinerariPreferiti": [
+                      {
+                        "tappe": [
+                          {
+                            "id": "60f6c2bsds3aa2e8a51234a567890",
+                            "nome": "Piazza Fiera",
+                            "coordinate": []
+                          }
+                        ],
+                        "autobus": [
+                          {
+                            "linea": "linea 17",
+                            "fermate": [],
+                            "calendario": "Estivo",
+                            "orari": []
+                          }
+                        ],
+                        "taxiReperibili": [
+                          {
+                            "nome": "TaxiTrento",
+                            "numeriTelefonici": [],
+                            "coordinate": []
+                          }
+                        ],
+                        "casermeForzeOrdine": [
+                          {
+                            "nome": "Carabinieri",
+                            "numeriTelefonici": [],
+                            "coordinate": []
+                          }
+                        ],
+                        "infoComunali": [
+                          {
+                            "userId": "2",
+                            "informazione": "Interruzione presso Via Roma",
+                            "tappa": {
+                              "id": "60f6c2bsds3aa2e8a51234a567890",
+                              "nome": "Piazza Fiera",
+                              "coordinate": []
+                            },
+                            "gradoSicurezzaAssegnato": "Nessuno"
+                          }
+                        ],
+                        "gradoSicurezzaTotale": "Molto Sicuro"
+                      }
+                    ],
+                    "contattiEmergenza": [
+                      {
+                        "nominativo": "Mario Rossi",
+                        "numeroTelefonico": "333444555"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "",
+            "headers": {
+              "Authorization": {
+                "content": {
+                  "text/plain": {
+                    "schema": {
+                      "type": "string"
+                    },
+                    "example": "Bearer 4Ve6eAGcVS4q2q4UeNtDKt8hwKcjCXJ85W"
+                  }
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Updatetheuserscontattiresponse1"
+                    },
+                    {
+                      "example": {
+                        "error": "User does not exist"
+                      }
+                    }
+                  ]
+                },
+                "example": {
+                  "error": "User does not exist"
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/api/v1/cittadino/deleteContattiEmergenza/{id}": {
+      "put": {
+        "tags": [
+          "/api/v1/cittadino/deleteContattiEmergenza/:id"
+        ],
+        "summary": "Update the user's contatti",
+        "description": "Update user's contatti di emergenza by deleting a contact and returning updated Cittadino",
+        "operationId": "PutUpdatetheuser'scontatti1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "abchd7844bndcjs029"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/Updatetheuserscontattirequest"
+                  },
+                  {
+                    "example": {
+                      "nominativo": "John Doe",
+                      "numeroTelefonico": "3920001111"
+                    }
+                  }
+                ]
+              },
+              "example": {
+                "nominativo": "John Doe",
+                "numeroTelefonico": "3920001111"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {
+              "Authorization": {
+                "content": {
+                  "text/plain": {
+                    "schema": {
+                      "type": "string"
+                    },
+                    "example": "Bearer 4Ve6eAGcVS4q2q4UeNtDKt8hwKcjCXJ85W"
+                  }
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Updatetheuserscontattiresponse"
+                    },
+                    {
+                      "example": {
+                        "cittadino": {
+                          "id": "60f6c2b3a2e8a51234567890",
+                          "username": "John123",
+                          "email": "john.doe@gmail.com",
+                          "password": "password",
+                          "isVerificato": false,
+                          "isGoogleAutenticato": false,
+                          "googleId": "null",
+                          "storico": [
+                            {
+                              "userId": "60f6c2b3a2e8a51234567890",
+                              "tipoDiReato": "Furto",
+                              "descrizione": "Furto con scasso",
+                              "tappa": {
+                                "id": "60f6c2bsds3aa2e8a51234a567890",
+                                "nome": "Piazza Fiera",
+                                "coordinate": []
+                              },
+                              "status": "Pendente",
+                              "data": "2024"
+                            }
+                          ],
+                          "itinerariPreferiti": [
+                            {
+                              "tappe": [
+                                {
+                                  "id": "60f6c2bsds3aa2e8a51234a567890",
+                                  "nome": "Piazza Fiera",
+                                  "coordinate": []
+                                }
+                              ],
+                              "autobus": [
+                                {
+                                  "linea": "linea 17",
+                                  "fermate": [],
+                                  "calendario": "Estivo",
+                                  "orari": []
+                                }
+                              ],
+                              "taxiReperibili": [
+                                {
+                                  "nome": "TaxiTrento",
+                                  "numeriTelefonici": [],
+                                  "coordinate": []
+                                }
+                              ],
+                              "casermeForzeOrdine": [
+                                {
+                                  "nome": "Carabinieri",
+                                  "numeriTelefonici": [],
+                                  "coordinate": []
+                                }
+                              ],
+                              "infoComunali": [
+                                {
+                                  "userId": "2",
+                                  "informazione": "Interruzione presso Via Roma",
+                                  "tappa": {
+                                    "id": "60f6c2bsds3aa2e8a51234a567890",
+                                    "nome": "Piazza Fiera",
+                                    "coordinate": []
+                                  },
+                                  "gradoSicurezzaAssegnato": "Nessuno"
+                                }
+                              ],
+                              "gradoSicurezzaTotale": "Molto Sicuro"
+                            }
+                          ],
+                          "contattiEmergenza": [
+                            {
+                              "nominativo": "Mario Rossi",
+                              "numeroTelefonico": "333444555"
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                "example": {
+                  "cittadino": {
+                    "id": "60f6c2b3a2e8a51234567890",
+                    "username": "John123",
+                    "email": "john.doe@gmail.com",
+                    "password": "password",
+                    "isVerificato": false,
+                    "isGoogleAutenticato": false,
+                    "googleId": "null",
+                    "storico": [
+                      {
+                        "userId": "60f6c2b3a2e8a51234567890",
+                        "tipoDiReato": "Furto",
+                        "descrizione": "Furto con scasso",
+                        "tappa": {
+                          "id": "60f6c2bsds3aa2e8a51234a567890",
+                          "nome": "Piazza Fiera",
+                          "coordinate": []
+                        },
+                        "status": "Pendente",
+                        "data": "2024"
+                      }
+                    ],
+                    "itinerariPreferiti": [
+                      {
+                        "tappe": [
+                          {
+                            "id": "60f6c2bsds3aa2e8a51234a567890",
+                            "nome": "Piazza Fiera",
+                            "coordinate": []
+                          }
+                        ],
+                        "autobus": [
+                          {
+                            "linea": "linea 17",
+                            "fermate": [],
+                            "calendario": "Estivo",
+                            "orari": []
+                          }
+                        ],
+                        "taxiReperibili": [
+                          {
+                            "nome": "TaxiTrento",
+                            "numeriTelefonici": [],
+                            "coordinate": []
+                          }
+                        ],
+                        "casermeForzeOrdine": [
+                          {
+                            "nome": "Carabinieri",
+                            "numeriTelefonici": [],
+                            "coordinate": []
+                          }
+                        ],
+                        "infoComunali": [
+                          {
+                            "userId": "2",
+                            "informazione": "Interruzione presso Via Roma",
+                            "tappa": {
+                              "id": "60f6c2bsds3aa2e8a51234a567890",
+                              "nome": "Piazza Fiera",
+                              "coordinate": []
+                            },
+                            "gradoSicurezzaAssegnato": "Nessuno"
+                          }
+                        ],
+                        "gradoSicurezzaTotale": "Molto Sicuro"
+                      }
+                    ],
+                    "contattiEmergenza": [
+                      {
+                        "nominativo": "Mario Rossi",
+                        "numeroTelefonico": "333444555"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "",
+            "headers": {
+              "Authorization": {
+                "content": {
+                  "text/plain": {
+                    "schema": {
+                      "type": "string"
+                    },
+                    "example": "Bearer 4Ve6eAGcVS4q2q4UeNtDKt8hwKcjCXJ85W"
+                  }
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Updatetheuserscontattiresponse1"
+                    },
+                    {
+                      "example": {
+                        "error": "User does not exist"
+                      }
+                    }
+                  ]
+                },
+                "example": {
+                  "error": "User does not exist"
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/api/v1/cittadino/editProfile/{id}": {
+      "put": {
+        "tags": [
+          "/api/v1/cittadino/editProfile/:id"
+        ],
+        "summary": "Update the user's informations",
+        "description": "Update user's profile by modifying informations like email or username, returns the updated Cittadino",
+        "operationId": "Updatetheuser'sinformations",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "abchd7844bndcjs029"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/Updatetheusersinformationsrequest"
+                  },
+                  {
+                    "example": {
+                      "username": "John Doe",
+                      "email": "john.doe@gmail.com"
+                    }
+                  }
+                ]
+              },
+              "example": {
+                "username": "John Doe",
+                "email": "john.doe@gmail.com"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {
+              "Authorization": {
+                "content": {
+                  "text/plain": {
+                    "schema": {
+                      "type": "string"
+                    },
+                    "example": "Bearer 4Ve6eAGcVS4q2q4UeNtDKt8hwKcjCXJ85W"
+                  }
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Updatetheusersinformationsresponse"
+                    },
+                    {
+                      "example": {
+                        "cittadino": {
+                          "id": "60f6c2b3a2e8a51234567890",
+                          "username": "John123",
+                          "email": "john.doe@gmail.com",
+                          "password": "password",
+                          "isVerificato": false,
+                          "isGoogleAutenticato": false,
+                          "googleId": "null",
+                          "storico": [
+                            {
+                              "userId": "60f6c2b3a2e8a51234567890",
+                              "tipoDiReato": "Furto",
+                              "descrizione": "Furto con scasso",
+                              "tappa": {
+                                "id": "60f6c2bsds3aa2e8a51234a567890",
+                                "nome": "Piazza Fiera",
+                                "coordinate": []
+                              },
+                              "status": "Pendente",
+                              "data": "2024"
+                            }
+                          ],
+                          "itinerariPreferiti": [
+                            {
+                              "tappe": [
+                                {
+                                  "id": "60f6c2bsds3aa2e8a51234a567890",
+                                  "nome": "Piazza Fiera",
+                                  "coordinate": []
+                                }
+                              ],
+                              "autobus": [
+                                {
+                                  "linea": "linea 17",
+                                  "fermate": [],
+                                  "calendario": "Estivo",
+                                  "orari": []
+                                }
+                              ],
+                              "taxiReperibili": [
+                                {
+                                  "nome": "TaxiTrento",
+                                  "numeriTelefonici": [],
+                                  "coordinate": []
+                                }
+                              ],
+                              "casermeForzeOrdine": [
+                                {
+                                  "nome": "Carabinieri",
+                                  "numeriTelefonici": [],
+                                  "coordinate": []
+                                }
+                              ],
+                              "infoComunali": [
+                                {
+                                  "userId": "2",
+                                  "informazione": "Interruzione presso Via Roma",
+                                  "tappa": {
+                                    "id": "60f6c2bsds3aa2e8a51234a567890",
+                                    "nome": "Piazza Fiera",
+                                    "coordinate": []
+                                  },
+                                  "gradoSicurezzaAssegnato": "Nessuno"
+                                }
+                              ],
+                              "gradoSicurezzaTotale": "Molto Sicuro"
+                            }
+                          ],
+                          "contattiEmergenza": [
+                            {
+                              "nominativo": "Mario Rossi",
+                              "numeroTelefonico": "333444555"
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                "example": {
+                  "cittadino": {
+                    "id": "60f6c2b3a2e8a51234567890",
+                    "username": "John123",
+                    "email": "john.doe@gmail.com",
+                    "password": "password",
+                    "isVerificato": false,
+                    "isGoogleAutenticato": false,
+                    "googleId": "null",
+                    "storico": [
+                      {
+                        "userId": "60f6c2b3a2e8a51234567890",
+                        "tipoDiReato": "Furto",
+                        "descrizione": "Furto con scasso",
+                        "tappa": {
+                          "id": "60f6c2bsds3aa2e8a51234a567890",
+                          "nome": "Piazza Fiera",
+                          "coordinate": []
+                        },
+                        "status": "Pendente",
+                        "data": "2024"
+                      }
+                    ],
+                    "itinerariPreferiti": [
+                      {
+                        "tappe": [
+                          {
+                            "id": "60f6c2bsds3aa2e8a51234a567890",
+                            "nome": "Piazza Fiera",
+                            "coordinate": []
+                          }
+                        ],
+                        "autobus": [
+                          {
+                            "linea": "linea 17",
+                            "fermate": [],
+                            "calendario": "Estivo",
+                            "orari": []
+                          }
+                        ],
+                        "taxiReperibili": [
+                          {
+                            "nome": "TaxiTrento",
+                            "numeriTelefonici": [],
+                            "coordinate": []
+                          }
+                        ],
+                        "casermeForzeOrdine": [
+                          {
+                            "nome": "Carabinieri",
+                            "numeriTelefonici": [],
+                            "coordinate": []
+                          }
+                        ],
+                        "infoComunali": [
+                          {
+                            "userId": "2",
+                            "informazione": "Interruzione presso Via Roma",
+                            "tappa": {
+                              "id": "60f6c2bsds3aa2e8a51234a567890",
+                              "nome": "Piazza Fiera",
+                              "coordinate": []
+                            },
+                            "gradoSicurezzaAssegnato": "Nessuno"
+                          }
+                        ],
+                        "gradoSicurezzaTotale": "Molto Sicuro"
+                      }
+                    ],
+                    "contattiEmergenza": [
+                      {
+                        "nominativo": "Mario Rossi",
+                        "numeroTelefonico": "333444555"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "",
+            "headers": {
+              "Authorization": {
+                "content": {
+                  "text/plain": {
+                    "schema": {
+                      "type": "string"
+                    },
+                    "example": "Bearer 4Ve6eAGcVS4q2q4UeNtDKt8hwKcjCXJ85W"
+                  }
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Updatetheusersinformationsresponse1"
+                    },
+                    {
+                      "example": {
+                        "error": "User does not exist"
+                      }
+                    }
+                  ]
+                },
+                "example": {
+                  "error": "User does not exist"
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/api/v1/cittadino/segnalazione": {
+      "post": {
+        "tags": [
+          "/api/v1/cittadino/segnalazione"
+        ],
+        "summary": "Create a new report",
+        "description": "Stores the data about the new report.",
+        "operationId": "Createanewreport",
+        "parameters": [],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/Segnalazione"
+                  },
+                  {
+                    "example": {
+                      "userId": "1",
+                      "tipoDiReato": "Furto",
+                      "descrizione": "Furto con scasso",
+                      "tappa": {
+                        "id": "60f6c2bsds3aa2e8a51234a567890",
+                        "nome": "Piazza Fiera",
+                        "coordinate": []
+                      },
+                      "status": "Pendente",
+                      "data": "2024"
+                    }
+                  }
+                ]
+              },
+              "example": {
+                "userId": "1",
+                "tipoDiReato": "Furto",
+                "descrizione": "Furto con scasso",
+                "tappa": {
+                  "id": "60f6c2bsds3aa2e8a51234a567890",
+                  "nome": "Piazza Fiera",
+                  "coordinate": []
+                },
+                "status": "Pendente",
+                "data": "2024"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {
+              "Authorization": {
+                "content": {
+                  "text/plain": {
+                    "schema": {
+                      "type": "string"
+                    },
+                    "example": "Bearer 4Ve6eAGcVS4q2q4UeNtDKt8hwKcjCXJ85W"
+                  }
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Segnalazione"
+                    },
+                    {
+                      "example": {
+                        "userId": "60f6c2b3a2e8a51234567890",
+                        "tipoDiReato": "Furto",
+                        "descrizione": "Furto con scasso",
+                        "tappa": {
+                          "id": "60f6c2bsds3aa2e8a51234a567890",
+                          "nome": "Piazza Fiera",
+                          "coordinate": []
+                        },
+                        "status": "Pendente",
+                        "data": "2024"
+                      }
+                    }
+                  ]
+                },
+                "example": {
+                  "userId": "60f6c2b3a2e8a51234567890",
+                  "tipoDiReato": "Furto",
+                  "descrizione": "Furto con scasso",
+                  "tappa": {
+                    "id": "60f6c2bsds3aa2e8a51234a567890",
+                    "nome": "Piazza Fiera",
+                    "coordinate": []
+                  },
+                  "status": "Pendente",
+                  "data": "2024"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "",
+            "headers": {
+              "Authorization": {
+                "content": {
+                  "text/plain": {
+                    "schema": {
+                      "type": "string"
+                    },
+                    "example": "Bearer 4Ve6eAGcVS4q2q4UeNtDKt8hwKcjCXJ85W"
+                  }
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Createanewreportresponse"
+                    },
+                    {
+                      "example": {
+                        "error": "Invalid input parameters"
+                      }
+                    }
+                  ]
+                },
+                "example": {
+                  "error": "Invalid input parameters"
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/api/v1/cittadino/recuperaPassword": {
+      "post": {
+        "tags": [
+          "/api/v1/cittadino/recuperaPassword"
+        ],
+        "summary": "Recover password",
+        "description": "Define the process to start the recover of password, for google authentication is not required!",
+        "operationId": "Recoverpassword",
+        "parameters": [],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/Recoverpasswordrequest"
+                  },
+                  {
+                    "example": {
+                      "username": "1"
+                    }
+                  }
+                ]
+              },
+              "example": {
+                "username": "1"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {
+              "Authorization": {
+                "content": {
+                  "text/plain": {
+                    "schema": {
+                      "type": "string"
+                    },
+                    "example": "Bearer 4Ve6eAGcVS4q2q4UeNtDKt8hwKcjCXJ85W"
+                  }
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Recoverpasswordresponse"
+                    },
+                    {
+                      "example": {
+                        "message": "Email sent successfully! Please check your email to change or recover you password"
+                      }
+                    }
+                  ]
+                },
+                "example": {
+                  "message": "Email sent successfully! Please check your email to change or recover you password"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "",
+            "headers": {
+              "Authorization": {
+                "content": {
+                  "text/plain": {
+                    "schema": {
+                      "type": "string"
+                    },
+                    "example": "Bearer 4Ve6eAGcVS4q2q4UeNtDKt8hwKcjCXJ85W"
+                  }
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Recoverpasswordresponse1"
+                    },
+                    {
+                      "example": {
+                        "error": "User not found"
+                      }
+                    }
+                  ]
+                },
+                "example": {
+                  "error": "User not found"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "",
+            "headers": {
+              "Authorization": {
+                "content": {
+                  "text/plain": {
+                    "schema": {
+                      "type": "string"
+                    },
+                    "example": "Bearer 4Ve6eAGcVS4q2q4UeNtDKt8hwKcjCXJ85W"
+                  }
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Recoverpasswordresponse1"
+                    },
+                    {
+                      "example": {
+                        "error": "Google authenticated users must manage their passwords in their Google accounts!"
+                      }
+                    }
+                  ]
+                },
+                "example": {
+                  "error": "Google authenticated users must manage their passwords in their Google accounts!"
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/api/v1/cittadino/setPassword/:id": {
+      "put": {
+        "tags": [
+          "/api/v1/cittadino/setPassword/:id"
+        ],
+        "summary": "Set password",
+        "description": "Set the new password after the recover process started.",
+        "operationId": "Setpassword",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {
+              "Authorization": {
+                "content": {
+                  "text/plain": {
+                    "schema": {
+                      "type": "string"
+                    },
+                    "example": "Bearer 4Ve6eAGcVS4q2q4UeNtDKt8hwKcjCXJ85W"
+                  }
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Setpasswordresponse"
+                    },
+                    {
+                      "example": {
+                        "message": "You can now go back to the mobile app!"
+                      }
+                    }
+                  ]
+                },
+                "example": {
+                  "message": "You can now go back to the mobile app!"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "",
+            "headers": {
+              "Authorization": {
+                "content": {
+                  "text/plain": {
+                    "schema": {
+                      "type": "string"
+                    },
+                    "example": "Bearer 4Ve6eAGcVS4q2q4UeNtDKt8hwKcjCXJ85W"
+                  }
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Setpasswordresponse1"
+                    },
+                    {
+                      "example": {
+                        "error": "User not found"
+                      }
+                    }
+                  ]
+                },
+                "example": {
+                  "error": "User not found"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "",
+            "headers": {
+              "Authorization": {
+                "content": {
+                  "text/plain": {
+                    "schema": {
+                      "type": "string"
+                    },
+                    "example": "Bearer 4Ve6eAGcVS4q2q4UeNtDKt8hwKcjCXJ85W"
+                  }
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Setpasswordresponse1"
+                    },
+                    {
+                      "example": {
+                        "error": "Internal Server Error"
+                      }
+                    }
+                  ]
+                },
+                "example": {
+                  "error": "Internal Server Error"
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/api/v1/itinerario/percorso-sicuro": {
+      "post": {
+        "tags": [
+          "/api/v1/itinerario/percorso-sicuro"
+        ],
+        "summary": "Safe route",
+        "description": "Generate a safe route.",
+        "operationId": "Saferoute",
+        "parameters": [],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/Saferouterequest"
+                  },
+                  {
+                    "example": {
+                      "partenza": {
+                        "id": "60f6c2bsds3aa2e8a51234a567890",
+                        "nome": "Piazza Fiera",
+                        "coordinate": []
+                      },
+                      "destinazione": {
+                        "id": "60f6c2bsds3aa2e8a51234a567890",
+                        "nome": "Piazza Fiera",
+                        "coordinate": []
+                      }
+                    }
+                  }
+                ]
+              },
+              "example": {
+                "partenza": {
+                  "id": "60f6c2bsds3aa2e8a51234a567890",
+                  "nome": "Piazza Fiera",
+                  "coordinate": []
+                },
+                "destinazione": {
+                  "id": "60f6c2bsds3aa2e8a51234a567890",
+                  "nome": "Piazza Fiera",
+                  "coordinate": []
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {
+              "Authorization": {
+                "content": {
+                  "text/plain": {
+                    "schema": {
+                      "type": "string"
+                    },
+                    "example": "Bearer 4Ve6eAGcVS4q2q4UeNtDKt8hwKcjCXJ85W"
+                  }
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Saferouteresponse"
+                    },
+                    {
+                      "example": {
+                        "message": "Percorso sicuro generato con successo",
+                        "itinerario": {
+                          "tappe": [
+                            {
+                              "id": "60f6c2bsds3aa2e8a51234a567890",
+                              "nome": "Piazza Fiera",
+                              "coordinate": []
+                            }
+                          ],
+                          "autobus": [
+                            {
+                              "linea": "linea 17",
+                              "fermate": [],
+                              "calendario": "Estivo",
+                              "orari": []
+                            }
+                          ],
+                          "taxiReperibili": [
+                            {
+                              "nome": "TaxiTrento",
+                              "numeriTelefonici": [],
+                              "coordinate": []
+                            }
+                          ],
+                          "casermeForzeOrdine": [
+                            {
+                              "nome": "Carabinieri",
+                              "numeriTelefonici": [],
+                              "coordinate": []
+                            }
+                          ],
+                          "infoComunali": [
+                            {
+                              "userId": "2",
+                              "informazione": "Interruzione presso Via Roma",
+                              "tappa": {
+                                "id": "60f6c2bsds3aa2e8a51234a567890",
+                                "nome": "Piazza Fiera",
+                                "coordinate": []
+                              },
+                              "gradoSicurezzaAssegnato": "Nessuno"
+                            }
+                          ],
+                          "gradoSicurezzaTotale": "Molto Sicuro"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "example": {
+                  "message": "Percorso sicuro generato con successo",
+                  "itinerario": {
+                    "tappe": [
+                      {
+                        "id": "60f6c2bsds3aa2e8a51234a567890",
+                        "nome": "Piazza Fiera",
+                        "coordinate": []
+                      }
+                    ],
+                    "autobus": [
+                      {
+                        "linea": "linea 17",
+                        "fermate": [],
+                        "calendario": "Estivo",
+                        "orari": []
+                      }
+                    ],
+                    "taxiReperibili": [
+                      {
+                        "nome": "TaxiTrento",
+                        "numeriTelefonici": [],
+                        "coordinate": []
+                      }
+                    ],
+                    "casermeForzeOrdine": [
+                      {
+                        "nome": "Carabinieri",
+                        "numeriTelefonici": [],
+                        "coordinate": []
+                      }
+                    ],
+                    "infoComunali": [
+                      {
+                        "userId": "2",
+                        "informazione": "Interruzione presso Via Roma",
+                        "tappa": {
+                          "id": "60f6c2bsds3aa2e8a51234a567890",
+                          "nome": "Piazza Fiera",
+                          "coordinate": []
+                        },
+                        "gradoSicurezzaAssegnato": "Nessuno"
+                      }
+                    ],
+                    "gradoSicurezzaTotale": "Molto Sicuro"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "",
+            "headers": {
+              "Authorization": {
+                "content": {
+                  "text/plain": {
+                    "schema": {
+                      "type": "string"
+                    },
+                    "example": "Bearer 4Ve6eAGcVS4q2q4UeNtDKt8hwKcjCXJ85W"
+                  }
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Saferouteresponse1"
+                    },
+                    {
+                      "example": {
+                        "error": "Errore interno + error: err.message"
+                      }
+                    }
+                  ]
+                },
+                "example": {
+                  "error": "Errore interno + error: err.message"
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/api/v1/maps/autocomplete": {
+      "post": {
+        "tags": [
+          "/api/v1/maps/autocomplete"
+        ],
+        "summary": "Auto complete",
+        "description": "Auto complete for searching locations.",
+        "operationId": "Autocomplete",
+        "parameters": [],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/Autocompleterequest"
+                  },
+                  {
+                    "example": {
+                      "input": "query"
+                    }
+                  }
+                ]
+              },
+              "example": {
+                "input": "query"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {
+              "Authorization": {
+                "content": {
+                  "text/plain": {
+                    "schema": {
+                      "type": "string"
+                    },
+                    "example": "Bearer 4Ve6eAGcVS4q2q4UeNtDKt8hwKcjCXJ85W"
+                  }
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Autocompleteresponse"
+                    },
+                    {
+                      "example": {
+                        "predictions": []
+                      }
+                    }
+                  ]
+                },
+                "example": {
+                  "predictions": []
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "",
+            "headers": {
+              "Authorization": {
+                "content": {
+                  "text/plain": {
+                    "schema": {
+                      "type": "string"
+                    },
+                    "example": "Bearer 4Ve6eAGcVS4q2q4UeNtDKt8hwKcjCXJ85W"
+                  }
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Autocompleteresponse1"
+                    },
+                    {
+                      "example": {
+                        "error": "Input required"
+                      }
+                    }
+                  ]
+                },
+                "example": {
+                  "error": "Input required"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "",
+            "headers": {
+              "Authorization": {
+                "content": {
+                  "text/plain": {
+                    "schema": {
+                      "type": "string"
+                    },
+                    "example": "Bearer 4Ve6eAGcVS4q2q4UeNtDKt8hwKcjCXJ85W"
+                  }
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Autocompleteresponse1"
+                    },
+                    {
+                      "example": {
+                        "error": "Autocomplete error"
+                      }
+                    }
+                  ]
+                },
+                "example": {
+                  "error": "Autocomplete error"
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/api/v1/maps/details": {
+      "post": {
+        "tags": [
+          "/api/v1/maps/details"
+        ],
+        "summary": "Details",
+        "description": "Return the details of a place.",
+        "operationId": "Details",
+        "parameters": [],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/Detailsrequest"
+                  },
+                  {
+                    "example": {
+                      "input": "query"
+                    }
+                  }
+                ]
+              },
+              "example": {
+                "input": "query"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {
+              "Authorization": {
+                "content": {
+                  "text/plain": {
+                    "schema": {
+                      "type": "string"
+                    },
+                    "example": "Bearer 4Ve6eAGcVS4q2q4UeNtDKt8hwKcjCXJ85W"
+                  }
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Detailsresponse"
+                    },
+                    {
+                      "example": {
+                        "places": []
+                      }
+                    }
+                  ]
+                },
+                "example": {
+                  "places": []
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "",
+            "headers": {
+              "Authorization": {
+                "content": {
+                  "text/plain": {
+                    "schema": {
+                      "type": "string"
+                    },
+                    "example": "Bearer 4Ve6eAGcVS4q2q4UeNtDKt8hwKcjCXJ85W"
+                  }
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Detailsresponse1"
+                    },
+                    {
+                      "example": {
+                        "error": "place_id required"
+                      }
+                    }
+                  ]
+                },
+                "example": {
+                  "error": "place_id required"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "",
+            "headers": {
+              "Authorization": {
+                "content": {
+                  "text/plain": {
+                    "schema": {
+                      "type": "string"
+                    },
+                    "example": "Bearer 4Ve6eAGcVS4q2q4UeNtDKt8hwKcjCXJ85W"
+                  }
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Detailsresponse1"
+                    },
+                    {
+                      "example": {
+                        "error": "Place details error"
+                      }
+                    }
+                  ]
+                },
+                "example": {
+                  "error": "Place details error"
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/api/v1/operatoreComunale/segnalazione": {
+      "get": {
+        "tags": [
+          "/api/v1/operatoreComunale/segnalazione"
+        ],
+        "summary": "Return a single report",
+        "description": "Given an ID it returns the related report.",
+        "operationId": "Returnasinglereport",
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "description": "",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "enum": [
+                "application/json"
+              ],
+              "type": "string",
+              "example": "application/json"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {
+              "Authorization": {
+                "content": {
+                  "text/plain": {
+                    "schema": {
+                      "type": "string"
+                    },
+                    "example": "Bearer 4Ve6eAGcVS4q2q4UeNtDKt8hwKcjCXJ85W"
+                  }
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Segnalazione"
+                    },
+                    {
+                      "example": {
+                        "userId": "60f6c2b3a2e8a51234567890",
+                        "tipoDiReato": "Furto",
+                        "descrizione": "Furto con scasso",
+                        "tappa": {
+                          "id": "60f6c2bsds3aa2e8a51234a567890",
+                          "nome": "Piazza Fiera",
+                          "coordinate": []
+                        },
+                        "status": "Pendente",
+                        "data": "2024"
+                      }
+                    }
+                  ]
+                },
+                "example": {
+                  "userId": "60f6c2b3a2e8a51234567890",
+                  "tipoDiReato": "Furto",
+                  "descrizione": "Furto con scasso",
+                  "tappa": {
+                    "id": "60f6c2bsds3aa2e8a51234a567890",
+                    "nome": "Piazza Fiera",
+                    "coordinate": []
+                  },
+                  "status": "Pendente",
+                  "data": "2024"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "",
+            "headers": {
+              "Authorization": {
+                "content": {
+                  "text/plain": {
+                    "schema": {
+                      "type": "string"
+                    },
+                    "example": "Bearer 4Ve6eAGcVS4q2q4UeNtDKt8hwKcjCXJ85W"
+                  }
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Returnasinglereportresponse"
+                    },
+                    {
+                      "example": {
+                        "error": "Segnalazione not found"
+                      }
+                    }
+                  ]
+                },
+                "example": {
+                  "error": "Segnalazione not found"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "",
+            "headers": {
+              "Authorization": {
+                "content": {
+                  "text/plain": {
+                    "schema": {
+                      "type": "string"
+                    },
+                    "example": "Bearer 4Ve6eAGcVS4q2q4UeNtDKt8hwKcjCXJ85W"
+                  }
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Returnasinglereportresponse"
+                    },
+                    {
+                      "example": {
+                        "error": "Missing segnalazione ID"
+                      }
+                    }
+                  ]
+                },
+                "example": {
+                  "error": "Missing segnalazione ID"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "",
+            "headers": {
+              "Authorization": {
+                "content": {
+                  "text/plain": {
+                    "schema": {
+                      "type": "string"
+                    },
+                    "example": "Bearer 4Ve6eAGcVS4q2q4UeNtDKt8hwKcjCXJ85W"
+                  }
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Returnasinglereportresponse"
+                    },
+                    {
+                      "example": {
+                        "error": "Server error fetching segnalazione"
+                      }
+                    }
+                  ]
+                },
+                "example": {
+                  "error": "Server error fetching segnalazione"
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/api/v1/operatoreComunale/segnalazione/delete": {
+      "delete": {
+        "tags": [
+          "/api/v1/operatoreComunale/segnalazione/delete"
+        ],
+        "summary": "Delete a report",
+        "description": "Given an ID it deletes the related report.",
+        "operationId": "Deleteareport",
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "description": "",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "enum": [
+                "application/json"
+              ],
+              "type": "string",
+              "example": "application/json"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {
+              "Authorization": {
+                "content": {
+                  "text/plain": {
+                    "schema": {
+                      "type": "string"
+                    },
+                    "example": "Bearer 4Ve6eAGcVS4q2q4UeNtDKt8hwKcjCXJ85W"
+                  }
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Deleteareportresponse"
+                    },
+                    {
+                      "example": {
+                        "message": "Segnalazione successfully deleted"
+                      }
+                    }
+                  ]
+                },
+                "example": {
+                  "message": "Segnalazione successfully deleted"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "",
+            "headers": {
+              "Authorization": {
+                "content": {
+                  "text/plain": {
+                    "schema": {
+                      "type": "string"
+                    },
+                    "example": "Bearer 4Ve6eAGcVS4q2q4UeNtDKt8hwKcjCXJ85W"
+                  }
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Deleteareportresponse1"
+                    },
+                    {
+                      "example": {
+                        "error": "Segnalazione not found"
+                      }
+                    }
+                  ]
+                },
+                "example": {
+                  "error": "Segnalazione not found"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "",
+            "headers": {
+              "Authorization": {
+                "content": {
+                  "text/plain": {
+                    "schema": {
+                      "type": "string"
+                    },
+                    "example": "Bearer 4Ve6eAGcVS4q2q4UeNtDKt8hwKcjCXJ85W"
+                  }
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Deleteareportresponse1"
+                    },
+                    {
+                      "example": {
+                        "error": "Server error while deleting the segnalazione"
+                      }
+                    }
+                  ]
+                },
+                "example": {
+                  "error": "Server error while deleting the segnalazione"
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/api/v1/operatoreComunale/segnalazione/stato": {
+      "put": {
+        "tags": [
+          "/api/v1/operatoreComunale/segnalazione/stato"
+        ],
+        "summary": "Set the status of a report",
+        "description": "Given an ID it updates the status of the related report.",
+        "operationId": "Setthestatusofareport",
+        "parameters": [],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/Setthestatusofareportrequest"
+                  },
+                  {
+                    "example": {
+                      "userId": "1",
+                      "status": "Pendente"
+                    }
+                  }
+                ]
+              },
+              "example": {
+                "userId": "1",
+                "status": "Pendente"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {
+              "Authorization": {
+                "content": {
+                  "text/plain": {
+                    "schema": {
+                      "type": "string"
+                    },
+                    "example": "Bearer 4Ve6eAGcVS4q2q4UeNtDKt8hwKcjCXJ85W"
+                  }
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Setthestatusofareportresponse"
+                    },
+                    {
+                      "example": {
+                        "message": "Segnalazione updated successfully"
+                      }
+                    }
+                  ]
+                },
+                "example": {
+                  "message": "Segnalazione updated successfully"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "",
+            "headers": {
+              "Authorization": {
+                "content": {
+                  "text/plain": {
+                    "schema": {
+                      "type": "string"
+                    },
+                    "example": "Bearer 4Ve6eAGcVS4q2q4UeNtDKt8hwKcjCXJ85W"
+                  }
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Setthestatusofareportresponse1"
+                    },
+                    {
+                      "example": {
+                        "error": "Missing ID or new status"
+                      }
+                    }
+                  ]
+                },
+                "example": {
+                  "error": "Missing ID or new status"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "",
+            "headers": {
+              "Authorization": {
+                "content": {
+                  "text/plain": {
+                    "schema": {
+                      "type": "string"
+                    },
+                    "example": "Bearer 4Ve6eAGcVS4q2q4UeNtDKt8hwKcjCXJ85W"
+                  }
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Setthestatusofareportresponse1"
+                    },
+                    {
+                      "example": {
+                        "error": "Invalid status value"
+                      }
+                    }
+                  ]
+                },
+                "example": {
+                  "error": "Invalid status value"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "",
+            "headers": {
+              "Authorization": {
+                "content": {
+                  "text/plain": {
+                    "schema": {
+                      "type": "string"
+                    },
+                    "example": "Bearer 4Ve6eAGcVS4q2q4UeNtDKt8hwKcjCXJ85W"
+                  }
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Setthestatusofareportresponse1"
+                    },
+                    {
+                      "example": {
+                        "error": "Segnalazione not found"
+                      }
+                    }
+                  ]
+                },
+                "example": {
+                  "error": "Segnalazione not found"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "",
+            "headers": {
+              "Authorization": {
+                "content": {
+                  "text/plain": {
+                    "schema": {
+                      "type": "string"
+                    },
+                    "example": "Bearer 4Ve6eAGcVS4q2q4UeNtDKt8hwKcjCXJ85W"
+                  }
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Setthestatusofareportresponse1"
+                    },
+                    {
+                      "example": {
+                        "error": "Server error while updating segnalazione status"
+                      }
+                    }
+                  ]
+                },
+                "example": {
+                  "error": "Server error while updating segnalazione status"
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/api/v1/operatoreComunale/segnalazioni": {
+      "get": {
+        "tags": [
+          "/api/v1/operatoreComunale/segnalazioni"
+        ],
+        "summary": "Returns reports",
+        "description": "Returns all the reports.",
+        "operationId": "Returnsreports",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {
+              "Authorization": {
+                "content": {
+                  "text/plain": {
+                    "schema": {
+                      "type": "string"
+                    },
+                    "example": "Bearer 4Ve6eAGcVS4q2q4UeNtDKt8hwKcjCXJ85W"
+                  }
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "example": {}
+                },
+                "example": {}
+              }
+            }
+          },
+          "500": {
+            "description": "",
+            "headers": {
+              "Authorization": {
+                "content": {
+                  "text/plain": {
+                    "schema": {
+                      "type": "string"
+                    },
+                    "example": "Bearer 4Ve6eAGcVS4q2q4UeNtDKt8hwKcjCXJ85W"
+                  }
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Returnsreportsresponse"
+                    },
+                    {
+                      "example": {
+                        "error": "Unable to retrieve segnalazioni"
+                      }
+                    }
+                  ]
+                },
+                "example": {
+                  "error": "Unable to retrieve segnalazioni"
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/api/v1/comune/genera-token": {
+      "post": {
+        "tags": [
+          "/api/v1/comune/genera-token"
+        ],
+        "summary": "Generate tokens",
+        "description": "Generates a token for the the verified admin.",
+        "operationId": "Generatetokens",
+        "parameters": [],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/Generatetokensrequest"
+                  },
+                  {
+                    "example": {
+                      "codiceAdmin": "2"
+                    }
+                  }
+                ]
+              },
+              "example": {
+                "codiceAdmin": "2"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Generatetokensresponse"
+                    },
+                    {
+                      "example": {
+                        "message": "Token generato con successo",
+                        "token": "abcdef1234567890"
+                      }
+                    }
+                  ]
+                },
+                "example": {
+                  "message": "Token generato con successo",
+                  "token": "abcdef1234567890"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Generatetokensresponse1"
+                    },
+                    {
+                      "example": {
+                        "error": "Failed to generate token"
+                      }
+                    }
+                  ]
+                },
+                "example": {
+                  "error": "Failed to generate token"
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/api/v1/operatoreComunale/logout-operatore": {
+      "post": {
+        "tags": [
+          "/api/v1/operatoreComunale/logout-operatore"
+        ],
+        "summary": "Logout operator",
+        "description": "Operates the logout of the operator updating isAutenticato.",
+        "operationId": "Logoutoperator",
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "description": "",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "enum": [
+                "application/json"
+              ],
+              "type": "string",
+              "example": "application/json"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {
+              "Authorization": {
+                "content": {
+                  "text/plain": {
+                    "schema": {
+                      "type": "string"
+                    },
+                    "example": "Bearer 4Ve6eAGcVS4q2q4UeNtDKt8hwKcjCXJ85W"
+                  }
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Logoutoperatorresponse"
+                    },
+                    {
+                      "example": {
+                        "message": "Logout successful"
+                      }
+                    }
+                  ]
+                },
+                "example": {
+                  "message": "Logout successful"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "",
+            "headers": {
+              "Authorization": {
+                "content": {
+                  "text/plain": {
+                    "schema": {
+                      "type": "string"
+                    },
+                    "example": "Bearer 4Ve6eAGcVS4q2q4UeNtDKt8hwKcjCXJ85W"
+                  }
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Logoutoperatorresponse1"
+                    },
+                    {
+                      "example": {
+                        "error": "Server error during logout"
+                      }
+                    }
+                  ]
+                },
+                "example": {
+                  "error": "Server error during logout"
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/api/v1/operatoreComunale/login-operatore": {
+      "post": {
+        "tags": [
+          "/api/v1/operatoreComunale/login-operatore"
+        ],
+        "summary": "Login operator",
+        "description": "Operates the login of the operator updating isAutenticato.",
+        "operationId": "Loginoperator",
+        "parameters": [],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/Loginoperatorrequest"
+                  },
+                  {
+                    "example": {
+                      "username": "MarioOperator",
+                      "password": "password"
+                    }
+                  }
+                ]
+              },
+              "example": {
+                "username": "MarioOperator",
+                "password": "password"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Loginoperatorresponse"
+                    },
+                    {
+                      "example": {
+                        "username": "MarioOperator",
+                        "email": "mario@example.com",
+                        "password": "1234",
+                        "isVerificato": false,
+                        "isAutenticato": true,
+                        "storicoUtenti": true,
+                        "datiStatistici": true,
+                        "sensoriAffollamento": true,
+                        "message": "Login successful"
+                      }
+                    }
+                  ]
+                },
+                "example": {
+                  "username": "MarioOperator",
+                  "email": "mario@example.com",
+                  "password": "1234",
+                  "isVerificato": false,
+                  "isAutenticato": true,
+                  "storicoUtenti": true,
+                  "datiStatistici": true,
+                  "sensoriAffollamento": true,
+                  "message": "Login successful"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Loginoperatorresponse1"
+                    },
+                    {
+                      "example": {
+                        "error": "Invalid credentials"
+                      }
+                    }
+                  ]
+                },
+                "example": {
+                  "error": "Invalid credentials"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Loginoperatorresponse1"
+                    },
+                    {
+                      "example": {
+                        "error": "Operator not found"
+                      }
+                    }
+                  ]
+                },
+                "example": {
+                  "error": "Operator not found"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Loginoperatorresponse1"
+                    },
+                    {
+                      "example": {
+                        "error": "Internal server error"
+                      }
+                    }
+                  ]
+                },
+                "example": {
+                  "error": "Internal server error"
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/api/v1/operatoreComunale/signup-operatore": {
+      "post": {
+        "tags": [
+          "/api/v1/operatoreComunale/signup-operatore"
+        ],
+        "summary": "SignUp operator",
+        "description": "Operates the sign-up of the operator.",
+        "operationId": "SignUpoperator",
+        "parameters": [],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/SignUpoperatorrequest"
+                  },
+                  {
+                    "example": {
+                      "username": "1234",
+                      "email": "1234",
+                      "password": "1234",
+                      "tokenComune": "1234"
+                    }
+                  }
+                ]
+              },
+              "example": {
+                "username": "1234",
+                "email": "1234",
+                "password": "1234",
+                "tokenComune": "1234"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/SignUpoperatorresponse"
+                    },
+                    {
+                      "example": {
+                        "username": "MarioOperator",
+                        "email": "mario@example.com",
+                        "password": "1234",
+                        "isVerificato": false,
+                        "isAutenticato": true,
+                        "storicoUtenti": true,
+                        "datiStatistici": true,
+                        "sensoriAffollamento": true,
+                        "message": "Operator successfully registered. Please confirm your email"
+                      }
+                    }
+                  ]
+                },
+                "example": {
+                  "username": "MarioOperator",
+                  "email": "mario@example.com",
+                  "password": "1234",
+                  "isVerificato": false,
+                  "isAutenticato": true,
+                  "storicoUtenti": true,
+                  "datiStatistici": true,
+                  "sensoriAffollamento": true,
+                  "message": "Operator successfully registered. Please confirm your email"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/SignUpoperatorresponse1"
+                    },
+                    {
+                      "example": {
+                        "error": "Invalid or already used token"
+                      }
+                    }
+                  ]
+                },
+                "example": {
+                  "error": "Invalid or already used token"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/SignUpoperatorresponse1"
+                    },
+                    {
+                      "example": {
+                        "error": "Email or username already in use"
+                      }
+                    }
+                  ]
+                },
+                "example": {
+                  "error": "Email or username already in use"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/SignUpoperatorresponse1"
+                    },
+                    {
+                      "example": {
+                        "error": "error.message || Internal server error"
+                      }
+                    }
+                  ]
+                },
+                "example": {
+                  "error": "error.message || Internal server error"
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/api/v1/operatoreComunale/informazioni": {
+      "post": {
+        "tags": [
+          "POST /api/v1/operatoreComunale/informazioni"
+        ],
+        "summary": "Create info",
+        "description": "Create a new note by the operator.",
+        "operationId": "Createinfo",
+        "parameters": [],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/Createinforequest"
+                  },
+                  {
+                    "example": {
+                      "userID": "1234",
+                      "informazione": "Interruzione presso Via Roma",
+                      "tappa": "Tappa",
+                      "gradoSicurezzaAssegnato": "Nessuno"
+                    }
+                  }
+                ]
+              },
+              "example": {
+                "userID": "1234",
+                "informazione": "Interruzione presso Via Roma",
+                "tappa": "Tappa",
+                "gradoSicurezzaAssegnato": "Nessuno"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Createinforesponse"
+                    },
+                    {
+                      "example": {
+                        "message": "Operator successfully registered. Please confirm your email"
+                      }
+                    }
+                  ]
+                },
+                "example": {
+                  "message": "Operator successfully registered. Please confirm your email"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Createinforesponse1"
+                    },
+                    {
+                      "example": {
+                        "error": "Errore creazione info comunale: + err.message",
+                        "salvata": ""
+                      }
+                    }
+                  ]
+                },
+                "example": {
+                  "error": "Errore creazione info comunale: + err.message",
+                  "salvata": ""
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      },
+      "get": {
+        "tags": [
+          "/api/v1/operatoreComunale/informazioni"
+        ],
+        "summary": "Get all info",
+        "description": "Return all the info made by the operators.",
+        "operationId": "Getallinfo",
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "description": "",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "enum": [
+                "application/json"
+              ],
+              "type": "string",
+              "example": "application/json"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Getallinforesponse"
+                    },
+                    {
+                      "example": {
+                        "username": "MarioOperator",
+                        "email": "mario@example.com",
+                        "password": "1234",
+                        "isVerificato": false,
+                        "isAutenticato": true,
+                        "storicoUtenti": true,
+                        "datiStatistici": true,
+                        "sensoriAffollamento": true,
+                        "message": "Errore interno del server"
+                      }
+                    }
+                  ]
+                },
+                "example": {
+                  "username": "MarioOperator",
+                  "email": "mario@example.com",
+                  "password": "1234",
+                  "isVerificato": false,
+                  "isAutenticato": true,
+                  "storicoUtenti": true,
+                  "datiStatistici": true,
+                  "sensoriAffollamento": true,
+                  "message": "Errore interno del server"
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/api/v1/operatoreComunale/informazioni/:id": {
+      "delete": {
+        "tags": [
+          "/api/v1/operatoreComunale/informazioni/:id"
+        ],
+        "summary": "Delete info",
+        "description": "Delete an operator note.",
+        "operationId": "Deleteinfo",
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "description": "",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "enum": [
+                "application/json"
+              ],
+              "type": "string",
+              "example": "application/json"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Deleteinforesponse"
+                    },
+                    {
+                      "example": {
+                        "username": "MarioOperator",
+                        "email": "mario@example.com",
+                        "password": "1234",
+                        "isVerificato": false,
+                        "isAutenticato": true,
+                        "storicoUtenti": true,
+                        "datiStatistici": true,
+                        "sensoriAffollamento": true,
+                        "message": "Informazione eliminata con successo."
+                      }
+                    }
+                  ]
+                },
+                "example": {
+                  "username": "MarioOperator",
+                  "email": "mario@example.com",
+                  "password": "1234",
+                  "isVerificato": false,
+                  "isAutenticato": true,
+                  "storicoUtenti": true,
+                  "datiStatistici": true,
+                  "sensoriAffollamento": true,
+                  "message": "Informazione eliminata con successo."
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Deleteinforesponse1"
+                    },
+                    {
+                      "example": {
+                        "error": "ID mancante."
+                      }
+                    }
+                  ]
+                },
+                "example": {
+                  "error": "ID mancante."
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Deleteinforesponse1"
+                    },
+                    {
+                      "example": {
+                        "error": "Informazione non trovata."
+                      }
+                    }
+                  ]
+                },
+                "example": {
+                  "error": "Informazione non trovata."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Deleteinforesponse1"
+                    },
+                    {
+                      "example": {
+                        "error": "Errore del server durante l'eliminazione."
+                      }
+                    }
+                  ]
+                },
+                "example": {
+                  "error": "Errore del server durante l'eliminazione."
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/api/v1/operatoreComunale/sensori": {
+      "get": {
+        "tags": [
+          "/api/v1/operatoreComunale/sensori"
+        ],
+        "summary": "Get random sensori.",
+        "description": "Get random sensori",
+        "operationId": "Getrandomsensori.",
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "description": "",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "enum": [
+                "application/json"
+              ],
+              "type": "string",
+              "example": "application/json"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Getrandomsensori.response"
+                    },
+                    {
+                      "example": {
+                        "username": "MarioOperator",
+                        "email": "mario@example.com",
+                        "password": "1234",
+                        "isVerificato": false,
+                        "isAutenticato": true,
+                        "storicoUtenti": true,
+                        "datiStatistici": true,
+                        "sensoriAffollamento": true,
+                        "sensori": ""
+                      }
+                    }
+                  ]
+                },
+                "example": {
+                  "username": "MarioOperator",
+                  "email": "mario@example.com",
+                  "password": "1234",
+                  "isVerificato": false,
+                  "isAutenticato": true,
+                  "storicoUtenti": true,
+                  "datiStatistici": true,
+                  "sensoriAffollamento": true,
+                  "sensori": ""
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Getrandomsensori.response1"
+                    },
+                    {
+                      "example": {
+                        "username": "MarioOperator",
+                        "email": "mario@example.com",
+                        "password": "1234",
+                        "isVerificato": false,
+                        "isAutenticato": true,
+                        "storicoUtenti": true,
+                        "datiStatistici": true,
+                        "sensoriAffollamento": true,
+                        "message": "Errore del server durante il recupero dei sensori."
+                      }
+                    }
+                  ]
+                },
+                "example": {
+                  "username": "MarioOperator",
+                  "email": "mario@example.com",
+                  "password": "1234",
+                  "isVerificato": false,
+                  "isAutenticato": true,
+                  "storicoUtenti": true,
+                  "datiStatistici": true,
+                  "sensoriAffollamento": true,
+                  "message": "Errore del server durante il recupero dei sensori."
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Cittadino": {
+        "title": "Cittadino",
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "60f6c2b3a2e8a51234567890"
+          },
+          "username": {
+            "type": "string",
+            "example": "John123"
+          },
+          "email": {
+            "type": "string",
+            "example": "john.doe@gmail.com"
+          },
+          "password": {
+            "type": "string",
+            "example": "password"
+          },
+          "isVerificato": {
+            "type": "boolean",
+            "example": false
+          },
+          "isGoogleAutenticato": {
+            "type": "boolean",
+            "example": false
+          },
+          "googleId": {
+            "type": "string",
+            "example": "null"
+          },
+          "storico": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Segnalazione"
+            },
+            "description": ""
+          },
+          "itinerariPreferiti": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Itinerario"
+            },
+            "description": ""
+          },
+          "contattiEmergenza": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ContattoEmergenza"
+            },
+            "description": ""
+          }
+        }
+      },
+      "SignUpResponse": {
+        "title": "SignUpResponse",
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "User profile retrieved successfully"
+          },
+          "cittadino": {
+            "$ref": "#/components/schemas/Cittadino"
+          }
+        }
+      },
+      "Tappa": {
+        "title": "Tappa",
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "60f6c2bsds3aa2e8a51234a567890"
+          },
+          "nome": {
+            "type": "string",
+            "example": "Piazza Fiera"
+          },
+          "coordinate": {
+            "type": "array",
+            "items": {
+              "type": "number"
+            },
+            "description": ""
+          }
+        }
+      },
+      "Segnalazione": {
+        "title": "Segnalazione",
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "string",
+            "example": "60f6c2b3a2e8a51234567890"
+          },
+          "tipoDiReato": {
+            "type": "string",
+            "example": "Furto"
+          },
+          "descrizione": {
+            "type": "string",
+            "example": "Furto con scasso"
+          },
+          "tappa": {
+            "$ref": "#/components/schemas/Tappa"
+          },
+          "status": {
+            "type": "string",
+            "example": "Pendente"
+          },
+          "data": {
+            "type": "string",
+            "description": "01-01T00:00:00Z (datetime)",
+            "example": "2024"
+          }
+        }
+      },
+      "Autobus": {
+        "title": "Autobus",
+        "type": "object",
+        "properties": {
+          "linea": {
+            "type": "string",
+            "example": "linea 17"
+          },
+          "fermate": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": ""
+          },
+          "calendario": {
+            "type": "string",
+            "example": "Estivo"
+          },
+          "orari": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": ""
+          }
+        }
+      },
+      "Taxi": {
+        "title": "Taxi",
+        "required": [
+          "nome"
+        ],
+        "type": "object",
+        "properties": {
+          "nome": {
+            "type": "string",
+            "example": "TaxiTrento"
+          },
+          "numeriTelefonici": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": ""
+          },
+          "coordinate": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": ""
+          }
+        }
+      },
+      "CasermeForzeOrdine": {
+        "title": "CasermeForzeOrdine",
+        "required": [
+          "nome"
+        ],
+        "type": "object",
+        "properties": {
+          "nome": {
+            "type": "string",
+            "example": "Carabinieri"
+          },
+          "numeriTelefonici": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": ""
+          },
+          "coordinate": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": ""
+          }
+        }
+      },
+      "InfoComunali": {
+        "title": "InfoComunali",
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "string",
+            "example": "2"
+          },
+          "informazione": {
+            "type": "string",
+            "example": "Interruzione presso Via Roma"
+          },
+          "tappa": {
+            "$ref": "#/components/schemas/Tappa"
+          },
+          "gradoSicurezzaAssegnato": {
+            "type": "string",
+            "example": "Nessuno"
+          }
+        }
+      },
+      "Itinerario": {
+        "title": "Itinerario",
+        "type": "object",
+        "properties": {
+          "tappe": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Tappa"
+            },
+            "description": ""
+          },
+          "autobus": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Autobus"
+            },
+            "description": ""
+          },
+          "taxiReperibili": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Taxi"
+            },
+            "description": ""
+          },
+          "casermeForzeOrdine": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CasermeForzeOrdine"
+            },
+            "description": ""
+          },
+          "infoComunali": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/InfoComunali"
+            },
+            "description": ""
+          },
+          "gradoSicurezzaTotale": {
+            "type": "string",
+            "example": "Molto Sicuro"
+          }
+        }
+      },
+      "ContattoEmergenza": {
+        "title": "ContattoEmergenza",
+        "required": [
+          "numeroTelefonico"
+        ],
+        "type": "object",
+        "properties": {
+          "nominativo": {
+            "type": "string",
+            "example": "Mario Rossi"
+          },
+          "numeroTelefonico": {
+            "type": "string",
+            "example": "333444555"
+          }
+        }
+      },
+      "OperatoreComunale": {
+        "title": "OperatoreComunale",
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string",
+            "example": "MarioOperator"
+          },
+          "email": {
+            "type": "string",
+            "example": "mario@example.com"
+          },
+          "password": {
+            "type": "string",
+            "example": "1234"
+          },
+          "isVerificato": {
+            "type": "boolean",
+            "example": false
+          },
+          "isAutenticato": {
+            "type": "boolean",
+            "example": true
+          },
+          "storicoUtenti": {
+            "type": "boolean",
+            "example": true
+          },
+          "datiStatistici": {
+            "type": "boolean",
+            "example": true
+          },
+          "sensoriAffollamento": {
+            "type": "boolean",
+            "example": true
+          }
+        }
+      },
+      "AuthenticateauserontheDBrequest": {
+        "title": "AuthenticateauserontheDBrequest",
+        "required": [
+          "username",
+          "password"
+        ],
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string",
+            "description": "Username choosen by user",
+            "example": "John123"
+          },
+          "password": {
+            "type": "string",
+            "description": "Password hashed before storing",
+            "example": "password"
+          }
+        }
+      },
+      "AuthenticateauserontheDBresponse": {
+        "title": "AuthenticateauserontheDBresponse",
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "\"Login Successful\""
+          },
+          "cittadino": {
+            "$ref": "#/components/schemas/Cittadino"
+          },
+          "token": {
+            "type": "string",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4MmNhMWMwZTFjYjcwNmE3YTU0ZTY0MiIsImVtYWlsIjoibWF0"
+          }
+        }
+      },
+      "AuthenticateauserontheDBresponse1": {
+        "title": "AuthenticateauserontheDBresponse1",
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string",
+            "example": "Invalid input parameters"
+          }
+        }
+      },
+      "Autocompleterequest": {
+        "title": "Autocompleterequest",
+        "type": "object",
+        "properties": {
+          "input": {
+            "type": "string",
+            "example": "query"
+          }
+        }
+      },
+      "Autocompleteresponse": {
+        "title": "Autocompleteresponse",
+        "type": "object",
+        "properties": {
+          "predictions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": ""
+          }
+        }
+      },
+      "Autocompleteresponse1": {
+        "title": "Autocompleteresponse1",
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string",
+            "example": "Input required"
+          }
+        }
+      },
+      "Confirmemailofnewuserresponse": {
+        "title": "Confirmemailofnewuserresponse",
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "Email confirmed successfully"
+          }
+        }
+      },
+      "Confirmemailofnewuserresponse1": {
+        "title": "Confirmemailofnewuserresponse1",
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string",
+            "example": "Invalid token or expired"
+          }
+        }
+      },
+      "Createanewreportresponse": {
+        "title": "Createanewreportresponse",
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string",
+            "example": "Invalid input parameters"
+          }
+        }
+      },
+      "Createinforequest": {
+        "title": "Createinforequest",
+        "type": "object",
+        "properties": {
+          "userID": {
+            "type": "string",
+            "example": "1234"
+          },
+          "informazione": {
+            "type": "string",
+            "example": "Interruzione presso Via Roma"
+          },
+          "tappa": {
+            "type": "string",
+            "example": "Tappa"
+          },
+          "gradoSicurezzaAssegnato": {
+            "type": "string",
+            "example": "Nessuno"
+          }
+        }
+      },
+      "Createinforesponse": {
+        "title": "Createinforesponse",
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "Operator successfully registered. Please confirm your email"
+          }
+        }
+      },
+      "Createinforesponse1": {
+        "title": "Createinforesponse1",
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string",
+            "example": "Errore creazione info comunale: + err.message"
+          },
+          "salvata": {
+            "type": "string"
+          }
+        }
+      },
+      "Deleteareportrequest": {
+        "title": "Deleteareportrequest",
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "string",
+            "example": "1"
+          }
+        }
+      },
+      "Deleteareportresponse": {
+        "title": "Deleteareportresponse",
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "Segnalazione successfully deleted"
+          }
+        }
+      },
+      "Deleteareportresponse1": {
+        "title": "Deleteareportresponse1",
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string",
+            "example": "Segnalazione not found"
+          }
+        }
+      },
+      "Deleteinforequest": {
+        "title": "Deleteinforequest",
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "1234"
+          }
+        }
+      },
+      "Deleteinforesponse": {
+        "title": "Deleteinforesponse",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/OperatoreComunale"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "message": {
+                "type": "string",
+                "example": "Informazione eliminata con successo."
+              }
+            }
+          }
+        ]
+      },
+      "Deleteinforesponse1": {
+        "title": "Deleteinforesponse1",
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string",
+            "example": "ID mancante."
+          }
+        }
+      },
+      "Detailsrequest": {
+        "title": "Detailsrequest",
+        "type": "object",
+        "properties": {
+          "input": {
+            "type": "string",
+            "example": "query"
+          }
+        }
+      },
+      "Detailsresponse": {
+        "title": "Detailsresponse",
+        "type": "object",
+        "properties": {
+          "places": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": ""
+          }
+        }
+      },
+      "Detailsresponse1": {
+        "title": "Detailsresponse1",
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string",
+            "example": "place_id required"
+          }
+        }
+      },
+      "Generatetokensrequest": {
+        "title": "Generatetokensrequest",
+        "type": "object",
+        "properties": {
+          "codiceAdmin": {
+            "type": "string",
+            "example": "2"
+          }
+        }
+      },
+      "Generatetokensresponse": {
+        "title": "Generatetokensresponse",
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "Token generato con successo"
+          },
+          "token": {
+            "type": "string",
+            "example": "abcdef1234567890"
+          }
+        }
+      },
+      "Generatetokensresponse1": {
+        "title": "Generatetokensresponse1",
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string",
+            "example": "Failed to generate token"
+          }
+        }
+      },
+      "Getallinforesponse": {
+        "title": "Getallinforesponse",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/OperatoreComunale"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "message": {
+                "type": "string",
+                "example": "Errore interno del server"
+              }
+            }
+          }
+        ]
+      },
+      "Getrandomsensori.response": {
+        "title": "Getrandomsensori.response",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/OperatoreComunale"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "sensori": {
+                "type": "string"
+              }
+            }
+          }
+        ]
+      },
+      "Getrandomsensori.response1": {
+        "title": "Getrandomsensori.response1",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/OperatoreComunale"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "message": {
+                "type": "string",
+                "example": "Errore del server durante il recupero dei sensori."
+              }
+            }
+          }
+        ]
+      },
+      "Getrandomsensori.response2": {
+        "title": "Getrandomsensori.response2",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/OperatoreComunale"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "message": {
+                "type": "string",
+                "example": "Errore del server durante il recupero dei sensori."
+              }
+            }
+          }
+        ]
+      },
+      "GettheuserbyIDresponse": {
+        "title": "GettheuserbyIDresponse",
+        "type": "object",
+        "properties": {
+          "cittadino": {
+            "$ref": "#/components/schemas/Cittadino"
+          }
+        }
+      },
+      "GettheuserbyIDresponse1": {
+        "title": "GettheuserbyIDresponse1",
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string",
+            "example": "User does not exist"
+          }
+        }
+      },
+      "Loginoperatorrequest": {
+        "title": "Loginoperatorrequest",
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string",
+            "example": "MarioOperator"
+          },
+          "password": {
+            "type": "string",
+            "example": "password"
+          }
+        }
+      },
+      "Loginoperatorresponse": {
+        "title": "Loginoperatorresponse",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/OperatoreComunale"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "message": {
+                "type": "string",
+                "example": "Login successful"
+              }
+            }
+          }
+        ]
+      },
+      "Loginoperatorresponse1": {
+        "title": "Loginoperatorresponse1",
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string",
+            "example": "Invalid credentials"
+          }
+        }
+      },
+      "LoginwithGooglerequest": {
+        "title": "LoginwithGooglerequest",
+        "required": [
+          "idToken"
+        ],
+        "type": "object",
+        "properties": {
+          "idToken": {
+            "type": "string",
+            "description": "Username choosen by user",
+            "example": "eyJhbGciOiJSUzI1NiIsImtpZCI6IjY2MGVmM2I5Nzg0YmRmNTZlYmU4NTlmNTc3ZjdmYjJlOGMxY2VmZmIiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL2FjY291bnRzLmdvb2dsZS5jb20iLCJhenAiOiI2MTU5NDk2Njg3NzYtY2w1YjduaTk2a2Z0YWZjOGo2"
+          }
+        }
+      },
+      "LoginwithGoogleresponse": {
+        "title": "LoginwithGoogleresponse",
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "\"Login Successful\""
+          },
+          "cittadino": {
+            "$ref": "#/components/schemas/Cittadino"
+          },
+          "token": {
+            "type": "string",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4MmNhMWMwZTFjYjcwNmE3YTU0ZTY0MiIsImVtYWlsIjoibWF0"
+          }
+        }
+      },
+      "LoginwithGoogleresponse1": {
+        "title": "LoginwithGoogleresponse1",
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string",
+            "example": "Google account error"
+          }
+        }
+      },
+      "Logoutoperatorresponse": {
+        "title": "Logoutoperatorresponse",
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "Logout successful"
+          }
+        }
+      },
+      "Logoutoperatorresponse1": {
+        "title": "Logoutoperatorresponse1",
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string",
+            "example": "Server error during logout"
+          }
+        }
+      },
+      "Recoverpasswordrequest": {
+        "title": "Recoverpasswordrequest",
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string",
+            "example": "1"
+          }
+        }
+      },
+      "Recoverpasswordresponse": {
+        "title": "Recoverpasswordresponse",
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "Email sent successfully! Please check your email to change or recover you password"
+          }
+        }
+      },
+      "Recoverpasswordresponse1": {
+        "title": "Recoverpasswordresponse1",
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string",
+            "example": "User not found"
+          }
+        }
+      },
+      "RegisteranewuserontheDBrequest": {
+        "title": "RegisteranewuserontheDBrequest",
+        "required": [
+          "username",
+          "email",
+          "password"
+        ],
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string",
+            "description": "Username choosen by user",
+            "example": "John123"
+          },
+          "email": {
+            "type": "string",
+            "description": "Email of the user",
+            "example": "john.doe@gmail.com"
+          },
+          "password": {
+            "type": "string",
+            "description": "Password hashed before storing",
+            "example": "password"
+          }
+        }
+      },
+      "RegisteranewuserontheDBresponse": {
+        "title": "RegisteranewuserontheDBresponse",
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string",
+            "example": "Invalid input parameters"
+          }
+        }
+      },
+      "Returnasinglereportresponse": {
+        "title": "Returnasinglereportresponse",
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string",
+            "example": "Segnalazione not found"
+          }
+        }
+      },
+      "Returnsreportsresponse": {
+        "title": "Returnsreportsresponse",
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string",
+            "example": "Unable to retrieve segnalazioni"
+          }
+        }
+      },
+      "Saferouterequest": {
+        "title": "Saferouterequest",
+        "type": "object",
+        "properties": {
+          "partenza": {
+            "$ref": "#/components/schemas/Tappa"
+          },
+          "destinazione": {
+            "$ref": "#/components/schemas/Tappa"
+          }
+        }
+      },
+      "Saferouteresponse": {
+        "title": "Saferouteresponse",
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "Percorso sicuro generato con successo"
+          },
+          "itinerario": {
+            "$ref": "#/components/schemas/Itinerario"
+          }
+        }
+      },
+      "Saferouteresponse1": {
+        "title": "Saferouteresponse1",
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string",
+            "example": "Errore interno + error: err.message"
+          }
+        }
+      },
+      "Setpasswordresponse": {
+        "title": "Setpasswordresponse",
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "You can now go back to the mobile app!"
+          }
+        }
+      },
+      "Setpasswordresponse1": {
+        "title": "Setpasswordresponse1",
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string",
+            "example": "User not found"
+          }
+        }
+      },
+      "Setthestatusofareportrequest": {
+        "title": "Setthestatusofareportrequest",
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "string",
+            "example": "1"
+          },
+          "status": {
+            "type": "string",
+            "example": "Pendente"
+          }
+        }
+      },
+      "Setthestatusofareportresponse": {
+        "title": "Setthestatusofareportresponse",
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "Segnalazione updated successfully"
+          }
+        }
+      },
+      "Setthestatusofareportresponse1": {
+        "title": "Setthestatusofareportresponse1",
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string",
+            "example": "Missing ID or new status"
+          }
+        }
+      },
+      "SignUpoperatorrequest": {
+        "title": "SignUpoperatorrequest",
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string",
+            "example": "1234"
+          },
+          "email": {
+            "type": "string",
+            "example": "1234"
+          },
+          "password": {
+            "type": "string",
+            "example": "1234"
+          },
+          "tokenComune": {
+            "type": "string",
+            "example": "1234"
+          }
+        }
+      },
+      "SignUpoperatorresponse": {
+        "title": "SignUpoperatorresponse",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/OperatoreComunale"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "message": {
+                "type": "string",
+                "example": "Operator successfully registered. Please confirm your email"
+              }
+            }
+          }
+        ]
+      },
+      "SignUpoperatorresponse1": {
+        "title": "SignUpoperatorresponse1",
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string",
+            "example": "Invalid or already used token"
+          }
+        }
+      },
+      "Updatetheuserscontattirequest": {
+        "title": "Updatetheuserscontattirequest",
+        "type": "object",
+        "properties": {
+          "nominativo": {
+            "type": "string",
+            "example": "Gianfranco Zola"
+          },
+          "numeroTelefonico": {
+            "type": "string",
+            "example": "3920001111"
+          }
+        }
+      },
+      "Updatetheuserscontattiresponse": {
+        "title": "Updatetheuserscontattiresponse",
+        "type": "object",
+        "properties": {
+          "cittadino": {
+            "$ref": "#/components/schemas/Cittadino"
+          }
+        }
+      },
+      "Updatetheuserscontattiresponse1": {
+        "title": "Updatetheuserscontattiresponse1",
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string",
+            "example": "User does not exist"
+          }
+        }
+      },
+      "Updatetheusersinformationsrequest": {
+        "title": "Updatetheusersinformationsrequest",
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string",
+            "example": "John Doe"
+          },
+          "email": {
+            "type": "string",
+            "example": "john.doe@gmail.com"
+          }
+        }
+      },
+      "Updatetheusersinformationsresponse": {
+        "title": "Updatetheusersinformationsresponse",
+        "type": "object",
+        "properties": {
+          "cittadino": {
+            "$ref": "#/components/schemas/Cittadino"
+          }
+        }
+      },
+      "Updatetheusersinformationsresponse1": {
+        "title": "Updatetheusersinformationsresponse1",
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string",
+            "example": "User does not exist"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "httpBearer": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    }
+  },
+  "security": [
+    {
+      "httpBearer": []
+    }
+  ],
+  "tags": [
+    {
+      "name": "/api/v1/cittadino/signup",
+      "description": ""
+    },
+    {
+      "name": "/api/v1/cittadino/login",
+      "description": ""
+    },
+    {
+      "name": "/api/v1/cittadino/confirm/:token",
+      "description": ""
+    },
+    {
+      "name": "/api/v1/cittadino/google-login",
+      "description": ""
+    },
+    {
+      "name": "/api/v1/cittadino/:id",
+      "description": ""
+    },
+    {
+      "name": "/api/v1/cittadino/addContattiEmergenza/:id",
+      "description": ""
+    },
+    {
+      "name": "/api/v1/cittadino/editContattiEmergenza/:id",
+      "description": ""
+    },
+    {
+      "name": "/api/v1/cittadino/deleteContattiEmergenza/:id",
+      "description": ""
+    },
+    {
+      "name": "/api/v1/cittadino/editProfile/:id",
+      "description": ""
+    },
+    {
+      "name": "/api/v1/cittadino/segnalazione",
+      "description": ""
+    },
+    {
+      "name": "/api/v1/cittadino/recuperaPassword",
+      "description": ""
+    },
+    {
+      "name": "/api/v1/cittadino/setPassword/:id",
+      "description": ""
+    },
+    {
+      "name": "/api/v1/itinerario/percorso-sicuro",
+      "description": ""
+    },
+    {
+      "name": "/api/v1/maps/autocomplete",
+      "description": ""
+    },
+    {
+      "name": "/api/v1/maps/details",
+      "description": ""
+    },
+    {
+      "name": "/api/v1/operatoreComunale/segnalazione",
+      "description": ""
+    },
+    {
+      "name": "/api/v1/operatoreComunale/segnalazione/delete",
+      "description": ""
+    },
+    {
+      "name": "/api/v1/operatoreComunale/segnalazione/stato",
+      "description": ""
+    },
+    {
+      "name": "/api/v1/operatoreComunale/segnalazioni",
+      "description": ""
+    },
+    {
+      "name": "/api/v1/comune/genera-token",
+      "description": ""
+    },
+    {
+      "name": "/api/v1/operatoreComunale/logout-operatore",
+      "description": ""
+    },
+    {
+      "name": "/api/v1/operatoreComunale/login-operatore",
+      "description": ""
+    },
+    {
+      "name": "/api/v1/operatoreComunale/signup-operatore",
+      "description": ""
+    },
+    {
+      "name": "POST /api/v1/operatoreComunale/informazioni",
+      "description": ""
+    },
+    {
+      "name": "/api/v1/operatoreComunale/informazioni/:id",
+      "description": ""
+    },
+    {
+      "name": "/api/v1/operatoreComunale/informazioni",
+      "description": ""
+    },
+    {
+      "name": "/api/v1/operatoreComunale/sensori",
+      "description": ""
+    }
+  ]
+}

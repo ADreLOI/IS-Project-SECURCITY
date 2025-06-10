@@ -310,24 +310,28 @@ describe('❌ Error handling tests', () => {
   });
 
   test('GET /confirm/:token - invalid token (400)', async () => {
-    Token.findOne.mockResolvedValue(null);
+    Token.findOne.mockReturnValue({
+    populate: jest.fn().mockResolvedValue(null),
+  });
 
     const res = await request(app).get('/api/v1/cittadino/confirm/bogus-token');
     expect(res.statusCode).toBe(400);
     expect(res.body.message).toMatch(/invalid token/i);
   });
 
-  test('GET /confirm/:token - expired token (400)', async () => {
-    Token.findOne.mockResolvedValue({
-      scadenza: Date.now() - 10000, // already expired
+ test('GET /confirm/:token - expired token (400)', async () => {
+  Token.findOne.mockReturnValue({
+    populate: jest.fn().mockResolvedValue({
+      scadenza: Date.now() - 10000, // expired
       userID: {},
-    });
-
-    const res = await request(app).get('/api/v1/cittadino/confirm/expired-token');
-    expect(res.statusCode).toBe(400);
-    expect(res.body.message).toMatch(/expired/i);
+    }),
   });
 
+  const res = await request(app).get('/api/v1/cittadino/confirm/expired-token');
+
+  expect(res.statusCode).toBe(400);
+  expect(res.body.message).toMatch(/expired/i);
+});
   test('POST /segnalazione - too many requests (429)', async () => {
     Segnalazione.countDocuments.mockResolvedValue(3); // over limit
 

@@ -6,7 +6,7 @@ export default {
     slug: "SecurCity",
     scheme: "com.mattdema.securcity",
     version: "1.0.0",
-    owner: "mattdema",
+    owner: "mattdema17",
     orientation: "portrait",
     icon: "./assets/images/icon.png",
     userInterfaceStyle: "automatic",
@@ -23,7 +23,7 @@ export default {
     },
     android: {
       adaptiveIcon: {
-        foregroundImage: "./assets/images/icon.png",
+        foregroundImage: "./assets/images/adaptive-icon.png",
         backgroundColor: "#0D2226",
       },
       edgeToEdgeEnabled: true,
@@ -49,7 +49,7 @@ export default {
       [
         "expo-splash-screen",
         {
-          image: "./assets/images/icon.png",
+          image: "./assets/images/adaptive-icon.png",
           imageWidth: 200,
           resizeMode: "contain",
           backgroundColor: "#0D2226",
@@ -77,7 +77,7 @@ export default {
       router: {},
       GOOGLE_MAPS_API_KEY: process.env.GOOGLE_MAPS_API_KEY,
       eas: {
-        projectId: "0f8eff7a-84b0-4265-9967-653f44445113",
+        projectId: "c21cdfd3-2c32-42e8-ba4e-9013265f3b00",
       },
       apiUrl: process.env.API_BASE_URL || "",
       iosClientId: process.env.IOS_CLIENT_ID || "",

@@ -8,28 +8,28 @@
 
 /* Begin PBXBuildFile section */
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
+		3289040452AC021CB506CA56 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 08407BEE1353437EC13966A0 /* PrivacyInfo.xcprivacy */; };
 		3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */; };
+		9A8E1A8B6B3559F761A14E83 /* libPods-SecurCity.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ABA3B471C76766E30C9B4FDA /* libPods-SecurCity.a */; };
+		B69F329927A144211EE1987F /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = F86A18D8A6DED830B6D7791A /* ExpoModulesProvider.swift */; };
 		BB2F792D24A3F905000567C9 /* Expo.plist in Resources */ = {isa = PBXBuildFile; fileRef = BB2F792C24A3F905000567C9 /* Expo.plist */; };
-		D1082DB675928CCE4662CE29 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 2BB273708FC33330A7226B9A /* PrivacyInfo.xcprivacy */; };
-		D41DFADB8A8A19CF13C06522 /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14003F5D39B2E2A67A8A19B1 /* ExpoModulesProvider.swift */; };
 		F11748422D0307B40044C1D9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F11748412D0307B40044C1D9 /* AppDelegate.swift */; };
-		F92849928E204110F6D57D9C /* libPods-SecurCity.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 69D091543CAB12C56EBFB74A /* libPods-SecurCity.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		1152F31232455292B3899C6F /* Pods-SecurCity.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SecurCity.release.xcconfig"; path = "Target Support Files/Pods-SecurCity/Pods-SecurCity.release.xcconfig"; sourceTree = "<group>"; };
+		08407BEE1353437EC13966A0 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; name = PrivacyInfo.xcprivacy; path = SecurCity/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* SecurCity.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SecurCity.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = SecurCity/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = SecurCity/Info.plist; sourceTree = "<group>"; };
-		14003F5D39B2E2A67A8A19B1 /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-SecurCity/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
-		2BB273708FC33330A7226B9A /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; name = PrivacyInfo.xcprivacy; path = SecurCity/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
-		69D091543CAB12C56EBFB74A /* libPods-SecurCity.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SecurCity.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		64BFE599B0A753D4C5F490AB /* Pods-SecurCity.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SecurCity.debug.xcconfig"; path = "Target Support Files/Pods-SecurCity/Pods-SecurCity.debug.xcconfig"; sourceTree = "<group>"; };
+		A9112B692BE56DD142ED24CE /* Pods-SecurCity.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SecurCity.release.xcconfig"; path = "Target Support Files/Pods-SecurCity/Pods-SecurCity.release.xcconfig"; sourceTree = "<group>"; };
 		AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = SplashScreen.storyboard; path = SecurCity/SplashScreen.storyboard; sourceTree = "<group>"; };
+		ABA3B471C76766E30C9B4FDA /* libPods-SecurCity.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SecurCity.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BB2F792C24A3F905000567C9 /* Expo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Expo.plist; sourceTree = "<group>"; };
-		CD1DEFBDA5195C02AE67662C /* Pods-SecurCity.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SecurCity.debug.xcconfig"; path = "Target Support Files/Pods-SecurCity/Pods-SecurCity.debug.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		F11748412D0307B40044C1D9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = SecurCity/AppDelegate.swift; sourceTree = "<group>"; };
 		F11748442D0722820044C1D9 /* SecurCity-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "SecurCity-Bridging-Header.h"; path = "SecurCity/SecurCity-Bridging-Header.h"; sourceTree = "<group>"; };
+		F86A18D8A6DED830B6D7791A /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-SecurCity/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -37,7 +37,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F92849928E204110F6D57D9C /* libPods-SecurCity.a in Frameworks */,
+				9A8E1A8B6B3559F761A14E83 /* libPods-SecurCity.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -53,7 +53,7 @@
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */,
-				2BB273708FC33330A7226B9A /* PrivacyInfo.xcprivacy */,
+				08407BEE1353437EC13966A0 /* PrivacyInfo.xcprivacy */,
 			);
 			name = SecurCity;
 			sourceTree = "<group>";
@@ -62,17 +62,19 @@
 			isa = PBXGroup;
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				69D091543CAB12C56EBFB74A /* libPods-SecurCity.a */,
+				ABA3B471C76766E30C9B4FDA /* libPods-SecurCity.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		63897B5A5AC5489E2B77027D /* ExpoModulesProviders */ = {
+		58C4D7466721C806EF1D65EB /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				8B3CCD039DCA90DB7C0DB163 /* SecurCity */,
+				64BFE599B0A753D4C5F490AB /* Pods-SecurCity.debug.xcconfig */,
+				A9112B692BE56DD142ED24CE /* Pods-SecurCity.release.xcconfig */,
 			);
-			name = ExpoModulesProviders;
+			name = Pods;
+			path = Pods;
 			sourceTree = "<group>";
 		};
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
@@ -89,8 +91,8 @@
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
-				DE17F191FB8E48CF77C6A427 /* Pods */,
-				63897B5A5AC5489E2B77027D /* ExpoModulesProviders */,
+				58C4D7466721C806EF1D65EB /* Pods */,
+				E3F61AAE21B88A379841426C /* ExpoModulesProviders */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -105,14 +107,6 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		8B3CCD039DCA90DB7C0DB163 /* SecurCity */ = {
-			isa = PBXGroup;
-			children = (
-				14003F5D39B2E2A67A8A19B1 /* ExpoModulesProvider.swift */,
-			);
-			name = SecurCity;
-			sourceTree = "<group>";
-		};
 		BB2F792B24A3F905000567C9 /* Supporting */ = {
 			isa = PBXGroup;
 			children = (
@@ -122,14 +116,20 @@
 			path = SecurCity/Supporting;
 			sourceTree = "<group>";
 		};
-		DE17F191FB8E48CF77C6A427 /* Pods */ = {
+		BF6223094E9CDD745DF4F063 /* SecurCity */ = {
 			isa = PBXGroup;
 			children = (
-				CD1DEFBDA5195C02AE67662C /* Pods-SecurCity.debug.xcconfig */,
-				1152F31232455292B3899C6F /* Pods-SecurCity.release.xcconfig */,
+				F86A18D8A6DED830B6D7791A /* ExpoModulesProvider.swift */,
 			);
-			name = Pods;
-			path = Pods;
+			name = SecurCity;
+			sourceTree = "<group>";
+		};
+		E3F61AAE21B88A379841426C /* ExpoModulesProviders */ = {
+			isa = PBXGroup;
+			children = (
+				BF6223094E9CDD745DF4F063 /* SecurCity */,
+			);
+			name = ExpoModulesProviders;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -140,13 +140,13 @@
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "SecurCity" */;
 			buildPhases = (
 				08A4A3CD28434E44B6B9DE2E /* [CP] Check Pods Manifest.lock */,
-				6FD872233291D29502AAD4F8 /* [Expo] Configure project */,
+				2EE81E0E3AA8B9D36815B713 /* [Expo] Configure project */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
 				800E24972A6A228C8D4807E9 /* [CP] Copy Pods Resources */,
-				1B728F5F5423299DC82D5D51 /* [CP] Embed Pods Frameworks */,
+				6270E40A11DA9E91F2D57238 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -196,7 +196,7 @@
 				BB2F792D24A3F905000567C9 /* Expo.plist in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */,
-				D1082DB675928CCE4662CE29 /* PrivacyInfo.xcprivacy in Resources */,
+				3289040452AC021CB506CA56 /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -240,25 +240,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		1B728F5F5423299DC82D5D51 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-SecurCity/Pods-SecurCity-frameworks.sh",
-				"${PODS_XCFRAMEWORKS_BUILD_DIR}/hermes-engine/Pre-built/hermes.framework/hermes",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/hermes.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-SecurCity/Pods-SecurCity-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		6FD872233291D29502AAD4F8 /* [Expo] Configure project */ = {
+		2EE81E0E3AA8B9D36815B713 /* [Expo] Configure project */ = {
 			isa = PBXShellScriptBuildPhase;
 			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
@@ -276,6 +258,24 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "# This script configures Expo modules and generates the modules provider file.\nbash -l -c \"./Pods/Target\\ Support\\ Files/Pods-SecurCity/expo-configure-project.sh\"\n";
+		};
+		6270E40A11DA9E91F2D57238 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-SecurCity/Pods-SecurCity-frameworks.sh",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/hermes-engine/Pre-built/hermes.framework/hermes",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/hermes.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-SecurCity/Pods-SecurCity-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
 		};
 		800E24972A6A228C8D4807E9 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -296,6 +296,7 @@
 				"${PODS_CONFIGURATION_BUILD_DIR}/GoogleSignIn/GoogleSignIn.bundle",
 				"${PODS_CONFIGURATION_BUILD_DIR}/RCT-Folly/RCT-Folly_privacy.bundle",
 				"${PODS_CONFIGURATION_BUILD_DIR}/RNCAsyncStorage/RNCAsyncStorage_resources.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/RNSVG/RNSVGFilters.bundle",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/AntDesign.ttf",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Entypo.ttf",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf",
@@ -339,6 +340,7 @@
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/RCT-Folly_privacy.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/RNCAsyncStorage_resources.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/RNSVGFilters.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AntDesign.ttf",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Entypo.ttf",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/EvilIcons.ttf",
@@ -381,7 +383,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F11748422D0307B40044C1D9 /* AppDelegate.swift in Sources */,
-				D41DFADB8A8A19CF13C06522 /* ExpoModulesProvider.swift in Sources */,
+				B69F329927A144211EE1987F /* ExpoModulesProvider.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -390,7 +392,7 @@
 /* Begin XCBuildConfiguration section */
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = CD1DEFBDA5195C02AE67662C /* Pods-SecurCity.debug.xcconfig */;
+			baseConfigurationReference = 64BFE599B0A753D4C5F490AB /* Pods-SecurCity.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -426,7 +428,7 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1152F31232455292B3899C6F /* Pods-SecurCity.release.xcconfig */;
+			baseConfigurationReference = A9112B692BE56DD142ED24CE /* Pods-SecurCity.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;

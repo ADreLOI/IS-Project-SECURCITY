@@ -93,7 +93,7 @@ const confirmEmail = async (req, res) => {
 
 const creaSegnalazione = async (req, res) => {
   try {
-    const userId = req.user.id;
+    const userId = req.body.userID;
 
     // Prevent future dates
     if (req.body.data && new Date(req.body.data) > new Date()) {

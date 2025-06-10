@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { View, Text, TextInput, TouchableOpacity, Alert, Button, ActivityIndicator } from "react-native";
 import { useRouter } from "expo-router";
 import axios from "axios";
@@ -19,6 +19,7 @@ export default function SignUp() {
   const [isLoading, setIsLoading] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const { setCittadino } = useCittadino();
+const hasNavigated = useRef(false);
 
   interface JWTPayload 
   {
@@ -29,84 +30,55 @@ export default function SignUp() {
   }
 
   React.useEffect(() => {
-    const checkLogin = async () =>
-    {
-      //Function to check if the user is already logged in with JWT token
-      try 
-      {
-        console.log("URL",apiUrl)
-        const token = await AsyncStorage.getItem('jwtToken');
-        if (token) 
-        {
-          // Token exists, checks if expired
-          try 
-          {
-            const decoded = jwtDecode<JWTPayload>(token);
-            const now = Math.floor(Date.now() / 1000); // current time in seconds
-        
-            if(decoded.exp > now) 
-            {
-              console.log("User is logged in");
-              // Navigate to the home screen or perform any other action
-              decodeToken(token);
-              //Get Cittadino by ID
-              const response = await axios.get(`${apiUrl}/api/v1/cittadino/${decoded.id}`,
-              {
-                headers: {
-                  Authorization: `Bearer ${token}`,
-                }
-              });
+  const checkLogin = async () => {
+    try {
+      const token = await AsyncStorage.getItem('jwtToken');
+      if (token) {
+        const decoded = jwtDecode<JWTPayload>(token);
+        const now = Math.floor(Date.now() / 1000);
 
-              if (response.status === 200) 
-              {
-                console.log("Cittadino data:", response.data);
-                // Store the Cittadino data in your state or context  
-                setCittadino(response.data);
-                setIsAuthenticated(true);
-                setIsLoading(false);  
-                router.push("/screens/home");
-              }
-              else
-              {
-                console.log("Error fetching Cittadino data:", response.data.error);
-                Alert.alert("Error", "Failed to fetch Cittadino data.");
-                setIsLoading(false);  
-                setIsAuthenticated(false);
-              }
+        if (decoded.exp > now) {
+          decodeToken(token);
 
-              return true;
+          const response = await axios.get(`${apiUrl}/api/v1/cittadino/${decoded.id}`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+
+          if (response.status === 200) {
+            setCittadino(response.data);
+            setIsAuthenticated(true);
+            setIsLoading(false);
+
+            if (!hasNavigated.current) {
+              hasNavigated.current = true;
+              router.push("/screens/home");
             }
-            else
-            {
-              console.log("Token expired");
-              router.push("/screens/login");
-              // Token is expired, you can log out the user or refresh the token
-              await AsyncStorage.removeItem('jwtToken');
-              return false;
-            }
-            
-          } 
-          catch (e) 
-          {
-            console.error('Invalid JWT:', e);
-            return false;
+          } else {
+            Alert.alert("Error", "Failed to fetch Cittadino data.");
+            setIsAuthenticated(false);
+            setIsLoading(false);
           }
-
+          return;
+        } else {
+          await AsyncStorage.removeItem('jwtToken');
+          if (!hasNavigated.current) {
+            hasNavigated.current = true;
+            router.push("/screens/login");
+          }
         }
-       else 
-        {
-          console.log("User is not logged in");
-        }
+      } else {
         setIsLoading(false);
-
       }
-      catch (error) {
-        console.error("Error checking login status:", error);
-      }
+    } catch (e) {
+      console.error("Error checking login status:", e);
+      setIsLoading(false);
     }
+  };
 
-    checkLogin();
-  }, []);
+  checkLogin();
+}, []);
 
   const decodeToken = (token: string) => {
     try 

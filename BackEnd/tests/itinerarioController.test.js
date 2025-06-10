@@ -47,7 +47,7 @@ describe("POST /api/v1/itinerario/percorso-sicuro", () => {
                     end_location: { lat: 41.891, lng: 12.492 },
                   },
                   {
-                    end_location: { lat: 41.892, lng: 12.493 },
+                    end_location: { lat: 44.892, lng: 12.493 },
                   },
                 ],
               },
