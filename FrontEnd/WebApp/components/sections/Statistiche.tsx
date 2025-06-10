@@ -6,6 +6,7 @@ import { VictoryPie } from "victory";
 import { VictoryChart, VictoryBar, VictoryAxis } from "victory";
 import Svg from "react-native-svg"; 
 import { View, Text } from "react-native";
+import API_BASE_URL from "@config";
 
 const REATI = ["Molestia", "Furto", "Aggressione", "Minacce", "Pedinamento", "Altro"];
 const STATI = ["Confermata", "Pendente", "Rigettata"];
@@ -71,7 +72,7 @@ const Statistiche = () => {
       }
       try {
         const res = await axios.get(
-          "http://localhost:3000/api/v1/operatoreComunale/segnalazioni",
+          `${API_BASE_URL}/api/v1/operatoreComunale/segnalazioni`,
           {
             headers: { Authorization: `Bearer ${token}` },
           }

@@ -4,9 +4,7 @@ import { useRouter } from "expo-router";
 import axios from "axios";
 import { VictoryPie } from "victory";
 import Svg from "react-native-svg";
-import Constants from "expo-constants";
-
-const { apiUrl } = Constants.expoConfig?.extra ?? {};
+import API_BASE_URL from "@config";
 
 interface Segnalazione {
   _id: string;
@@ -31,7 +29,7 @@ export default function Overview() {
       try {
         const token = localStorage.getItem("token");
         const res = await axios.get(
-          `${apiUrl}/api/v1/operatoreComunale/segnalazioni`,
+          `${API_BASE_URL}/api/v1/operatoreComunale/segnalazioni`,
           {
             headers: { Authorization: `Bearer ${token}` },
           }
@@ -64,7 +62,7 @@ export default function Overview() {
         // Recupera sensori di affollamento
         try {
           const sensoriRes = await axios.get(
-            `${apiUrl}/api/v1/operatoreComunale/sensori`,
+            `${API_BASE_URL}/api/v1/operatoreComunale/sensori`,
             {
               headers: { Authorization: `Bearer ${token}` },
             }

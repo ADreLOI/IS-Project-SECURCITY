@@ -2,9 +2,8 @@ import { StyleSheet, Text, View, Alert, TextInput, TouchableOpacity } from 'reac
 import { useState } from 'react';
 import { useLocalSearchParams } from 'expo-router';
 import { useRouter } from "expo-router";
-import Constants from 'expo-constants';
+import API_BASE_URL from "@config";
 
-const { apiUrl } = Constants.expoConfig?.extra ?? {};
 
 import React from 'react'
 
@@ -31,7 +30,7 @@ const recoverPasswordCittadino = () =>
      try 
      {
       const response = await fetch(
-        `${apiUrl}/api/v1/cittadino/setPassword/${id}`,
+        `${API_BASE_URL}/api/v1/cittadino/setPassword/${id}`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },

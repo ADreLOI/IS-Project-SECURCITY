@@ -1,9 +1,7 @@
 import { useState } from "react";
 import { View, Text, TextInput, TouchableOpacity } from "react-native";
 import Animated, { FadeIn, FadeOut, SlideInUp } from "react-native-reanimated";
-import Constants from 'expo-constants';
-
-const { apiUrl } = Constants.expoConfig?.extra ?? {};
+import API_BASE_URL from "@config";
 
 export default function TokenGeneratorPage() {
   // Local state variables for inputs and UI flow
@@ -26,7 +24,7 @@ export default function TokenGeneratorPage() {
 
     try {
       const response = await fetch(
-        `${apiUrl}/api/v1/comune/genera-token`,
+        `${API_BASE_URL}/api/v1/comune/genera-token`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

@@ -7,13 +7,13 @@ import {
   Text,
 } from "react-native";
 import axios from "axios";
+import API_BASE_URL from "@config";
 
 interface Props {
   placeholder?: string;
   onSelect: (data: { description: string; lat: number; lng: number }) => void;
 }
 
-const API_BASE = "http://localhost:3000/api/v1/maps";
 
 export default function AddressAutocomplete({
   placeholder = "Cerca indirizzo",
@@ -32,7 +32,7 @@ export default function AddressAutocomplete({
 
     const fetchAutocomplete = async () => {
       try {
-        const res = await axios.get(`${API_BASE}/autocomplete`, {
+        const res = await axios.get(`${API_BASE_URL}/api/v1/maps/autocomplete`, {
           params: { input: query },
         });
         setSuggestions(res.data);
@@ -47,7 +47,7 @@ export default function AddressAutocomplete({
 
   const handleSelect = async (description: string, placeId: string) => {
     try {
-      const res = await axios.get(`${API_BASE}/details`, {
+      const res = await axios.get(`${API_BASE_URL}/api/v1/maps/autocomplete`, {
         params: { place_id: placeId },
       });
       const loc = res.data.geometry.location;
