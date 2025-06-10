@@ -55,7 +55,6 @@ export default function EditProfile()
             }
           );
 
-            //console.log("Cittadino:", response.data);
             setCittadino(response.data);
             
           //Set cittadino with contatti Emergenza
@@ -72,8 +71,6 @@ export default function EditProfile()
 
   const editContattoEmergenza = async () =>
     {
-      //console.log("Modifico il contatto");
-
       if(!nominativo || !numeroTelefonico)
       {
         Alert.alert("All fields are required!");
@@ -91,11 +88,9 @@ export default function EditProfile()
           (contatto) => contatto.nominativo === nominativo || contatto.numeroTelefonico === numeroTelefonico
         );  
 
-        console.log(contattoToEdit)
         if (contattoToEdit)
         {
           //Contatto exists and has to be updated
-          //console.log("Sto per inviare..")
           contattoToEdit.nominativo = nominativo;
           contattoToEdit.numeroTelefonico = numeroTelefonico;
           try
@@ -113,7 +108,6 @@ export default function EditProfile()
               }
             );
 
-              //console.log("Cittadino:", response.data);
               setCittadino(response.data);
               
             //Set cittadino with contatti Emergenza
@@ -139,7 +133,6 @@ export default function EditProfile()
       if(token)
       {
         const decoded = jwtDecode<JWTPayload>(token);
-        //console.log(nominativo)
         const contattoToDelete = cittadino?.contattiEmergenza.find(
           (contatto) => contatto.nominativo === nominativo || contatto.nominativo === numeroTelefonico
         );  
@@ -147,7 +140,6 @@ export default function EditProfile()
         if(contattoToDelete)
         {
           const idContatto = contattoToDelete._id
-          //console.log(idContatto)
           try
           {
             const response = await axios.put(
@@ -160,7 +152,6 @@ export default function EditProfile()
               }
             );
 
-              //console.log("Cittadino:", response.data);
               setCittadino(response.data);              
           }
           catch(error: any)
@@ -171,7 +162,7 @@ export default function EditProfile()
         }
         else
         {
-          console.log("Contatto does not exist")
+          ("Contatto does not exist")
         }
       }
       setFormVisible(false);
@@ -189,9 +180,7 @@ export default function EditProfile()
 
   const editProfile = async () =>
   {
-      //console.log(usernameToSend)
-      //console.log(emailToSend)
-    console.log(isAddingContatti)
+    (isAddingContatti)
       //Check if the username and email are the same as the current ones to avoid unnecessary API calls
     if(username==cittadino?.username && email==cittadino?.email)
     {
@@ -219,7 +208,6 @@ export default function EditProfile()
             }
           );
 
-            //console.log("Cittadino:", response.data);
             setCittadino(response.data);    
                     
         }
@@ -238,7 +226,6 @@ export default function EditProfile()
    }
    else
    {
-      console.log("no changes in contatti")
       console.log(contattiEmergenza);
    }
 
@@ -447,8 +434,6 @@ type InfoRowProps = {
               setFormVisible(true);
               const [name, phone] = value.split("-").map(part => part.trim());
 
-              console.log(name);  // "Ciro Immobile"
-              console.log(phone); // "3920013154"
               setNumero(name);
               setNominativo(phone);
             }}

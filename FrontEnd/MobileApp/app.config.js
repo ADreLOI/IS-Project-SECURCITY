@@ -4,7 +4,7 @@ export default {
   expo: {
     name: "SecurCity",
     slug: "SecurCity",
-    scheme: "com.mattdema.securcity",
+    scheme: "your.scheme",
     version: "1.0.0",
     owner: "mattdema17",
     orientation: "portrait",
@@ -13,7 +13,7 @@ export default {
     newArchEnabled: true,
     ios: {
       supportsTablet: true,
-      bundleIdentifier: "com.mattdema.securcity",
+      bundleIdentifier: "our.scheme",
       config: {
         googleMapsApiKey: process.env.GOOGLE_MAPS_API_KEY_2 || "",
       },
@@ -27,7 +27,7 @@ export default {
         backgroundColor: "#0D2226",
       },
       edgeToEdgeEnabled: true,
-      package: "com.mattdema.securcity",
+      package: "our.scheme",
       config: {
         googleMaps: {
           apiKey: process.env.GOOGLE_MAPS_API_KEY_2 || "",
@@ -59,7 +59,7 @@ export default {
         "@react-native-google-signin/google-signin",
         {
           iosUrlScheme:
-            "com.googleusercontent.apps.615949668776-cl5b7ni96kftafc8j6qc8m7ernf3nusu",
+            "our.scheme",
         },
       ],
       [
@@ -76,9 +76,6 @@ export default {
     extra: {
       router: {},
       GOOGLE_MAPS_API_KEY: process.env.GOOGLE_MAPS_API_KEY,
-      eas: {
-        projectId: "c21cdfd3-2c32-42e8-ba4e-9013265f3b00",
-      },
       apiUrl: process.env.API_BASE_URL || "",
       iosClientId: process.env.IOS_CLIENT_ID || "",
       webClientId: process.env.WEB_CLIENT_ID || "",

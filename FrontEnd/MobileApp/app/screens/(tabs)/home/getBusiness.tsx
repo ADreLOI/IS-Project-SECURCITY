@@ -60,7 +60,6 @@ useFocusEffect(
               );
 
               const hours = details.data.hours ? details.data.hours.display : 'No hours available';
-              console.log(`Place: ${element.name}, Hours: ${hours}, Location: ${element.geocodes.main.latitude}, ${element.geocodes.main.longitude}`);
             });         
             setPlaces(response.data.results);
             setLoading(false);

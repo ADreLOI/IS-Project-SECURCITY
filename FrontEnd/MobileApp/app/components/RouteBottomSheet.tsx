@@ -157,7 +157,6 @@ export default function RouteBottomSheet({
                 onPress={() => {
                   router.push("/screens/home/getAutobus")
 
-                  console.log(JSON.stringify(item));
                   AsyncStorage.setItem('tappa', JSON.stringify(item));
                 }} // <-- qui definisci l'azione
                 style={{

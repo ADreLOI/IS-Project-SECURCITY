@@ -84,7 +84,6 @@ const hasNavigated = useRef(false);
     try 
     {
       const decoded: JWTPayload = jwtDecode<JWTPayload>(token);
-      console.log('Decoded token:', decoded);
       //Cittadino ID
       return decoded.id; 
     } 
@@ -111,7 +110,6 @@ const hasNavigated = useRef(false);
           email,
           password,
         });
-        console.log("Attempt")
         if (response.status === 200) {
           Alert.alert("SignUp successful!", response.data.message); //Works parsing automatically the JSON elements
             // Clear the input fields

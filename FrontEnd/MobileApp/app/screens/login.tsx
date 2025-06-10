@@ -42,7 +42,6 @@ export default function Login()
             Alert.alert("Login successful!", response.data.message); //Works parsing automatically the JSON elements
             // Store the token securely
             const jwtToken = response.data.token;
-            console.log("JWT token", jwtToken);
             await AsyncStorage.setItem('jwtToken', jwtToken);
               // Clear the input fields
               setUsername("");
@@ -50,8 +49,6 @@ export default function Login()
             // Navigate or store token here
             //Get cittadino ID and informations
             setCittadino(response.data.user)
-            console.log("Cittadino:", response.data.user);
-            console.log(response.data)
             router.push("/screens/home");
           } 
           else 
@@ -86,7 +83,6 @@ export default function Login()
       if(isSuccessResponse(response))
       {
         const idToken = response.data.idToken;
-        console.log("ID Token: ", idToken);
         
         const responseAPI = await axios.post(`${apiUrl}/api/v1/cittadino/google-login`, {
           idToken,
@@ -94,14 +90,11 @@ export default function Login()
         if (responseAPI.status === 200) 
         {
           // Navigate or store token here
-          console.log("JWT token", responseAPI.data.token);
           //Store thre token in the local storage
           await AsyncStorage.setItem('jwtToken', responseAPI.data.token);
 
           Alert.alert("Login successful!", responseAPI.data.message);
           setCittadino(responseAPI.data.user)
-          console.log("Cittadino:", responseAPI.data.user);
-          console.log(responseAPI.data)
           router.push("/screens/home");
         } 
         else 

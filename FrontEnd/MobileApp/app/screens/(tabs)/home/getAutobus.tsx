@@ -133,7 +133,6 @@ export default function showAutobus() {
           if (response.data.length === 0) {
             console.log("No results found");
           } else {
-            console.log(`Results found Stops: ${response.data.length}`);
             setStops(response.data);
 
             
@@ -153,10 +152,7 @@ export default function showAutobus() {
               });
 
               if (distance < 400 && stop.town === "Trento") {
-                console.log(
-                  `Distance from user position to nearby stop: ${stop.stopName} - ${stop.stopId}: ${distance} m`
-                );
-
+              
                 // per ogni fermata, creo un array nuovo per le corse
                 let routesByStop: routesArrival[] = [];
                 const now = new Date();
@@ -202,7 +198,6 @@ export default function showAutobus() {
         routesByStop: routesArrival[]
       ) => {
 
-       console.log(`Prova`);
 
         try {
           const response = await axios.get(
@@ -226,9 +221,7 @@ export default function showAutobus() {
             for (const corsa of response.data as Corse[]) {
               for (const linea of stop.routes) {
                 if (corsa.routeId === linea.routeId) {
-                  console.log(
-                    `Found route ${linea.routeShortName} for stop ${stop.stopName} at ${corsa.oraArrivoProgrammataAFermataSelezionata}`
-                  );
+                
                   routesByStop.push({
                     routeId: linea.routeId,
                     routeShortName: linea.routeShortName,

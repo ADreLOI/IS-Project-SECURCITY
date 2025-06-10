@@ -1,6 +1,90 @@
-# SecurCity 1.0
+# SecurCity 2.0
 
 SecurCity is a cross-platform system designed to enhance personal safety in everyday life. By leveraging intelligent route planning, it helps users reach their destinations safely with the support of local public services, municipal authorities, and real-time community alerts submitted anonymously. 
+
+## Project structure
+
+The project is divided in two main parts: FrontEnd and BackEnd.
+
+## Get started with web app
+
+The web app is developed using [React]([https://reactnative.dev/docs/getting-started](https://react.dev/learn)) and [Expo](https://docs.expo.dev/get-started/introduction/) frameworks.
+
+1. Move into ```WebApp``` directory
+
+```bash
+   cd FrontEnd/WebApp
+   ```
+
+2. Install dependencies
+
+```bash
+   npm install
+   ```
+
+3. Start the app in your simulator
+
+```bash
+   npx expo start -w
+   ```
+
+Also, to enable Google Signin:
+- Go to your [Google Console](https://console.cloud.google.com/) and create a new project and called it **SecurCity**
+- Go to **API & Services** and create a new **OAuth Client**
+- Select application type **Web** and give it a name
+
+## 📁 File Organization
+
+### 🔧 Root Files
+
+- `.gitignore` – Specifica i file da escludere dal controllo di versione.
+- `app.config.js` – Configurazione generale dell'app.
+- `babel.config.js` – Configurazione di Babel.
+- `config.js` – Configurazioni personalizzate.
+- `eslint.config.js` – Regole per l'analisi statica del codice (linting).
+- `metro.config.js` – Configurazione per Metro bundler.
+- `nativewind-env.d.ts` – Tipizzazioni per NativeWind.
+- `package.json` / `package-lock.json` – Gestione delle dipendenze e script.
+- `tailwind.config.js` – Configurazione di Tailwind CSS.
+- `tsconfig.json` – Configurazione del compilatore TypeScript.
+- `webpack.config.js` – Configurazione di Webpack.
+
+---
+
+### 📂 Animations
+
+Contiene hook personalizzati per animazioni, come la rotazione infinita con Reanimated.
+
+### 📂 App
+
+Struttura principale dell’applicazione:
+
+- `+not-found.tsx` – Pagina per errori 404.
+- `global.css` – Stili globali.
+- `index.tsx` – Entry point dell'applicazione.
+- `pages/` – Pagine principali della webapp.
+- `Operatore/` – Dashboard e gestione token per l'operatore.
+- `RecoverPasswordCittadino/` – Recupero password per utenti cittadini.
+
+### 📂 Assets
+
+File statici: immagini, SVG, loghi, ecc.
+
+### 📂 Components
+
+Componenti UI riutilizzabili: bottoni, form, layout, ecc.
+
+### 📂 Constants
+
+Costanti globali usate nell’applicazione.
+
+### 📂 Hooks
+
+Hook React personalizzati per funzionalità condivise.
+
+### 📂 Scripts
+
+Script di supporto per automazioni e task ricorrenti.
 
 
 ## Get started with mobile app

@@ -17,7 +17,6 @@ const bcrypt = require("bcryptjs");
 
 const signUp = async (req, res) => {
   try {
-    console.log(req.body);
     // Check if the user already exists
     const existingUser = await Cittadino.find({
       $or: [{ username: req.body.username }, { email: req.body.email }],
@@ -133,12 +132,10 @@ const login = async (req, res) => {
     const cittadino = await Cittadino.findOne({
       $or: [{ username: username }, { email: username }],
     });
-    console.log(cittadino);
 
     const isMatch = await cittadino.comparePassword(password);
 
     if (isMatch) {
-      console.log("Password is correct");
       // Create JWT
       const token = jwt.sign(
         { id: cittadino._id, email: cittadino.email },
@@ -150,11 +147,9 @@ const login = async (req, res) => {
         .status(200)
         .json({ message: "Login successful", token, user: cittadino });
     } else {
-      console.log("Password is not correct");
       return res.status(401).json({ message: "Invalid credentials" });
     }
   } catch (error) {
-    console.log("Some error");
     res.status(500).json({ error: error.message });
   }
 };
@@ -172,7 +167,6 @@ const googleLogin = async (req, res) => {
 
       //
       const cleaned = name.replace(/\s+/g, "");
-      console.log(cleaned);
       cittadino = await Cittadino.create({
         username: cleaned,
         email,
@@ -224,14 +218,12 @@ const addContattoEmergenza = async (req, res) => {
     //Check beare token for authorization!!
 
     const { id } = req.params;
-    console.log(req.body);
     const cittadino = await Cittadino.findByIdAndUpdate(id, req.body);
     if (!cittadino) {
       res.status(404).json({ message: "The user doesn't exist" });
     } else {
       const updatedCittadino = await Cittadino.findById(id);
       res.status(200).json(updatedCittadino);
-      console.log("User updated with new contatti di emergenza");
     }
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -242,7 +234,6 @@ const editContattoEmergenza = async (req, res) => {
   try {
     const { id } = req.params; // id of the cittadino
     const { contattoId, nominativo, numeroTelefonico } = req.body;
-    console.log(req.body);
 
     const cittadino = await Cittadino.findOneAndUpdate(
       { _id: id, "contattiEmergenza._id": contattoId },
@@ -276,7 +267,6 @@ const editProfile = (async = async (req, res) => {
     } else {
       //If email changed send a new verification link
       if (req.body.email != cittadino.email) {
-        console.log("HA cambiato email");
         // Generate a confirmation token
         const confirmationToken = crypto.randomBytes(32).toString("hex");
         // Save the token in the database (you might want to create a separate model for this)
@@ -298,11 +288,9 @@ const editProfile = (async = async (req, res) => {
         updatedCittadino.isVerificato = false;
         await updatedCittadino.save();
         res.status(200).json(updatedCittadino);
-        console.log("User update with a new email");
       } else {
         const updatedCittadino = await Cittadino.findById(id);
         res.status(200).json(updatedCittadino);
-        console.log("User update with new username");
       }
     }
   } catch (error) {
@@ -315,7 +303,6 @@ const deleteContattoEmergenza = async (req, res) => {
     //FindById and delete
     //Check beare token for authorization!!
     const { id } = req.params;
-    console.log(req.body);
 
     const cittadino = await Cittadino.findByIdAndUpdate(
       id,
@@ -390,7 +377,6 @@ const getAllSegnalazioni = async (req, res) => {
         .status(404)
         .json({ message: "Questo utente non ha effettuato segnalazioni!" });
     } else {
-      console.log("Segnalazioni trovate");
       res.status(200).json({ segnalazioniUtente: segnalazioni });
     }
   } catch (error) {
@@ -404,7 +390,6 @@ const recuperaPassword = async (req, res) => {
   try {
     //Username or email
     const { username } = req.body;
-    console.log("Username", username);
     const cittadino = await Cittadino.findOne({
       $or: [{ username: username }, { email: username }],
     });
@@ -454,11 +439,10 @@ const setPassword = async (req, res) => {
     );
 
     if (!cittadino) {
-      //console.log("Not found")
       res.status(404).json({ message: "User don't found" });
     } else {
       //Return to the app!
-      //console.log("All good", cittadino.password)
+      //("All good", cittadino.password)
       res
         .status(200)
         .json({ message: "You can now go back to the mobile app!" });

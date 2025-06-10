@@ -46,7 +46,7 @@ async function sendConfirmationEmail(userEmail, userName, confirmationToken)
 
   async function sendEmailPassword(userEmail, userName, userId) 
   {
-    const confirmUrl = `http://localhost:8082/recoverPasswordCittadino/${userId}`;
+    const confirmUrl = `${process.env.BASE_CONFIRMATION_URL}/recoverPasswordCittadino/${userId}`;
     console.log("Recover or change pwd URL: ", confirmUrl);
     const msg = 
     {
