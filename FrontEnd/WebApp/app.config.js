@@ -1,49 +1,49 @@
-import 'dotenv/config';
+import "dotenv/config";
 
-export default 
-{
-  "expo": {
-    "name": "WebApp",
-    "slug": "WebApp",
-    "version": "1.0.0",
-    "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
-    "scheme": "webapp",
-    "userInterfaceStyle": "automatic",
-    "newArchEnabled": true,
-    "ios": {
-      "supportsTablet": true
+export default {
+  expo: {
+    name: "WebApp",
+    slug: "WebApp",
+    version: "1.0.0",
+    orientation: "portrait",
+    icon: "./assets/images/icon.png",
+    scheme: "webapp",
+    userInterfaceStyle: "automatic",
+    newArchEnabled: true,
+    ios: {
+      supportsTablet: true,
     },
-    "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+    android: {
+      adaptiveIcon: {
+        foregroundImage: "./assets/images/adaptive-icon.png",
+        backgroundColor: "#ffffff",
       },
-      "edgeToEdgeEnabled": true
+      edgeToEdgeEnabled: true,
     },
-    "web": {
-      "bundler": "metro",
-      "output": "static",
-      "favicon": "./assets/images/favicon.png"
+    web: {
+      bundler: "metro",
+      output: "static",
+      name: "SecurCity",
+      favicon:
+        "https://github.com/user-attachments/assets/633617ac-49d8-4f66-b35c-9df7075c2439",
     },
-    "plugins": [
+    plugins: [
       "expo-router",
       [
         "expo-splash-screen",
         {
-          "image": "./assets/images/splash-icon.png",
-          "imageWidth": 200,
-          "resizeMode": "contain",
-          "backgroundColor": "#ffffff"
-        }
-      ]
+          image: "./assets/images/splash-icon.png",
+          imageWidth: 200,
+          resizeMode: "contain",
+          backgroundColor: "#ffffff",
+        },
+      ],
     ],
-    "experiments": {
-      "typedRoutes": true
+    experiments: {
+      typedRoutes: true,
     },
-    "extra":
-    {
-       "apiUrl": process.env.API_BASE_URL || "http://localhost:3000",
-    }
-  }
-}
+    extra: {
+      apiUrl: process.env.API_BASE_URL || "http://localhost:3000",
+    },
+  },
+};
