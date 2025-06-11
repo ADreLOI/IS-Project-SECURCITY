@@ -1,50 +1,108 @@
-# Welcome to your Expo app 👋
+# 🌐 SecurCity — Web App (Operator Dashboard)
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+> React + Expo-based interface for municipal operators to manage tokens, reports, and monitor safe routes.
 
-## Get started
+---
 
-1. Install dependencies
+- [🌐 SecurCity — Web App (Operator Dashboard)](#-securcity--web-app-operator-dashboard)
+  - [🖥️ Overview](#️-overview)
+  - [⚙️ Setup](#️-setup)
+  - [🔐 Google Sign-In Setup](#-google-sign-in-setup)
+  - [📂 File Organization](#-file-organization)
+  - [🌍 Environment Variables](#-environment-variables)
+
+---
+
+## 🖥️ Overview
+
+This folder contains the **React-based web interface** used by municipal operators. It allows for:
+
+- Reviewing and confirming citizen reports
+- Managing tokens for operator registration
+- Monitoring sensors and safe route generation
+
+Built with **React**, **Expo**, and styled with **Tailwind CSS**.
+
+---
+
+## ⚙️ Setup
+
+1. Move into the WebApp folder:
+
+   ```bash
+   cd FrontEnd/WebApp
+   ```
+
+2. Install dependencies:
 
    ```bash
    npm install
    ```
 
-2. Start the app
+3. Start the app in web mode:
 
    ```bash
-   npx expo start
+   npx expo start -w
    ```
 
-In the output, you'll find options to open the app in a
+> [!TIP] You can open the interface in the browser or test it inside Expo Go with limited support.
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+---
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+## 🔐 Google Sign-In Setup
 
-## Get a fresh project
+1. Go to the [Google Cloud Console](https://console.cloud.google.com/).
+2. Create a new project named **SecurCity**.
+3. In "API & Services" > "OAuth Consent Screen" configure your app name.
+4. Create OAuth credentials:
+   - Application type: **Web**
+   - Set authorized redirect URIs (e.g., `http://localhost:19006/`)
+5. Save the **Web Client ID** and insert it in `constants.ts`:
 
-When you're ready, run:
-
-```bash
-npm run reset-project
+```ts
+// app/constants.ts
+export const webClientId = "YOUR_WEB_CLIENT_ID";
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+> [!WARNING] If you do not configure the OAuth screen and redirect URIs properly, sign-in may fail silently.
 
-## Learn more
+---
 
-To learn more about developing your project with Expo, look at the following resources:
+## 📂 File Organization
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+```bash
+WebApp/
+├── app/
+│   ├── +not-found.tsx            # 404 fallback page
+│   ├── global.css                # Global styles
+│   ├── index.tsx                 # App entry point
+│   ├── pages/                    # Routing pages
+│   ├── Operatore/               # Operator dashboard logic
+│   └── RecoverPasswordCittadino/ # Password recovery
+│
+├── assets/                      # Images and logos
+├── components/                  # Reusable UI components
+├── constants/                   # Global constants
+├── hooks/                       # Shared React hooks
+├── scripts/                     # Helper scripts
+├── tailwind.config.js          # Tailwind CSS config
+├── app.config.js / config.js   # Expo + custom config
+└── tsconfig.json               # TypeScript configuration
+```
 
-## Join the community
+---
 
-Join our community of developers creating universal apps.
+## 🌍 Environment Variables
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+Optional `.env` setup for custom API endpoint:
+
+```env
+API_BASE_URL=http://localhost:3000
+```
+
+If not provided, defaults defined in `config.js` will be used.
+
+---
+
+⬆ [Back to top](#-securcity--web-app-operator-dashboard)
+

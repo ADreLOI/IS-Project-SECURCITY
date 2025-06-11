@@ -1,50 +1,156 @@
-# Welcome to your Expo app 👋
+# 📱 SecurCity — Mobile App
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+> A citizen-facing mobile app built with React Native and Expo. Enables safe route navigation, reporting, and emergency assistance.
 
-## Get started
+---
 
-1. Install dependencies
+- [� SecurCity — Mobile App](#-securcity--mobile-app)
+  - [📦 Overview](#-overview)
+  - [⚙️ Setup](#️-setup)
+  - [🔐 Google Sign-In Setup](#-google-sign-in-setup)
+  - [🚀 EAS Build Steps](#-eas-build-steps)
+  - [🛠️ Troubleshooting](#️-troubleshooting)
+
+---
+
+## 📦 Overview
+
+This folder contains the **React Native mobile app** for SecurCity citizens. It allows users to:
+
+- Log in via email or Google
+- Generate and follow safe itineraries
+- Send reports anonymously
+- Access emergency contacts quickly
+
+Built with:
+
+- **React Native** + **Expo SDK**
+- **Tailwind CSS (NativeWind)**
+- Integrated with SecurCity backend and Google APIs
+
+---
+
+## ⚙️ Setup
+
+1. Move into the project directory:
+
+   ```bash
+   cd FrontEnd/MobileApp
+   ```
+
+2. Install dependencies:
 
    ```bash
    npm install
    ```
 
-2. Start the app
+3. Create a `.env` file:
+
+   ```env
+   USE_PRODUCTION=false
+   ```
+
+4. Install dev tools:
+
+   ```bash
+   npx expo install expo-dev-client
+   npm install -g eas-cli
+   eas login
+   ```
+
+---
+
+## 🔐 Google Sign-In Setup
+
+Follow these steps to configure Google Sign-In:
+
+1. Go to [Google Console](https://console.cloud.google.com/)
+
+2. Create a new project named **SecurCity**
+
+3. Create two OAuth clients:
+
+   - **Web**
+   - **iOS** (if using simulator): set `bundleIdentifier` from `app.json`
+
+4. Update `app.json`:
+
+```json
+{
+  "expo": {
+    "ios": {
+      "bundleIdentifier": "com.YourUsername.securcity",
+      "config": {
+        "googleMapsApiKey": "YOUR_API_KEY"
+      }
+    },
+    "android": {
+      "package": "com.YourUsername.securcity"
+    },
+    "owner": "YourUsername"
+  }
+}
+```
+
+5. Set `iosUrlScheme` in `app.json`:
+
+```json
+{
+  "@react-native-google-signin/google-signin": {
+    "iosUrlScheme": "YourScheme"
+  }
+}
+```
+
+6. Add your client IDs to:
+
+```ts
+// app/constants.ts
+export const webClientId = "YourWebClientID";
+export const iosClientId = "YouriOSClientID";
+```
+
+---
+
+## 🚀 EAS Build Steps
+
+1. Build the dev client:
+
+   ```bash
+   eas build --platform android --profile development
+   ```
+
+2. Start the app:
 
    ```bash
    npx expo start
    ```
 
-In the output, you'll find options to open the app in a
+You can run it using:
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+- Android Studio emulator
+- iOS simulator
+- Expo Go (limited)
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+---
 
-## Get a fresh project
+## 🛠️ Troubleshooting
 
-When you're ready, run:
+If the app fails to load or hangs:
 
 ```bash
-npm run reset-project
+npx expo start --clear
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+If EAS throws project ownership errors:
 
-## Learn more
+```bash
+eas init
+```
 
-To learn more about developing your project with Expo, look at the following resources:
+This regenerates `eas.json` and fixes project links.
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+---
 
-## Join the community
+⬆ [Back to top](#-securcity--mobile-app)
 
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.

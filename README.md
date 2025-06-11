@@ -1,212 +1,160 @@
-# SecurCity 2.0
+# 📍 SecurCity 2.0
 
-SecurCity is a cross-platform system designed to enhance personal safety in everyday life. By leveraging intelligent route planning, it helps users reach their destinations safely with the support of local public services, municipal authorities, and real-time community alerts submitted anonymously. 
+<img src="https://github.com/user-attachments/assets/633617ac-49d8-4f66-b35c-9df7075c2439" alt="SecurCity Icon" width="50" align="right" />
 
-## Project structure
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/f7cf8b29-0dab-41b8-980a-58a6551b8f99" alt="SecurCity Logo" width="300"/>
+</p>
 
-The project is divided in two main parts: FrontEnd and BackEnd.
-
-## Get started with web app
-
-The web app is developed using [React]([https://reactnative.dev/docs/getting-started](https://react.dev/learn)) and [Expo](https://docs.expo.dev/get-started/introduction/) frameworks.
-
-1. Move into ```WebApp``` directory
-
-```bash
-   cd FrontEnd/WebApp
-   ```
-
-2. Install dependencies
-
-```bash
-   npm install
-   ```
-
-3. Start the app in your simulator
-
-```bash
-   npx expo start -w
-   ```
-
-Also, to enable Google Signin:
-- Go to your [Google Console](https://console.cloud.google.com/) and create a new project and called it **SecurCity**
-- Go to **API & Services** and create a new **OAuth Client**
-- Select application type **Web** and give it a name
-
-## 📁 File Organization
-
-### 🔧 Root Files
-
-- `.gitignore` – Specifica i file da escludere dal controllo di versione.
-- `app.config.js` – Configurazione generale dell'app.
-- `babel.config.js` – Configurazione di Babel.
-- `config.js` – Configurazioni personalizzate.
-- `eslint.config.js` – Regole per l'analisi statica del codice (linting).
-- `metro.config.js` – Configurazione per Metro bundler.
-- `nativewind-env.d.ts` – Tipizzazioni per NativeWind.
-- `package.json` / `package-lock.json` – Gestione delle dipendenze e script.
-- `tailwind.config.js` – Configurazione di Tailwind CSS.
-- `tsconfig.json` – Configurazione del compilatore TypeScript.
-- `webpack.config.js` – Configurazione di Webpack.
+> A cross-platform safety companion for smarter and safer urban navigation.
 
 ---
 
-### 📂 Animations
+- [📍 SecurCity 2.0](#-securcity-20)
+  - [🔎 What is SecurCity?](#-what-is-securcity)
+  - [🎥 Demo Video](#-demo-video)
+  - [⚙️ Key Features](#️-key-features)
+  - [🧠 Architecture Overview](#-architecture-overview)
+  - [📁 Project Structure](#-project-structure)
+  - [🚀 Getting Started](#-getting-started)
+    - [🌐 Web App](#-web-app)
+    - [📱 Mobile App](#-mobile-app)
+    - [🔧 Backend API](#-backend-api)
+  - [� License](#-license)
+  - [🙏 Acknowledgments](#-acknowledgments)
+  - [🧑‍💻 Team Members](#-team-members)
+  - [🍿️ Tags](#️-tags)
 
-Contiene hook personalizzati per animazioni, come la rotazione infinita con Reanimated.
-
-### 📂 App
-
-Struttura principale dell’applicazione:
-
-- `+not-found.tsx` – Pagina per errori 404.
-- `global.css` – Stili globali.
-- `index.tsx` – Entry point dell'applicazione.
-- `pages/` – Pagine principali della webapp.
-- `Operatore/` – Dashboard e gestione token per l'operatore.
-- `RecoverPasswordCittadino/` – Recupero password per utenti cittadini.
-
-### 📂 Assets
-
-File statici: immagini, SVG, loghi, ecc.
-
-### 📂 Components
-
-Componenti UI riutilizzabili: bottoni, form, layout, ecc.
-
-### 📂 Constants
-
-Costanti globali usate nell’applicazione.
-
-### 📂 Hooks
-
-Hook React personalizzati per funzionalità condivise.
-
-### 📂 Scripts
-
-Script di supporto per automazioni e task ricorrenti.
+---
 
 
-## Get started with mobile app
+## 🔎 What is SecurCity?
 
-The mobile app is developed using [React Native](https://reactnative.dev/docs/getting-started) and [Expo](https://docs.expo.dev/get-started/introduction/) frameworks.
+**SecurCity** is a cross-platform system designed to enhance personal safety in everyday life. By leveraging intelligent route planning, real-time alerts, and the collaboration of public institutions, it helps users reach destinations safely and confidently.
 
-1. Move into ```MobileApp``` directory
+> [!NOTE]\
+> The system includes a RESTful API, a web interface, and a mobile app that work together to support citizens and municipal operators.
 
-```bash
-   cd FrontEnd/MobileApp
-   ```
+---
 
-2. Install dependencies
+## 🎥 Demo Video
 
-```bash
-   npm install
-   ```
+> 👉 [**Watch the demo on YouTube**](https://www.youtube.com/watch?v=YOUR_VIDEO_ID)
 
-3. Create your own development build in the **simulator** (iOS or Android)
+---
 
-```bash
-   npx expo install expo-dev-client
-   ```
+## ⚙️ Key Features
 
-4. Create an Expo account and install EAS cCLI
+- 🚣️ **Safe route generation** via Google Maps and real-time data
+- 🧑‍💻 **User authentication** (email + Google Sign-In)
+- 📢 **Anonymous crime reports** and emergency contact system
+- 🏫 **Municipal dashboard** for managing tokens, sensors, and alerts
+- 📦 Modular frontend/backend architecture
 
-```bash
-   npm install -g eas-cli
-   ```
+---
 
-5. In the terminal log in your account using
+## 🧠 Architecture Overview
 
-```bash
-   eas login
-   ```
-
-6. Start your development build using the choosen simulator
-
-```bash
-   eas build --platform ios --profile development
-   ```
-
-7. Start the app in your simulator
-
-```bash
-   npx expo start
-   ```
-
-In the output, you'll find options to open the app in a
-
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-## Important
-
-Before you start your app, make sure to have changed in ```app.json``` the owner field, otherwise EAS will give you an error saying that you are not the project owner
-```json
-{
-  "name": "SecurCity",
-  "slug": "SecurCity",
-  "scheme": "com.YourUsername.securcity",
-  "version": "1.0.0",
-  "owner": "YourUsername",
-  "orientation": "portrait"
-}
+```
+WebApp (React + Expo)    MobileApp (React Native + Expo)
+           \                   /
+            \                 /
+             -- REST API --> BackEnd (Express + Mongoose)
 ```
 
-Also, to enable Google Signin:
-- Go to your [Google Console](https://console.cloud.google.com/) and create a new project and called it **SecurCity**
-- Go to **API & Services** and create a new **OAuth Client**
-- Select application type **Web** and give it a nane
+All clients communicate with the same API server for route generation, user actions, and map data.
 
-Repeat the process but if you choose to use a iOS simulator do:
-- Select application type **iOS** and give it a name
-- Then write in "ID bundle" the bundle that you wrote on ```app.json``` for ```bundleIdentifier```
-```json
-{
-   "ios": 
-   {
-      "supportsTablet": true,
-      "bundleIdentifier": "com.YourUsername.securcity",
-      "config": {
-        "googleMapsApiKey": "AIzaSyA_HYPztvPp_5YmMFUzc1DiV7RsmE0qYB0"
-      },
-    }
-}
-```
-- After creating the OAuth Client, copy the **Schema URL iOS** and paste it on ```app.json``` for
-```json
-{
- "@react-native-google-signin/google-signin",
-        {
-          "iosUrlScheme": "YourScheme"
-        }
-}
- ```
+> [!TIP]\
+> Read how we generate safe paths in [BackEnd/README.md](./BackEnd/README.md).
 
-After this steps import your **Web Client ID** and **iOS Client ID** in your project, by doing:
-- Create in "app" folder a file called ```costants.ts```
-- Inside the file paste this block of code changing the variables with your IDs
-```ts
-export const webClientId = "YourWebClientID";
-export const iosClientId = "YouriOSClientID";
-```
-Now you can log into the app using your Google account!
+---
 
-## Errors troubleshooting
-
-### Sometimes if the app doesn't load in the development build using ```npx expo start``` and show something like "Welcome to Expo, to start..." just do the following command
+## 📁 Project Structure
 
 ```bash
-   npx expo start --clear
-   ```
+/FrontEnd
+  ├── WebApp      # React-based web interface for operators
+  └── MobileApp   # React Native app for citizens
 
-In this way you clear the build and the app loads correctly
+/BackEnd          # Node.js REST API server
 
-### Another common error can be the terminal showing something like "The project Id doesn't match your account" then try rebuilding the app but before that use
+/assets           # Static files including logos and images
+/LICENSE          # License information
+/README.md        # You are here
+```
+
+Each subproject contains its own `README.md` with specific setup instructions.
+
+---
+
+## 🚀 Getting Started
+
+### 🌐 Web App
 
 ```bash
-   eas init
-   ```
+cd FrontEnd/WebApp
+npm install
+npx expo start -w
+```
 
-This command regenerates the ```eas.json``` and updates the ```app.json``` with your correct **project ID** (remember to be logged in EAS)
+➡ [WebApp/README.md](./FrontEnd/WebApp/README.md) for details
+
+### 📱 Mobile App
+
+```bash
+cd FrontEnd/MobileApp
+npm install
+npx expo start
+```
+
+➡ [MobileApp/README.md](./FrontEnd/MobileApp/README.md) for details
+
+### 🔧 Backend API
+
+```bash
+cd BackEnd
+npm install
+npm run dev
+```
+
+➡ [BackEnd/README.md](./BackEnd/README.md) for full documentation
+
+---
+
+## 🔐 License
+
+This project is licensed under the [AGPL-3.0 License](./LICENSE).
+
+> [!WARNING]\
+> The name "SecurCity", its logo, and all related branding are not covered by the AGPL license and remain © 2025 Matthew De Marco, Andrea Lo Iacono & Andrea Pezzo. All rights reserved.
+
+---
+
+## 🙏 Acknowledgments
+
+Thanks to all professors and collaborators at **Università di Trento** for their guidance and support throughout the development of this project.
+
+Special thanks to:
+
+- Prof. Marco Robol (Software Engineering)
+
+---
+
+## 🧑‍💻 Team Members
+
+- [Andrea Lo Iacono](https://github.com/ADreLOI)\
+  📧 [andrea.loiacono@studenti.unitn.it](mailto\:andrea.loiacono@studenti.unitn.it)
+- [Matthew De Marco](https://github.com/MattDema)\
+  📧 [matthew.demarco@studenti.unitn.it](mailto\:matthew.demarco@studenti.unitn.it)
+- [Andrea Pezzo](https://github.com/AndreaP2203)\
+  📧 [andrea.pezzo-1@studenti.unitn.it](mailto\:andrea.pezzo-1@studenti.unitn.it)
+
+---
+
+## 🍿️ Tags
+
+&#x20;  &#x20;
+
+---
+
+⬆ [Back to top](#-securcity-20)
