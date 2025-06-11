@@ -25,7 +25,7 @@ export default {
       output: "static",
       name: "SecurCity",
       favicon:
-        "https://github.com/user-attachments/assets/633617ac-49d8-4f66-b35c-9df7075c2439",
+        "./assets/images/favicon.png",
     },
     plugins: [
       "expo-router",
