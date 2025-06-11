@@ -63,6 +63,9 @@ Create a `.env` file with at least the following values:
 MONGODB_URI=mongodb://localhost:27017/securcity
 JWT_SECRET=your_jwt_secret_key
 GOOGLE_MAPS_API_KEY=your_google_maps_api_key
+SENDGRID_API_KEY=your_sendgrid_api_key
+BASE_CONFIRMATION_URL=your_base_url/api/v1/cittadino/confirm
+SECRET_ADMIN_CODE=your_secret_admin_code
 ```
 
 Optional:
