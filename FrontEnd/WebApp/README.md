@@ -45,7 +45,23 @@ Built with **React**, **Expo**, and styled with **Tailwind CSS**.
    npx expo start -w
    ```
 
-> [!TIP] You can open the interface in the browser or test it inside Expo Go with limited support.
+> [!NOTE] You can open the interface in the browser or test it inside Expo Go with limited support.
+
+---
+
+## 🌍 Live Deployment
+
+➡ [**https://is-project-securcity.onrender.com**](https://is-project-securcity.onrender.com)
+
+This is the deployed version of the WebApp. It is hosted via **Render** and automatically updated.
+
+### 🔐 Admin Token Generation
+
+To allow new Municipal Operators to sign up, a valid admin code is required.
+
+- `SECRET_ADMIN_CODE`: `TrentoAdmin2025`
+
+> ⚠️ This value is visible here only for testing. In a production environment, keep it secret in environment variables or secure vaults.
 
 ---
 
