@@ -108,6 +108,10 @@ npx expo start -w
 
 ➡ [WebApp/README.md](./FrontEnd/WebApp/README.md) for details
 
+> [!NOTE]\
+> The live deployment is available at: [is-project-securcity.onrender.com](https://is-project-securcity.onrender.com)\
+> To register an **Operator**, use the admin code: `TrentoAdmin2025` (for testing purposes only)
+
 ### 📱 Mobile App
 
 ```bash
