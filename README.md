@@ -1,9 +1,22 @@
+<p align="right">
+  <img src="https://github.com/user-attachments/assets/633617ac-49d8-4f66-b35c-9df7075c2439" alt="SecurCity Icon" width="40"/>
+</p>
+
 # 📍 SecurCity 2.0
 
-<img src="https://github.com/user-attachments/assets/633617ac-49d8-4f66-b35c-9df7075c2439" alt="SecurCity Icon" width="50" align="right" />
+---
+
+***Assoc. prof. <a href="https://webapps.unitn.it/du/it/Persona/PER0228723/Didattica">Sandro Luigi Fiore</a>***  
+***Asst. prof. <a href="https://webapps.unitn.it/du/it/Persona/PER0025609/Didattica">Chiara Di Francescomarino</a>***  
+***Asst. prof. <a href="https://webapps.unitn.it/du/it/Persona/PER0049999/Didattica">Marco Robol</a>***
+
+**Group 10**: ***<u>De Marco Matthew</u>***, ***<u>Lo Iacono Andrea</u>***, ***<u>Pezzo Andrea</u>*** 
+
+---
 
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/f7cf8b29-0dab-41b8-980a-58a6551b8f99" alt="SecurCity Logo" width="300"/>
+  <img src="https://github.com/user-attachments/assets/f7cf8b29-0dab-41b8-980a-58a6551b8f99" alt="SecurCity Logo"/>
+</p>
 </p>
 
 > A cross-platform safety companion for smarter and safer urban navigation.
@@ -20,8 +33,8 @@
     - [🌐 Web App](#-web-app)
     - [📱 Mobile App](#-mobile-app)
     - [🔧 Backend API](#-backend-api)
-  - [� License](#-license)
-  - [🙏 Acknowledgments](#-acknowledgments)
+  - [🔐 License](#-license)
+  - [🙌 Acknowledgments](#-acknowledgments)
   - [🧑‍💻 Team Members](#-team-members)
   - [🍿️ Tags](#️-tags)
 
@@ -130,15 +143,14 @@ This project is licensed under the [AGPL-3.0 License](./LICENSE).
 
 ---
 
-## 🙏 Acknowledgments
+## 🙌 Acknowledgments 
 
-Thanks to all professors and collaborators at **Università di Trento** for their guidance and support throughout the development of this project.
+<!--=========================================================================-->
+**Software Engineering Course** –  
+***Assoc. prof. <a href="https://webapps.unitn.it/du/it/Persona/PER0228723/Didattica">Sandro Luigi Fiore</a>***  
+***Asst. prof. <a href="https://webapps.unitn.it/du/it/Persona/PER0025609/Didattica">Chiara Di Francescomarino</a>***  
+***Asst. prof. <a href="https://webapps.unitn.it/du/it/Persona/PER0049999/Didattica">Marco Robol</a>***
 
-Special thanks to:
-
-- Prof. Marco Robol (Software Engineering)
-
----
 
 ## 🧑‍💻 Team Members
 
