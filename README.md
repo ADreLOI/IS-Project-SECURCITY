@@ -1,8 +1,15 @@
-<p align="right">
-  <img src="https://github.com/user-attachments/assets/633617ac-49d8-4f66-b35c-9df7075c2439" alt="SecurCity Icon" width="40"/>
-</p>
+<table>
+<tr>
+<td width="60">
+  <img src="https://github.com/user-attachments/assets/633617ac-49d8-4f66-b35c-9df7075c2439" alt="Mini Logo" height="36"/>
+</td>
+<td>
 
-# 📍 SecurCity 2.0
+<h1>SecurCity 2.0</h1>
+
+</td>
+</tr>
+</table>
 
 ---
 
@@ -23,20 +30,19 @@
 
 ---
 
-- [📍 SecurCity 2.0](#-securcity-20)
-  - [🔎 What is SecurCity?](#-what-is-securcity)
-  - [🎥 Demo Video](#-demo-video)
-  - [⚙️ Key Features](#️-key-features)
-  - [🧠 Architecture Overview](#-architecture-overview)
-  - [📁 Project Structure](#-project-structure)
-  - [🚀 Getting Started](#-getting-started)
-    - [🌐 Web App](#-web-app)
-    - [📱 Mobile App](#-mobile-app)
-    - [🔧 Backend API](#-backend-api)
-  - [🔐 License](#-license)
-  - [🙌 Acknowledgments](#-acknowledgments)
-  - [🧑‍💻 Team Members](#-team-members)
-  - [🍿️ Tags](#️-tags)
+- [🔎 What is SecurCity?](#-what-is-securcity)
+- [🎥 Demo Video](#-demo-video)
+- [⚙️ Key Features](#️-key-features)
+- [🧠 Architecture Overview](#-architecture-overview)
+- [📁 Project Structure](#-project-structure)
+- [🚀 Getting Started](#-getting-started)
+  - [🌐 Web App](#-web-app)
+  - [📱 Mobile App](#-mobile-app)
+  - [🔧 Backend API](#-backend-api)
+- [🔐 License](#-license)
+- [🙌 Acknowledgments](#-acknowledgments)
+- [🧑‍💻 Team Members](#-team-members)
+- [🍿️ Tags](#️-tags)
 
 ---
 
