@@ -48,6 +48,10 @@ Built with:
 
    ```env
    USE_PRODUCTION=false
+   API_BASE_URL=your_url
+   IOS_CLIENT_ID=your_google_ios_id
+   WEB_CLIENT_ID=your_web_client_id
+   GOOGLE_MAPS_API_KEY=your_google_maps_key
    ```
 
 4. Install dev tools:
