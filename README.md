@@ -17,7 +17,7 @@
 </p>
 
 <p align="center">
-  <strong><em>🎬 CLICCA SUL LOGO PER GUARDARE IL VIDEO DEMO</em></strong>
+  <strong><em>🎬 CLICK ON THE IMAGE TO WATCH THE VIDEO DEMO</em></strong>
 </p>
 
 > A cross-platform safety companion for smarter and safer urban navigation.
