@@ -12,12 +12,13 @@
 
 <p align="center">
   <a href="https://youtu.be/v4Zihx55A-w" target="_blank">
-    <img src="https://github.com/user-attachments/assets/f7cf8b29-0dab-41b8-980a-58a6551b8f99" alt="SecurCity Logo" />
+    <img src="https://github.com/user-attachments/assets/f7cf8b29-0dab-41b8-980a-58a6551b8f99" alt="SecurCity Logo" width="300"/>
   </a>
-  <br/>
-  <em>Clicca sul logo per guardare il video demo</em>
 </p>
 
+<p align="center">
+  <strong><em>🎬 CLICCA SUL LOGO PER GUARDARE IL VIDEO DEMO</em></strong>
+</p>
 
 > A cross-platform safety companion for smarter and safer urban navigation.
 
