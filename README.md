@@ -11,9 +11,13 @@
 ---
 
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/f7cf8b29-0dab-41b8-980a-58a6551b8f99" alt="SecurCity Logo"/>
+  <a href="https://youtu.be/v4Zihx55A-w" target="_blank">
+    <img src="https://github.com/user-attachments/assets/f7cf8b29-0dab-41b8-980a-58a6551b8f99" alt="SecurCity Logo" />
+  </a>
+  <br/>
+  <em>Clicca sul logo per guardare il video demo</em>
 </p>
-</p>
+
 
 > A cross-platform safety companion for smarter and safer urban navigation.
 
@@ -43,12 +47,6 @@
 
 > [!NOTE]\
 > The system includes a RESTful API, a web interface, and a mobile app that work together to support citizens and municipal operators.
-
----
-
-## 🎥 Demo Video
-
-> 👉 [**Watch the demo on YouTube**](https://youtu.be/v4Zihx55A-w)
 
 ---
 
