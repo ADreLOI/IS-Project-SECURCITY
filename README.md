@@ -150,6 +150,7 @@ This project is licensed under the [AGPL-3.0 License](./LICENSE).
 ***Asst. prof. <a href="https://webapps.unitn.it/du/it/Persona/PER0025609/Didattica">Chiara Di Francescomarino</a>***  
 ***Asst. prof. <a href="https://webapps.unitn.it/du/it/Persona/PER0049999/Didattica">Marco Robol</a>***
 
+---
 
 ## 🧑‍💻 Team Members
 
@@ -159,12 +160,6 @@ This project is licensed under the [AGPL-3.0 License](./LICENSE).
   📧 [matthew.demarco@studenti.unitn.it](mailto\:matthew.demarco@studenti.unitn.it)
 - [Andrea Pezzo](https://github.com/AndreaP2203)\
   📧 [andrea.pezzo-1@studenti.unitn.it](mailto\:andrea.pezzo-1@studenti.unitn.it)
-
----
-
-## 🍿️ Tags
-
-&#x20;  &#x20;
 
 ---
 
