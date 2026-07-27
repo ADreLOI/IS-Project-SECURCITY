@@ -3,14 +3,19 @@
 # SecurCity 2.0
 
 <p align="center">
-  <a href="https://github.com/ADreLOI/IS-Project-SECURCITY/releases">
-    <img src="https://img.shields.io/badge/version-2.0.0-2563EB?style=flat-square" alt="Version 2.0.0" />
-  </a>
-  <img src="https://img.shields.io/badge/course-Software%20Engineering-0F766E?style=flat-square" alt="Software Engineering course" />
-  <img src="https://img.shields.io/badge/platform-Web%20%7C%20iOS%20%7C%20Android-7C3AED?style=flat-square" alt="Cross-platform" />
-  <a href="./LICENSE.txt">
-    <img src="https://img.shields.io/badge/license-AGPL--3.0-111827?style=flat-square" alt="AGPL-3.0 license" />
-  </a>
+  <img src="https://img.shields.io/badge/version-2.0.0-2563EB?style=for-the-badge" alt="Version 2.0.0" />
+  <a href="https://github.com/ADreLOI/IS-Project-SECURCITY/stargazers"><img src="https://img.shields.io/github/stars/ADreLOI/IS-Project-SECURCITY?style=for-the-badge&logo=github&label=Stars" alt="GitHub stars" /></a>
+  <a href="https://github.com/ADreLOI/IS-Project-SECURCITY/graphs/contributors"><img src="https://img.shields.io/github/contributors/ADreLOI/IS-Project-SECURCITY?style=for-the-badge" alt="Contributors" /></a>
+  <a href="https://github.com/ADreLOI/IS-Project-SECURCITY/forks"><img src="https://img.shields.io/github/forks/ADreLOI/IS-Project-SECURCITY?style=for-the-badge" alt="Forks" /></a>
+  <a href="https://github.com/ADreLOI/IS-Project-SECURCITY/issues"><img src="https://img.shields.io/github/issues/ADreLOI/IS-Project-SECURCITY?style=for-the-badge" alt="Open issues" /></a>
+  <img src="https://img.shields.io/github/repo-size/ADreLOI/IS-Project-SECURCITY?style=for-the-badge" alt="Repository size" />
+  <img src="https://img.shields.io/github/last-commit/ADreLOI/IS-Project-SECURCITY?style=for-the-badge" alt="Last commit" />
+  <img src="https://img.shields.io/github/license/ADreLOI/IS-Project-SECURCITY?style=for-the-badge" alt="License" />
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/course-Software%20Engineering-0F766E?style=for-the-badge" alt="Software Engineering" />
+  <img src="https://img.shields.io/badge/recognition-Top%206%25-F59E0B?style=for-the-badge" alt="Top 6 percent recognition" />
 </p>
 
 <p align="center">
@@ -25,7 +30,8 @@
 
 > **Recognition.** SecurCity was one of the six finalist projects in the University of Trento's *100 Progetti per Trento* challenge. [Read the University article](https://pressroom.unitn.it/comunicato-stampa/cento-progetti-trento-lapp-scudo-vince-la-nuova-sfida).
 
-## Table of contents
+<details>
+<summary><h2>Table of Contents 📖</h2></summary>
 
 - [Overview](#overview)
 - [Demo](#demo)
@@ -34,10 +40,12 @@
 - [Project structure](#project-structure)
 - [Getting started](#getting-started)
 - [Recognition](#recognition)
-- [Course and supervision](#course-and-supervision)
+- [Acknowledgments](#acknowledgments)
 - [Team](#team)
-- [License](#license)
 - [Repository topics](#repository-topics)
+- [License](#license)
+
+</details>
 
 ## Overview
 
@@ -45,13 +53,9 @@
 
 The system combines a REST API, an operator-facing web interface, and a citizen-facing mobile app.
 
-<p align="right"><a href="#top">Back to top</a></p>
-
 ## Demo
 
 Watch the complete [SecurCity video demo on YouTube](https://youtu.be/v4Zihx55A-w).
-
-<p align="right"><a href="#top">Back to top</a></p>
 
 ## Key features
 
@@ -60,8 +64,6 @@ Watch the complete [SecurCity video demo on YouTube](https://youtu.be/v4Zihx55A-
 - Anonymous crime reports and emergency-contact support
 - Municipal dashboard for tokens, sensors, alerts, and report management
 - Modular web, mobile, and backend architecture
-
-<p align="right"><a href="#top">Back to top</a></p>
 
 ## Architecture
 
@@ -74,8 +76,6 @@ Web app (React + Expo)          Mobile app (React Native + Expo)
 ```
 
 Both clients communicate with the same API for route generation, user actions, and map data. The safe-routing logic is documented in [BackEnd/README.md](./BackEnd/README.md).
-
-<p align="right"><a href="#top">Back to top</a></p>
 
 ## Project structure
 
@@ -90,8 +90,6 @@ README.md           # Project overview
 ```
 
 Each component has its own README with implementation-specific notes.
-
-<p align="right"><a href="#top">Back to top</a></p>
 
 ## Getting started
 
@@ -140,23 +138,25 @@ npm run dev
 
 See [BackEnd/README.md](./BackEnd/README.md) for endpoints and safe-routing details.
 
-<p align="right"><a href="#top">Back to top</a></p>
-
 ## Recognition
 
-SecurCity was selected among the six finalist groups from approximately one hundred DISI students involved in the 2026 *100 Progetti per Trento* challenge, presented in the context of Software Engineering courses. [University of Trento press release](https://pressroom.unitn.it/comunicato-stampa/cento-progetti-trento-lapp-scudo-vince-la-nuova-sfida).
+SecurCity placed **third among the projects selected from the Software Engineering course** and reached the **top 6% of 100 Progetti per il Comune di Trento**. [Read the official University of Trento press article](https://pressroom.unitn.it/comunicato-stampa/cento-progetti-trento-lapp-scudo-vince-la-nuova-sfida).
 
-<p align="right"><a href="#top">Back to top</a></p>
+## Acknowledgments
 
-## Course and supervision
+SecurCity was developed for the **Software Engineering** course at the University of Trento under the supervision of [**Prof. Sandro Luigi Fiore**](https://webapps.unitn.it/du/it/Persona/PER0228723/Didattica), [**Prof. Chiara Di Francescomarino**](https://webapps.unitn.it/du/it/Persona/PER0025609/Didattica), and [**Prof. Marco Robol**](https://webapps.unitn.it/du/it/Persona/PER0049999/Didattica). We thank them for their guidance, technical feedback, and support throughout the project.
 
-**Software Engineering - University of Trento**
+The project took part in **100 Progetti per il Comune di Trento**, an initiative promoted by the University of Trento and the Municipality of Trento within the **UniCittà** protocol. SecurCity placed **third among the projects selected from the Software Engineering course** and reached the **top 6% of the overall initiative**. See the [official University of Trento press article](https://pressroom.unitn.it/comunicato-stampa/cento-progetti-trento-lapp-scudo-vince-la-nuova-sfida).
 
-- [Assoc. Prof. Sandro Luigi Fiore](https://webapps.unitn.it/du/it/Persona/PER0228723/Didattica)
-- [Asst. Prof. Chiara Di Francescomarino](https://webapps.unitn.it/du/it/Persona/PER0025609/Didattica)
-- [Asst. Prof. Marco Robol](https://webapps.unitn.it/du/it/Persona/PER0049999/Didattica)
-
-<p align="right"><a href="#top">Back to top</a></p>
+<p align="center">
+  <a href="https://r1.unitn.it/unicitta/">
+    <img src="./assets/acknowledgments/unicitta.png" alt="UniCittà" height="90" />
+  </a>
+  &nbsp;&nbsp;&nbsp;&nbsp;
+  <a href="https://www.comune.trento.it/">
+    <img src="./assets/acknowledgments/comune-trento.png" alt="Comune di Trento" height="64" />
+  </a>
+</p>
 
 ## Team
 
@@ -168,7 +168,9 @@ SecurCity was selected among the six finalist groups from approximately one hund
 | Matthew De Marco | [MattDema](https://github.com/MattDema) | Profile link pending confirmation | [matthew.demarco@studenti.unitn.it](mailto:matthew.demarco@studenti.unitn.it) |
 | Andrea Pezzo | [AndreaP2203](https://github.com/AndreaP2203) | [andrea-pezzo-34525b191](https://www.linkedin.com/in/andrea-pezzo-34525b191) | [andrea.pezzo-1@studenti.unitn.it](mailto:andrea.pezzo-1@studenti.unitn.it) |
 
-<p align="right"><a href="#top">Back to top</a></p>
+## Repository topics
+
+`software-engineering` `smart-city` `public-safety` `react-native` `expo` `nodejs` `express` `mongodb` `google-maps` `university-of-trento`
 
 ## License
 
@@ -176,11 +178,11 @@ This project is licensed under the [AGPL-3.0 License](./LICENSE.txt).
 
 The name **SecurCity**, its logo, and related branding are not covered by the AGPL license and remain Copyright 2025 Matthew De Marco, Andrea Lo Iacono, and Andrea Pezzo.
 
-<p align="right"><a href="#top">Back to top</a></p>
-
-## Repository topics
-
-`software-engineering` `smart-city` `public-safety` `react-native` `expo` `nodejs` `express` `mongodb` `google-maps` `university-of-trento`
-
-<p align="right"><a href="#top">Back to top</a></p>
+<p align="center">
+  <a href="#top" style="text-decoration: none;">
+    <img src="https://img.icons8.com/ios-filled/50/000000/up.png" alt="Back to Top" width="40" height="40"/>
+    <br>
+    <strong>Back to Top</strong>
+  </a>
+</p>
 
