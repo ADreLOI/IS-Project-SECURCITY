@@ -168,10 +168,6 @@ The project took part in **100 Progetti per il Comune di Trento**, an initiative
 | Matthew De Marco | [@MattDema](https://github.com/MattDema) | [Matthew De Marco](https://www.linkedin.com/in/matt-de-marco/) | [matthew.demarco@studenti.unitn.it](mailto:matthew.demarco@studenti.unitn.it) |
 | Andrea Pezzo | [@AndreaP2203](https://github.com/AndreaP2203) | [Andrea Pezzo](https://www.linkedin.com/in/andrea-pezzo-34525b191) | [andrea.pezzo-1@studenti.unitn.it](mailto:andrea.pezzo-1@studenti.unitn.it) |
 
-## Repository topics
-
-`software-engineering` `smart-city` `public-safety` `react-native` `expo` `nodejs` `express` `mongodb` `google-maps` `university-of-trento`
-
 ## License
 
 This project is licensed under the [AGPL-3.0 License](./LICENSE.txt).
